@@ -41,7 +41,7 @@ ul {
     -o-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-	padding: 3px;
+    padding: 3px;
     border-radius: 30px;
     display: inline-block;
     vertical-align: middle;
@@ -62,8 +62,8 @@ ul {
 #footer0 {
     color: #000000;
     font-size: 20px;
-    width: 30%;
-	left: 40%;
+    width: -webkit-fill-available;
+    left: 40%;
     padding: 3px;
     border: 1px solid #d9e5ff;
     border-radius: 40px;
