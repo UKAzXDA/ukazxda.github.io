@@ -35,7 +35,7 @@ ul {
     top: 45%;
     left: 50%;
     right: 50%;
-    position: absolute;
+    position: fixed;
     text-align: center;
     -moz-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
@@ -51,7 +51,7 @@ ul {
 #footer1 {
     color: #606060;
     font-size: 10px;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     text-align: center;
