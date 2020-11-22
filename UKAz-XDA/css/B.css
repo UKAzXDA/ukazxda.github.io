@@ -70,6 +70,25 @@ ul {
 	animation: changeBackgroundImage 50s infinite;
 }
 
+#footer2 {
+    color: #000000;
+    font-size: 15px;
+    padding: 3px;
+    border-radius: 40px;
+    display: inline-block;
+    vertical-align: middle;
+	top: 110%;
+    left: 50%;
+    right: 50%;
+    position: fixed;
+    text-align: center;
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: fit-content;
+}
+
 @keyframes changeBackgroundImage {
 0% {
   background-color: #8fb3ff;
@@ -82,38 +101,3 @@ ul {
   }
 }
 
-h3 {
-	background-color: #ebebeb;
-    top: -14%;
-    left: 50%;
-    right: 50%;
-    position: fixed;
-    text-align: center;
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    border-radius: 30px;
-    display: inline-block;
-    vertical-align: middle;
-	
-	padding-top: 5px;
-	padding-bottom: 5px;
-	padding-left: 20px;
-    padding-right: 20px;
-    width: fit-content;
-}
-
-h4 {
-    top: -34%;
-    left: 50%;
-    right: 50%;
-    position: fixed;
-    text-align: center;
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    font-size: 24px;
-    width: fit-content;
-}
