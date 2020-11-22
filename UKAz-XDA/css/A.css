@@ -61,10 +61,18 @@ h2 {
 
 h3 {
   color: #4e7372;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   font-size: 23px;
-  width: 100%;
+  width: 60%;
+  
+  	animation: changeBackgroundImage 50s infinite;
+    background-color: #ebebeb;
+    padding: 3px;
+    border-radius: 100px;
+    display: inline-block;
+    vertical-align: middle;
+  
 }
 
 h4 {
@@ -100,3 +108,19 @@ h6 {
   margin-bottom: 5px;
 }
 
+@keyframes changeBackgroundImage {
+0% {
+  background-color: #d4e1ff;
+  }
+30% {
+  background-color: #deffec;
+  }
+  
+60% {
+  background-color: #fad7f9;
+  }
+  
+100% {
+  background-color: #d4e1ff;
+  }
+}
