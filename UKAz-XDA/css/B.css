@@ -49,13 +49,13 @@ ul {
 
 #footer1 {
     color: #606060;
-    font-size: 10px;
+    font-size: 14px;
     position: fixed;
     bottom: 0;
     width: 100%;
     text-align: center;
     margin-top: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 #footer0 {
@@ -80,4 +80,40 @@ ul {
 100% {
   background-color: #8fb3ff;
   }
+}
+
+h3 {
+	background-color: #ebebeb;
+    top: -14%;
+    left: 50%;
+    right: 50%;
+    position: fixed;
+    text-align: center;
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border-radius: 30px;
+    display: inline-block;
+    vertical-align: middle;
+	
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 20px;
+    padding-right: 20px;
+    width: fit-content;
+}
+
+h4 {
+    top: -34%;
+    left: 50%;
+    right: 50%;
+    position: fixed;
+    text-align: center;
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    width: fit-content;
 }
