@@ -58,7 +58,7 @@ ul {
     margin-bottom: 10px;
 }
 
-#footer0 {
+#botao {
     color: #000000;
     font-size: 20px;
     width: -webkit-fill-available;
@@ -68,6 +68,20 @@ ul {
     display: inline-block;
     vertical-align: middle;
 	animation: changeBackgroundImage 50s infinite;
+}
+
+#titulo {
+	background-color: #e6e6e6;
+    color: #000000;
+    font-size: 20px;
+    width: -webkit-fill-available;
+    left: 40%;
+    padding: 3px;
+    border-radius: 40px;
+    display: inline-block;
+    vertical-align: middle;
+	padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 #footer2 {
@@ -87,6 +101,20 @@ ul {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     width: fit-content;
+}
+
+h1 {
+	color: #5232a0;
+	font-size: 25px;
+	margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+h2 {
+	color: #3c3c3c;
+	font-size: 23px;
+	margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 @keyframes changeBackgroundImage {
