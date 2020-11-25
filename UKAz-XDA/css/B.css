@@ -44,8 +44,9 @@ ul {
     border-radius: 30px;
     display: inline-block;
     vertical-align: middle;
+	animation-duration: 1s;
+	animation-name: ukaz-ani;
 }
-
 
 #footer1 {
     color: #606060;
@@ -67,7 +68,7 @@ ul {
     border-radius: 40px;
     display: inline-block;
     vertical-align: middle;
-	animation: changeBackgroundImage 50s infinite;
+	animation: ukaz-cor 50s infinite;
 }
 
 #titulo {
@@ -116,7 +117,13 @@ h2 {
     margin-bottom: 10px;
 }
 
-@keyframes changeBackgroundImage {
+@keyframes ukaz-ani {
+  from {
+    margin-top: 2%;
+  }
+}
+
+@keyframes ukaz-cor {
 0% {
   background-color: #8fb3ff;
   }
@@ -127,4 +134,3 @@ h2 {
   background-color: #8fb3ff;
   }
 }
-
