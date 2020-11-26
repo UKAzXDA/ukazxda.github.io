@@ -44,7 +44,7 @@ ul {
     border-radius: 30px;
     display: inline-block;
     vertical-align: middle;
-	animation-duration: 1s;
+	animation-duration: 0.4s;
 	animation-name: ukaz-ani;
 }
 
