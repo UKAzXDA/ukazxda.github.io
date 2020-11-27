@@ -30,7 +30,6 @@ ul {
 }
 
 .LIMPO1 {
-	background-color: #f2f2f2;
     width: 250px;
     top: 45%;
     left: 50%;
@@ -46,6 +45,7 @@ ul {
     vertical-align: middle;
 	animation-duration: 0.4s;
 	animation-name: ukaz-ani;
+	border: 1px solid #000;
 }
 
 #footer1 {
