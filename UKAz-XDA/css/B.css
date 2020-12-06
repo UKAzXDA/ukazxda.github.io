@@ -3,7 +3,7 @@
 /*Fonte*//*UKAz-XDA*/
 
 html {
-  background-color: #eaeaea;
+  background-color: #ffffff;
 }
 
 body {
@@ -30,7 +30,7 @@ ul {
 }
 
 .LIMPO1 {
-    background-color: #f5f5f5;
+    background-color: #ffffff;
     top: 45%;
     left: 50%;
     right: 50%;
@@ -44,7 +44,8 @@ ul {
     display: inline-block;
     vertical-align: middle;
     animation-duration: 0.4s;
-    animation-name: ukaz-ani;
+	border: 1px solid #6b6b6b;
+	animation-name: ukaz-ani;
 }
 
 #footer1 {
@@ -67,7 +68,7 @@ ul {
     border-radius: 40px;
     display: inline-block;
     vertical-align: middle;
-	animation: ukaz-cor 50s infinite;
+	background-color: #e6e6e6;
 }
 
 #titulo {
