@@ -3,7 +3,8 @@
 /*Fonte*//*UKAz-XDA*/
 
 html {
-  background-color: #ffffff;
+  background-color: #1e1d2f;
+  font-size: small;
 }
 
 body {
@@ -27,25 +28,39 @@ ul {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     padding-inline-start: 0px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.header {
+    text-align: center;
+    color: #a7a7a7;
+    font-size: 25px;
+    border-bottom: #1e1d2f 3px solid;
+    border-radius: 30px 10px 0px 0px;
+    padding: 2px 2px;
+}
+
+#container {
+    background: #1e1d2f;
+    border-radius: 10px;
 }
 
 .LIMPO1 {
     background-color: #ffffff;
-    top: 45%;
     left: 50%;
-    right: 50%;
-    position: fixed;
+    position: relative;
     text-align: center;
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0%);
     border-radius: 30px;
     display: inline-block;
     vertical-align: middle;
     animation-duration: 0.4s;
-	border: 1px solid #6b6b6b;
-	animation-name: ukaz-ani;
+    animation-name: ukaz-ani;
+    width: 400px;
+    margin-bottom: 10px;
+    margin-top: 30px;
 }
 
 #footer1 {
@@ -68,7 +83,12 @@ ul {
     border-radius: 40px;
     display: inline-block;
     vertical-align: middle;
-	background-color: #e6e6e6;
+    background-color: #e6e6e6;
+    border-bottom-width: 10px;
+    margin-bottom: 10px;
+    border-left-width: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #titulo {
