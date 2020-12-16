@@ -1,0 +1,66 @@
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="description" content="UKAz-XDA Downloads">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <title>Downloads</title>
+      <link rel="shortcut icon" href="UKAz-XDA/images/Near.png">
+      <link href="UKAz-XDA/css/download.css" rel="stylesheet">
+      <link rel="stylesheet" href="UKAz-XDA/css/style.css">
+   </head>
+   <body>
+      <main>
+      	<div class="card">
+            <div>
+               <div>
+                  <div>
+                     <div class="select">
+                        <span class="select__title">ROM</span>
+                        <select id="devices">
+                           <option>Select a ROM...</option>
+                        </select>
+                     </div>
+                  </div>
+                     <div class="select">
+                        <span class="select__title">Device</span>
+                        <select id="versions"></select>
+                          <div id="textDiv" style="color:Green; font-family:Calibri; font-size:small; font-weight:bold"></div>
+                     </div>
+                  </div>
+                     <div class="select">
+                        <span class="select__title">Version</span>
+                        <select id="roms"></select>
+                     </div>
+                     <a id="download" class="download">
+                        <br>
+                        <div class="link link--elevated">
+                           <span class="link__title" onclick="visitPage()">Download</span>
+                           <p><span id="downloadDate" class="link__title link__title--right"></span></p>
+                        </div>
+                     </a>
+                  </div>
+               </br>
+            </div>
+      </main>
+	  <footer id="footer1">© 2020 UKAz-XDA<p>website in development.</p></footer>
+      <div>
+		<script src="UKAz-XDA/js/jquery-3.4.1.min.js"></script>
+    <script>
+        const LoadPage = new PageLoad({
+            container: "textDiv",
+            animate: false,
+            gutter: 30, // default gutter size
+            static: true,
+            useMin: false,
+            maxColumns: 2,
+            useTransform: true
+        });
+        
+        $("document").ready(() => {
+            LoadPage.listen();
+        });
+    </script>
+	</div>
+      <script type="text/javascript" src="UKAz-XDA/js/dll.js"></script>
+   </body>
+</html>
