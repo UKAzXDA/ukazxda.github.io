@@ -129,10 +129,12 @@ button:focus {
 .select__title {
   display: block;
   margin: 0;
-  margin-bottom: .2em;
   padding: 0;
-  font-size: .8em;
-  font-weight: bolder; }
+  font-weight: bolder;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-size: 20px;
+  }
 
 select::-ms-expand {
   display: none; }
