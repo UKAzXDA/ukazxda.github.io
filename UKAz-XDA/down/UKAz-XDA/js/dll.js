@@ -13,7 +13,7 @@ DivTxt[2] = ""
 var devices = {
 
  "LIMPO-11": {
- 	"For J7 Prime": {
+ 	"Galaxy J7 Prime": {
  		"B5-A3": {
  			"url": "https://drive.google.com/u/0/uc?id=13to-snzgHkUe7hsQIahNlbYMZf0yfXDc&export=download",
  			"date": ""
