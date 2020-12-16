@@ -3,7 +3,7 @@
 /*Fonte*//*UKAz-XDA*/
 
 html {
-  background-color: #1e1d2f;
+  background-color: #efefef;
   font-size: small;
 }
 
@@ -37,13 +37,13 @@ ul {
     text-align: center;
     color: #a7a7a7;
     font-size: 25px;
-    border-bottom: #1e1d2f 3px solid;
+    border-bottom: #efefef 3px solid;
     border-radius: 30px 10px 0px 0px;
     padding: 2px 2px;
 }
 
 #container {
-    background: #1e1d2f;
+    background: #efefef;
     border-radius: 10px;
     padding-top: 50px
 }
