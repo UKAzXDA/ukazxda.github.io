@@ -171,6 +171,7 @@ main {
   margin-right: 20px;
   margin-bottom: 2em;
   padding-top: 4em;
+  padding-block: 4em;
   -webkit-transition: transform .25s;
   }
 
