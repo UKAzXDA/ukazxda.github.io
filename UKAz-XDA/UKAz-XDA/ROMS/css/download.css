@@ -88,13 +88,11 @@ button:focus {
 .link--elevated {
   transition: opacity .25s;
   opacity: 0.85;
-  font-size: 22px;
   width: -webkit-fill-available;
   display: inline-block;
   vertical-align: middle;
   border-bottom-width: 0px;
-  margin-bottom: 0px;
-  border-left-width: 0px;
+  margin-bottom: -24px;
   margin-left: 0px;
   margin-right: 0px;
   }
