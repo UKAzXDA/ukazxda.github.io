@@ -133,3 +133,11 @@ img {
     }
 }
 
+@keyframes go-back {
+    0% {
+        transform: translateY(-4px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}

@@ -64,6 +64,7 @@ button:focus {
 	width: 100wh;
     color: #C0C0C0;
     background: #453c7b;
+    animation: go-back 0.50s;
 }
 
 .card--small {
@@ -95,6 +96,7 @@ button:focus {
   margin-bottom: -24px;
   margin-left: 0px;
   margin-right: 0px;
+  animation: go-back 0.40s;
   }
 
 .link--elevated:hover, .link--elevated:focus {
@@ -182,4 +184,13 @@ main {
     text-align: center;
     margin-top: 15px;
     margin-bottom: 10px;
+}
+
+@keyframes go-back {
+    0% {
+        transform: translateX(100px);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
