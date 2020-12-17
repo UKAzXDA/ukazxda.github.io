@@ -52,6 +52,8 @@ button:focus {
   box-shadow: 0 0.3em 0.8em rgba(0, 0, 0, 0.25);
   }
 
+.link.link--elevated {}
+
 .card * {
   color: #FFF;
   border-radius: 15px;
@@ -89,7 +91,7 @@ button:focus {
   transition: opacity .25s;
   opacity: 0.85;
   font-size: 22px;
-  width: -webkit-fill-available;
+  width: 60%;
   display: inline-block;
   vertical-align: middle;
   border-bottom-width: 0px;
@@ -97,6 +99,8 @@ button:focus {
   border-left-width: 0px;
   margin-left: 0px;
   margin-right: 0px;
+  background-color: #3c7b55;
+  box-shadow: 0 0.3em 0.8em rgba(0, 0, 0, 0.25);
   }
 
 .link--elevated:hover, .link--elevated:focus {
