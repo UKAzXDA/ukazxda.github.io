@@ -34,7 +34,11 @@
                      <a id="download" class="download">
                         <br>
                         <div class="link link--elevated">
-                           <span class="link__title" onclick="visitPage()">Download</span>
+                           <span class="link__title" onclick="visitPage()"><p
+			   style="color: #000; margin-top: 40px; margin-bottom: 40px;
+		 	   font-size: 23px;width: 60%;background-color: #ffffff; padding: 3px;
+		 	   border-radius: 100px;display: inline-block;vertical-align: middle;
+			   box-shadow: 0 0.3em 0.8em rgba(0, 0, 0, 0.25);">Download</p></span>
                            <p><span id="downloadDate" class="link__title link__title--right"></span></p>
                         </div>
                      </a>
@@ -42,9 +46,9 @@
                </br>
             </div>
       </main>
-	  <footer id="footer1">© 2020 UKAz-XDA<p>website in development.</p></footer>
-      <div>
-		<script src="UKAz-XDA/ROMS/js/jquery-3.4.1.min.js"></script>
+ <footer id="footer1">© 2020 UKAz-XDA<p>website in development.</p></footer>
+ <div>
+<script src="UKAz-XDA/ROMS/js/jquery-3.4.1.min.js"></script>
     <script>
         const LoadPage = new PageLoad({
             container: "textDiv",
@@ -55,7 +59,6 @@
             maxColumns: 2,
             useTransform: true
         });
-        
         $("document").ready(() => {
             LoadPage.listen();
         });
