@@ -63,7 +63,7 @@ button:focus {
 
 	width: 100wh;
     color: #C0C0C0;
-    background: #453c7b;
+    background: #242138;
     animation: go-back 0.50s;
 }
 
@@ -163,7 +163,7 @@ select:focus {
   background-color: rgba(0, 0, 0, 0.2); }
 
 option {
-  background-color: #40386f;
+  background-color: #242138;
   }
 main {
   display: block;
