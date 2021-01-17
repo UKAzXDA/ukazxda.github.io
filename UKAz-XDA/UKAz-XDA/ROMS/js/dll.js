@@ -23,8 +23,8 @@ var devices = {
 
 "LIMPO-Q": {
  	"Galaxy J7 Prime G610X": {
- 		"A1-B1 Data:16-01-2021": {
- 			"url": "",
+ 		"B1-A2 Data:17-01-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=1j2-kL6w-aI4fCW4BAbNE20H6_trLZDv-&export=download",
  			"date": "OneUI-v2.0 Android-10 Treble"
 			},
 		},
