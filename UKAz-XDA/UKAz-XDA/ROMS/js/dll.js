@@ -14,7 +14,7 @@ var devices = {
 
 "LIMPO-11": {
  	"Galaxy J7 Prime G610X": {
- 		"B5-A4 Data:31-12-2020": {
+ 		"B5-A4 Data: 31-12-2020": {
  			"url": "https://drive.google.com/u/0/uc?id=19OYIUB0FRYveJLjgz_RZTcoZ0ovwCoIA&export=download",
  			"date": "OneUI-v1.1 Android-9 ARM"
 			},
@@ -23,7 +23,7 @@ var devices = {
 
 "LIMPO-Q": {
  	"Galaxy J7 Prime G610X": {
- 		"B1-A8 Data:26-01-2021": {
+ 		"B1-A8 Data: 26-01-2021": {
  			"url": "https://drive.google.com/drive/folders/1nM1tIrgeIkCubDFwDDGv4XRoCZs_f2L_?usp=sharing",
  			"date": "OneUI-v2.0 Android-10 Treble"
 			},
@@ -32,7 +32,7 @@ var devices = {
 
 "LIMPO-Treble": {
  	"Galaxy J7 Prime G610X": {
- 		"B1-A2 Data:31-12-2020": {
+ 		"B1-A2 Data: 31-12-2020": {
  			"url": "https://drive.google.com/u/0/uc?id=1nH1GVrN4qTwb48jE9DKDepzoqnsB4wxF&export=download",
  			"date": "OneUI-v1.0 Android-9 Treble"
 			},
