@@ -16,7 +16,7 @@ var devices = {
  	"Galaxy J7 Prime G610X": {
  		"B6-A1 Data: 01-02-2020": {
  			"url": "https://drive.google.com/u/0/uc?id=1NhtJVjWSBSYghq4VTKDObBm9JkSP8gws&export=download",
- 			"date": "OneUI-v1.1 Android-9 ARM/32"
+ 			"date": "OneUI-v1.1 Android-9 ARM-32bts"
 			},
 		},
 	},
