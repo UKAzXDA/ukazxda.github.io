@@ -15,7 +15,7 @@ var devices = {
 "LIMPO-11": {
  	"Galaxy J7 Prime G610X": {
  		"B6-A1 Data: 01-02-2020": {
- 			"url": "https://drive.google.com/u/0/uc?id=105ZTdIuZCEFbz5TzZ1khJnhJ4G6F1uVb&export=download",
+ 			"url": "https://drive.google.com/u/0/uc?id=1jVNn3rPrNEcav5kMB3yJFKvuVc12qb7P&export=download",
  			"date": "OneUI-v1.1 Android-9 ARM-32bts"
 			},
 		},
