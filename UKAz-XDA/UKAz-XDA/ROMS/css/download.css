@@ -6,12 +6,10 @@ html {
 
 p {
 	margin-top: 0px;
-    margin-bottom: 0px;	
+	margin-bottom: 0px;
 }
 
 p {
-    margin-top: 0px;
-    margin-bottom: 1px;
 }
 
 .download {
@@ -21,12 +19,14 @@ p {
 
 body {
   margin: 0;
-  color: #fff;
+  color: #000;
   word-wrap: break-word;
   word-break: break-word;
   transition: background-color .25s;
   -moz-transition: background-color .25s;
-  -webkit-transition: background-color .25s; }
+  -webkit-transition: background-color .25s;
+  font-family: 'Poppins', 'Questrial';
+  }
 
 button {
   background-color: transparent;
@@ -44,27 +44,22 @@ button:focus {
   outline: 1px solid #FFFFFF; }
 
 .card {
-  padding: 1em 2em;
-  margin: 1em;
-  color: #0095ff;
-  background-color: #0095ff;
-  border-radius: 30px;
-  box-shadow: 0 0.3em 0.8em rgba(0, 0, 0, 0.25);
+    background: #fff;
+    animation: go-back 0.50s;
+    padding: 1em 2em;
+    margin: 1em;
+    border-radius: 30px;
+    box-shadow: 0 0.3em 0.8em rgb(0 0 0 / 25%);
   }
 
 .card * {
-  color: #FFF;
+  color: #000;
   border-radius: 15px;
   text-align: center;
   }
 
 .card:nth-child(1) {
-    background:   
-
-	width: 100wh;
-    color: #C0C0C0;
-    background: #242138;
-    animation: go-back 0.50s;
+    animation: go-back 0.60s;
 }
 
 .card--small {
@@ -88,7 +83,6 @@ button:focus {
 
 .link--elevated {
   transition: opacity .25s;
-  opacity: 0.85;
   width: -webkit-fill-available;
   display: inline-block;
   vertical-align: middle;
@@ -109,8 +103,9 @@ button:focus {
   .link__title--right {
     display: inline; } }
 .select {
-  display: inline-block;
-  position: relative; }
+  display: block;
+  text-align-last: center;
+  }
 
 .select::after {
   display: block;
@@ -127,7 +122,7 @@ button:focus {
   }
 
 .select__title {
-  display: block;
+  display: inherit;
   margin: 0;
   padding: 0;
   font-weight: bolder;
@@ -144,7 +139,6 @@ select {
   height: 32px;
   padding: .4em .6em;
   margin: 0;
-  margin-right: 10px;
   margin-bottom: 10px;
   background-color: rgba(0, 0, 0, 0.1);
   outline: none;
@@ -163,7 +157,7 @@ select:focus {
   background-color: rgba(0, 0, 0, 0.2); }
 
 option {
-  background-color: #242138;
+  background-color: #fff;
   }
 main {
   display: block;

@@ -17,19 +17,18 @@
 }
 
 html {
-  background-color: #f5f5f5;
+  background-color: #ffffff;
 }
 
 body {
-  font-family: 'Poppins', 'Questrial';
+  /* font-family: 'Poppins', 'Questrial'; */
   margin: 0;
   padding: 0;
   height: 100%;
-  -webkit-text-size-adjust: 100%;
 }
 
 a {
-  color: #adadad;
+  /* color: #adadad; */
 }
 
 h1 {
