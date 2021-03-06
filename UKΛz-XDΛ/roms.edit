@@ -15,16 +15,16 @@ var devices = {
 			},
 		},
 	},
-/*
+
 "LIMPO-Q": {
  	"Galaxy J7 Prime G610X": {
- 		"B3-A1 Data: 09-02-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=1l_Ru950DqnW7udF9_YsHvYfMKXHbWtza&export=download",
+ 		"v1.0 Data: 06-03-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=1vhlj0o5A3Fz9b1CZa7mUIGqHufea7PPE&export=download",
  			"date": "OneUI-v2.0 Android-10 Treble"
 			},
 		},
 	},
-*/
+
 "LIMPO-Q Core": {
  	"Galaxy J7 Prime G610X": {
  		"v1.0 Data: 06-03-2021": {
