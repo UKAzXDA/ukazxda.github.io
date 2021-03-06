@@ -11,7 +11,7 @@ var devices = {
  	"Galaxy J7 Prime G610X": {
  		"v1.0 Data: 06-03-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1NMRw8SXFw80w6TmuQ0iOtQuRfcPC1xqH&export=download",
- 			"date": "OneUI-v1.1 Android-9 ARM-32bts"
+ 			"date": "OneUI-v1.1 Android-9 ARM 32Bits"
 			},
 		},
 	},
@@ -20,7 +20,7 @@ var devices = {
  	"Galaxy J7 Prime G610X": {
  		"v1.0 Data: 06-03-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1vhlj0o5A3Fz9b1CZa7mUIGqHufea7PPE&export=download",
- 			"date": "OneUI-v2.0 Android-10 Treble"
+ 			"date": "OneUI-v2.0 Android-10 Treble 32Bits"
 			},
 		},
 	},
@@ -29,7 +29,7 @@ var devices = {
  	"Galaxy J7 Prime G610X": {
  		"v1.0 Data: 06-03-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1XmCu_p1417ojkbhNFIT3YBdjk2byBDsk&export=download",
- 			"date": "OneUI-v2.0 Core Android-10 Treble"
+ 			"date": "OneUI-v2.0 Core Android-10 Treble 32Bits"
 			},
 		},
 	},
