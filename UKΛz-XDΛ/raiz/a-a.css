@@ -43,7 +43,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  animation: go-back 0.60s;
+  animation: go-back 0.10s;
 }
 
 a {
