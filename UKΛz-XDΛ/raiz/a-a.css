@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Questrial');
 @import url('https://fonts.googleapis.com/css?family=Poppins');
-/* ROM UKΛz-XDΛ */
+/* ROM UKÎ›z-XDÎ› */
 
 .pagina {
     width: 250px;
@@ -43,7 +43,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  -webkit-text-size-adjust: 100%;
+  animation: go-back 0.60s;
 }
 
 a {
@@ -75,7 +75,6 @@ h3 {
     border-radius: 100px;
     display: inline-block;
     vertical-align: middle;
-    animation: go-back 0.60s;
 }
 
 h4 {
@@ -113,9 +112,9 @@ h6 {
 
 @keyframes go-back {
     0% {
-        transform: translateY(3px);
+        transform: scale(0.9);
     }
     100% {
-        transform: translateY(0px);
+        transform: scale(1.0);
     }
 }
