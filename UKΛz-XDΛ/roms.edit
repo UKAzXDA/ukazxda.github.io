@@ -8,7 +8,7 @@ var downloadDateElement = document.getElementById("downloadDate");
 var devices = {
 
 "LIMPO-12": {
- 	"Galaxy J7 Prime G610X": {
+ 	"Galaxy J7 Prime": {
  		"v1.0 Data: 06-03-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1NMRw8SXFw80w6TmuQ0iOtQuRfcPC1xqH&export=download",
  			"date": "OneUI-v1.1 Android-9 ARM 32Bits"
@@ -17,7 +17,7 @@ var devices = {
 	},
 
 "LIMPO-Q": {
- 	"Galaxy J7 Prime G610X": {
+ 	"Galaxy J7 Prime": {
  		"v1.0 Data: 06-03-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1vhlj0o5A3Fz9b1CZa7mUIGqHufea7PPE&export=download",
  			"date": "OneUI-v2.0 Android-10 Treble 32Bits"
@@ -30,6 +30,15 @@ var devices = {
  		"v1.1 Data: 06-03-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1c_0BGi9XX_m3p8c2J_o_AAyc_Fi8BIfM&export=download",
  			"date": "OneUI-v2.0 Core Android-10 Treble 32Bits"
+			},
+		},
+	},
+
+"LIMPO-Treble": {
+ 	"Galaxy J7 Prime": {
+ 		"v1.1 Data: 09-03-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=1N59uWj9M_BtQ2zMMXVEn1HTWjXT5WbwS&export=download",
+ 			"date": "OneUI-v1.1 Android-9 Treble 32Bits"
 			},
 		},
 	},
