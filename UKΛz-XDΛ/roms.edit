@@ -28,7 +28,7 @@ var devices = {
 "LIMPO-Q Core": {
  	"Galaxy J7 Prime G610X": {
  		"v2.0 Data: 16-03-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=1kwYfuPBoR9wbGmzM5OotZaWfuGG6HPHe&export=download",
+ 			"url": "https://drive.google.com/u/0/uc?id=1nSk9yu8sxRCG24-kczM117ifAor6PtHx&export=download",
  			"date": "OneUI-v2.0 Core Android-10 Treble 32Bits"
 			},
 		},
