@@ -1,1 +1,1 @@
-![](https://github.com/UKAzXDA/ukazxda.github.io/tree/main/UK%CE%9Bz-XD%CE%9B/raiz/a-a.svg)
+![](https://github.com/UKAzXDA/ukazxda.github.io/blob/main/UKΛz-XDΛ/raiz/a-a.svg)
