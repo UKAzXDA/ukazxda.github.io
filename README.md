@@ -1,1 +1,1 @@
-![](https://github.com/UKAzXDA/ukazxda.github.io/blob/main/UKΛz-XDΛ/raiz/a-a.svg)
+![](https://steamuserimages-a.akamaihd.net/ugc/513756461314762619/EFDDB507FAC574012F636BC73F5BCA1886641BD3/)
