@@ -33,15 +33,6 @@ var devices = {
 			},
 		},
 	},
-
-"LIMPO-Treble": {
- 	"Galaxy J7 Prime": {
- 		"v1.0 Data: 10-03-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=1N59uWj9M_BtQ2zMMXVEn1HTWjXT5WbwS&export=download",
- 			"date": "OneUI-v1.1 Android-9 Treble 32-Bit"
-			},
-		},
-	},
 };
 
 function onDeviceChanged() {versionsElement.options.length = 0;
