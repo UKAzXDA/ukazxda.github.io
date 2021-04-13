@@ -46,12 +46,11 @@ a {
 }
 
 h1 {
-  text-shadow: 0 0 1px black;
   color: #000000;
   margin-top: 1px;
   margin-bottom: 1px;
   font-size: 37px;
-  font-family: -webkit-pictograph;
+  font-family: system-ui;
 }
 
 h2 {
