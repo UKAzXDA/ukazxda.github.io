@@ -34,10 +34,6 @@ p {
   display: inline-block;
 }
 
-html {
-  background-color: #ffffff;
-}
-
 body {
   font-family: 'Poppins', 'Questrial';
   margin: 0;
@@ -50,6 +46,7 @@ a {
 }
 
 h1 {
+  text-shadow: 0 0 1px black;
   color: #000000;
   margin-top: 1px;
   margin-bottom: 1px;
@@ -66,11 +63,11 @@ h2 {
 
 h3 {
     color: #ffff;
-    margin-top: 40px;
-    margin-bottom: 40px;
     font-size: 23px;
     width: 60%;
-    background-color: #242138;
+    background-color: #3c3c3c;
+	margin-top: 60px;
+    margin-bottom: 0px;
     padding: 3px;
     border-radius: 100px;
     display: inline-block;
@@ -79,8 +76,8 @@ h3 {
 
 h4 {
   color: #000000;
-  margin-top: 33px;
-  margin-bottom: 30px;
+  margin-bottom: 0px;
+  margin-top: 0px;
   font-size: 18px;
   width: 100%;
 }
