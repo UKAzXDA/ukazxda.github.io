@@ -106,11 +106,27 @@ h6 {
     margin-bottom: 10px;
 }
 
-@keyframes go-back {
+/* Elementos */
+@keyframes elemento_1 {
     0% {
-        transform: scale(0.9);
+    top: -36px;
+    }
+    80% {
+	top: -36px;
     }
     100% {
-        transform: scale(1.0);
+	top: -27px;
+    }
+}
+
+@keyframes elemento_2 {
+    0% {
+	top: 178px;
+    }
+    80% {
+	top: 178px;
+    }
+    100% {
+	top: 170px;
     }
 }
