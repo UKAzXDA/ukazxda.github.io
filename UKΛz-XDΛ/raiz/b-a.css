@@ -53,9 +53,9 @@ button:focus {
   }
 
 .card * {
-  border-radius: 15px;
-  text-align: center;
-  text-shadow: 0 0 0px black;
+    color: #333;
+    border-radius: 15px;
+    text-align: center;
   }
 
 .card:nth-child(1) {
