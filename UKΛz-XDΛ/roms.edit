@@ -7,10 +7,10 @@ var downloadDateElement = document.getElementById("downloadDate");
 /* ROM UKΛz-XDΛ */
 var devices = {
 
-"LIMPO-12": {
+"LIMPO-13": {
  	"Galaxy J7 Prime": {
- 		"v3.0 Data: 20-03-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=1se6cyYkNMxbuaLLWNaYfUiDNN1nm0dd2&export=download",
+ 		"v1.0 Data: 20-04-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=103CNXV_KED5-vfHVj6JrmHdv55Y-GT2M&export=download",
  			"date": "OneUI-v1.1 Android-9 ARM 32Bit"
 			},
 		},
