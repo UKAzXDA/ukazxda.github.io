@@ -9,8 +9,8 @@ var devices = {
 
 "LIMPO-13": {
  	"Galaxy J7 Prime": {
- 		"v1.0-1 Data: 21-04-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=12CfVWQfhBter6D-l6B8a2iYar9eAJ6W2&export=download",
+ 		"v1.1 Data: 21-04-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=19I6i2KdSZntHEUjDBn8b7fxfJelXSBu2&export=download",
  			"date": "OneUI-v1.1 Android-9 ARM 32Bit"
 			},
 		},
