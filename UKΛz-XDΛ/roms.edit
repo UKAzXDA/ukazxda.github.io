@@ -16,6 +16,15 @@ var devices = {
 		},
 	},
 
+"LIMPO-12": {
+ 	"Galaxy J7 Prime": {
+ 		"v5.0 Data: 25-04-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=11Cr66j_q3OIo4xgT6uEGFpZioUXqA_VK&export=download",
+ 			"date": "OneUI-v1.1 Android-9 ARM 32Bit"
+			},
+		},
+	},
+
 "LIMPO-Q": {
  	"Galaxy J7 Prime": {
  		"v1.0 Data: 06-03-2021": {
