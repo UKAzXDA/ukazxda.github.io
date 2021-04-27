@@ -36,9 +36,9 @@ var devices = {
 
 "LIMPO-Q Core": {
  	"Galaxy J7 Prime": {
- 		"v2.1 Data: 17-03-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=1W1VlYPKxgIy5t30T-aWKxojDZUuwn65a&export=download",
- 			"date": "OneUI-v2.0 Android-10 Treble 32Bit"
+ 		"v2.1 Data: 26-04-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=1CiWkJSzaGdw3i5HiPvHtXtSxL6wsieON&export=download",
+ 			"date": "OneUI-v2.0 Core Android-10 32-Bit"
 			},
 		},
 	},
