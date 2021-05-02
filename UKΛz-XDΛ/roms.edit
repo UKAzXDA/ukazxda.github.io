@@ -15,7 +15,6 @@ var devices = {
 			},
 		},
 	},
-};
 
 "LIMPO-12": {
  	"Galaxy J7 Prime": {
@@ -43,6 +42,7 @@ var devices = {
 			},
 		},
 	},
+};
 
 function onDeviceChanged() {versionsElement.options.length = 0;
 if (devicesElement.selectedIndex >= 0) {var device = devicesElement.options[devicesElement.selectedIndex].text;
