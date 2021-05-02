@@ -1,16 +1,9 @@
 
 /* ROM UKΛz-XDΛ */
 
-html {
-  background-color: rgb(10, 10, 10);
-}
-
 p {
 	margin-top: 0px;
 	margin-bottom: 0px;
-}
-
-p {
 }
 
 .download {
@@ -45,15 +38,15 @@ button:focus {
   outline: 1px solid #FFFFFF; }
 
 .card {
-    background: #fff;
+    background: #ffffff33;
     padding: 1em 2em;
     margin: 1em;
     border-radius: 30px;
-    box-shadow: 0 0.3em 0.8em rgb(0 0 0 / 3%);
+    box-shadow: 0 0.3em 0.8em rgb(0 0 0 / 9%);
   }
 
 .card * {
-    color: #333;
+    color: #ffffffeb;
     border-radius: 15px;
     text-align: center;
   }
@@ -93,10 +86,12 @@ button:focus {
   }
 
 .link--elevated:hover, .link--elevated:focus {
-  opacity: 1; }
-  
+  opacity: 1;
+  }
+ 
 .link:hover .link__title {
-  color: #FFFFFF; }
+  color: #FFFFFF;
+  }
 
 @media (min-width: 600px) {
   .link__title--right {
@@ -131,7 +126,8 @@ button:focus {
   }
 
 select::-ms-expand {
-  display: none; }
+  display: none;
+  }
 
 select {
   width: 200px;
@@ -153,11 +149,13 @@ select:hover {
   }
 
 select:focus {
-  background-color: rgba(0, 0, 0, 0.2); }
+  background-color: rgba(0, 0, 0, 0.2);
+  }
 
 option {
-  background-color: #fff;
+  background-color: #000;
   }
+
 main {
   display: block;
   margin-left: 20px;
