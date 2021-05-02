@@ -38,7 +38,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v3.0 Data: 26-04-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1lIrt5ak-C5mutB7CYYEjSf4CZ9VLyNRH&export=download",
- 			"date": "OneUI-v2.0 Core Android-10 32-Bit"
+ 			"date": "OneUI-v2.0 Core Android-10 32Bit"
 			},
 		},
 	},
