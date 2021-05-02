@@ -7,19 +7,29 @@ var downloadDateElement = document.getElementById("downloadDate");
 /* ROM UKΛz-XDΛ */
 var devices = {
 
-"LIMPO-13": {
+"LIMPO-Q Core": {
  	"Galaxy J7 Prime": {
- 		"v1.1 Data: 21-04-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=19I6i2KdSZntHEUjDBn8b7fxfJelXSBu2&export=download",
- 			"date": "OneUI-v1.1 Android-9 ARM 32Bit"
+ 		"v3.0 Data: 26-04-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=1lIrt5ak-C5mutB7CYYEjSf4CZ9VLyNRH&export=download",
+ 			"date": "OneUI-v2.0 Core Android-10 32-Bit"
 			},
 		},
 	},
+};
 
 "LIMPO-12": {
  	"Galaxy J7 Prime": {
  		"v5.0 Data: 25-04-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1DBgx8RvVaRSbTlUjRPJqGXURItLi0fIF&export=download",
+ 			"date": "OneUI-v1.1 Android-9 ARM 32Bit"
+			},
+		},
+	},
+
+"LIMPO-13": {
+ 	"Galaxy J7 Prime": {
+ 		"v1.1 Data: 21-04-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=19I6i2KdSZntHEUjDBn8b7fxfJelXSBu2&export=download",
  			"date": "OneUI-v1.1 Android-9 ARM 32Bit"
 			},
 		},
@@ -33,16 +43,6 @@ var devices = {
 			},
 		},
 	},
-
-"LIMPO-Q Core": {
- 	"Galaxy J7 Prime": {
- 		"v3.0 Data: 26-04-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=1lIrt5ak-C5mutB7CYYEjSf4CZ9VLyNRH&export=download",
- 			"date": "OneUI-v2.0 Core Android-10 32-Bit"
-			},
-		},
-	},
-};
 
 function onDeviceChanged() {versionsElement.options.length = 0;
 if (devicesElement.selectedIndex >= 0) {var device = devicesElement.options[devicesElement.selectedIndex].text;
