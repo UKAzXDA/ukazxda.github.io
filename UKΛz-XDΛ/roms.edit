@@ -24,7 +24,7 @@ var devices = {
 			},
 		},
 	},
-
+/*
 "LIMPO-Q: Outdated": {
  	"Galaxy J7 Prime": {
  		"v1.0 Data: 06-03-2021": {
@@ -33,7 +33,7 @@ var devices = {
 			},
 		},
 	},
-
+*/
 "LIMPO-Q Core: Stable": {
  	"Galaxy J7 Prime": {
  		"v3.0 Data: 26-04-2021": {
