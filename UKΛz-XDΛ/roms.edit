@@ -11,7 +11,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v5.0 Data: 25-04-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1DBgx8RvVaRSbTlUjRPJqGXURItLi0fIF&export=download",
- 			"date": "OneUI-v1.1 Android-9 ARM 32Bit"
+ 			"date": "OneUI-1.1 Android-9 ARM 32Bit"
 			},
 		},
 	},
@@ -20,7 +20,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v1.1 Data: 21-04-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=19I6i2KdSZntHEUjDBn8b7fxfJelXSBu2&export=download",
- 			"date": "OneUI-v1.1 Android-9 ARM 32Bit"
+ 			"date": "OneUI-1.1 Android-9 ARM 32Bit"
 			},
 		},
 	},
@@ -38,7 +38,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v3.0 Data: 26-04-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1lIrt5ak-C5mutB7CYYEjSf4CZ9VLyNRH&export=download",
- 			"date": "OneUI-v2.0 Core Android-10 32Bit"
+ 			"date": "OneUI-2.0 Core Android-10 32Bit"
 			},
 		},
 	},
