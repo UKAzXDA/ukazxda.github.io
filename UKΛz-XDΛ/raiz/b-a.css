@@ -1,6 +1,4 @@
 
-/* ROM UKΛz-XDΛ */
-
 p {
 	margin-top: 0px;
 	margin-bottom: 0px;
@@ -141,10 +139,6 @@ select:hover {
 
 select:focus {
   background-color: rgba(0, 0, 0, 0.2);
-  }
-
-option {
-  background-color: #000;
   }
 
 main {
