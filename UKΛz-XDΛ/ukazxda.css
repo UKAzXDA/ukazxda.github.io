@@ -1,13 +1,13 @@
 
 .ukazxda {
-	background-color: #101010;
+  background-image: url(raiz/anime.jpg);
 }
 
 .oneui {
 	color: #fff;
 	background: #ffffff1a;
-	border: outset 1px #000000ad;
-	box-shadow: 0 0.3em 0.8em rgb(0 0 0 / 9%);
+	border: outset 1px #fffbfb38;
+	box-shadow: 0 0.3em 0.8em rgb(0 0 0 / 1%);
 }
 
 .oneui * {
