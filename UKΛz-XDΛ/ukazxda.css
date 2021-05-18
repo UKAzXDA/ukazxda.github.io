@@ -1,6 +1,7 @@
 
 .ukazxda {
-	animation: ukazxda 40s infinite;
+	background: center;
+	background-image: url(raiz/anime.jpg);
 }
 
 .oneui {
@@ -21,6 +22,7 @@ option {
 	background-color: #101010;
 }
 
+/*
 @keyframes ukazxda {
 	0% {
 	background-position: right;
@@ -39,4 +41,4 @@ option {
 	background-image: url(raiz/anime.jpg);
 	}
 }
-
+*/
