@@ -7,19 +7,10 @@ var downloadDateElement = document.getElementById("downloadDate");
 /* ROM UKΛz-XDΛ */
 var devices = {
 
-"LIMPO-12: Stable": {
+"LIMPO-13: Stable": {
  	"Galaxy J7 Prime": {
- 		"v5.0 Data: 25-04-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=1DBgx8RvVaRSbTlUjRPJqGXURItLi0fIF&export=download",
- 			"date": "OneUI-1.1 Android-9 ARM 32Bit"
-			},
-		},
-	},
-
-"LIMPO-13: Beta": {
- 	"Galaxy J7 Prime": {
- 		"v1.1 Data: 21-04-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=19I6i2KdSZntHEUjDBn8b7fxfJelXSBu2&export=download",
+ 		"v2.0 Data: 21-05-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=1W3rN6Y01MDjWaqZiupNJi_KTLkb_me8z&export=download",
  			"date": "OneUI-1.1 Android-9 ARM 32Bit"
 			},
 		},
