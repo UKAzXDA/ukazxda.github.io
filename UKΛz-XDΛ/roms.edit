@@ -7,7 +7,7 @@ var downloadDateElement = document.getElementById("downloadDate");
 /* ROM UKΛz-XDΛ */
 var devices = {
 
-"LIMPO-13: Stable": {
+"LIMPO-13": {
  	"Galaxy J7 Prime": {
  		"v2.0 Data: 21-05-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1W3rN6Y01MDjWaqZiupNJi_KTLkb_me8z&export=download",
@@ -16,7 +16,7 @@ var devices = {
 		},
 	},
 
-"LIMPO-Q: Stable": {
+"LIMPO-Q": {
  	"Galaxy J7 Prime": {
  		"v5.0 Data: 09-05-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=14eZLicymraq-CPNkO99rdmNwwICOY0dE&export=download",
@@ -25,7 +25,7 @@ var devices = {
 		},
 	},
 
-"LIMPO-Q Core: Stable": {
+"LIMPO-Q Core": {
  	"Galaxy J7 Prime": {
  		"v3.0 Data: 26-04-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1lIrt5ak-C5mutB7CYYEjSf4CZ9VLyNRH&export=download",
