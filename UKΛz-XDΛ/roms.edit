@@ -11,16 +11,16 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v2.0 Data: 21-05-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1W3rN6Y01MDjWaqZiupNJi_KTLkb_me8z&export=download",
- 			"date": "OneUI-1.1 Android-9 ARM 32Bit"
+ 			"date": "OneUI-1.1 Android-9 ARM32"
 			},
 		},
 	},
 
 "LIMPO-Q": {
  	"Galaxy J7 Prime": {
- 		"v5.0 Data: 09-05-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=14eZLicymraq-CPNkO99rdmNwwICOY0dE&export=download",
- 			"date": "OneUI-2.0 Android-10 Treble 32Bit"
+ 		"v6.0 Data: 27-05-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=15vrmaZalmmVUN3P5x0Penrqbc4Tp385c&export=download",
+ 			"date": "OneUI-2.0 Android-10 Treble ARM32"
 			},
 		},
 	},
