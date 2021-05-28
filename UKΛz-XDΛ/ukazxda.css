@@ -1,6 +1,5 @@
 
 .ukazxda {
-	animation: ukazxda 20s infinite;
 	background-color: #524a95;
 }
 
@@ -20,19 +19,4 @@
 option {
 	color: #fff;
 	background-color: #101010;
-}
-
-@keyframes ukazxda {
-	0% {
-	background-color: #524a95;
-	}
-	30% {
-	background-color: #222f3d;
-	}
-	60% {
-	background-color: #222f3d;
-	}
-	100% {
-	background-color: #524a95;
-	}
 }
