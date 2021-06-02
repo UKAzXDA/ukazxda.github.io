@@ -6,7 +6,7 @@ var downloadTitleElement = document.getElementById("downloadTitle");
 var downloadDateElement = document.getElementById("downloadDate");
 /* ROM UKΛz-XDΛ */
 var devices = {
-
+/*
 "LIMPO-14": {
  	"Galaxy J7 Prime": {
  		"v1.0 Data: 02-06-2021": {
@@ -15,7 +15,7 @@ var devices = {
 			},
 		},
 	},
-
+*/
 "LIMPO-Q": {
  	"Galaxy J7 Prime": {
  		"v6.0 Data: 27-05-2021": {
