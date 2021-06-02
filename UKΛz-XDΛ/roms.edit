@@ -11,7 +11,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v1.0 Data: 02-06-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=11NeEv9SGm-pMjRMog0ePsJ0m5acZQypp&export=download",
- 			"date": "OneUI-1.1 Android-9 ARM32"
+ 			"date": "OneUI-1.1 Android-9 Treble ARM32"
 			},
 		},
 	},
