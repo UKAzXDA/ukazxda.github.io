@@ -28,7 +28,7 @@ var devices = {
 "LIMPO-Q": {
  	"Galaxy J7 Prime": {
  		"v6.1 Data: 05-06-2021": {
- 			"url": "https://drive.google.com/file/d/1tIq0uWzI296oHJtClOByIwD_hs4ITRh5/view?usp=sharing",
+ 			"url": "https://drive.google.com/file/d/11R3fFFXxNS-lq7AHNtm-OmIzhdzIl-LG/view?usp=sharing",
  			"date": "OneUI-2.0 Android-10 Treble ARM32"
 			},
 		},
