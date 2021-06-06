@@ -33,16 +33,15 @@ var devices = {
 			},
 		},
 	},
-/*
+
 "LIMPO-Q_Core": {
  	"Galaxy J7 Prime": {
  		"v4.0 Data: 05-06-2021": {
- 			"url": "",
+ 			"url": "https://drive.google.com/file/d/1QkfMz7_7pwksncrZatiQDBZjGR7GWGTJ/view?usp=sharing",
  			"date": "OneUI-2.0 Core Android-10 ARM32"
 			},
 		},
 	},
-*/
 };
 
 function onDeviceChanged() {versionsElement.options.length = 0;
