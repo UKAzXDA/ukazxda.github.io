@@ -7,7 +7,7 @@ var downloadDateElement = document.getElementById("downloadDate");
 /* ROM UKΛz-XDΛ */
 var devices = {
 
-"LIMPO-15": {
+"LIMPO-15: Stable": {
  	"Galaxy J7 Prime": {
  		"v2.0 Data: 09-06-2021": {
  			"url": "https://drive.google.com/file/d/1VzB6C82VPYBqV7NCJtz_-6lzbBAz5JUM/view?usp=sharing",
@@ -16,20 +16,11 @@ var devices = {
 		},
 	},
 
-"LIMPO-T": {
+"LIMPO-T: Stable": {
  	"Galaxy J7 Prime": {
  		"v1.0 Data: 02-06-2021": {
  			"url": "https://drive.google.com/file/d/1QLlJo7eUwtPronCt6U_A4aaAegVEK2uR/view?usp=sharing",
  			"date": "OneUI-1.1 Android-9 Treble ARM32"
-			},
-		},
-	},
-
-"LIMPO-Q": {
- 	"Galaxy J7 Prime": {
- 		"v6.1 Data: 05-06-2021": {
- 			"url": "https://drive.google.com/file/d/11R3fFFXxNS-lq7AHNtm-OmIzhdzIl-LG/view?usp=sharing",
- 			"date": "OneUI-2.0 Android-10 Treble ARM32"
 			},
 		},
 	},
@@ -39,6 +30,15 @@ var devices = {
  		"v4.0 Data: 05-06-2021": {
  			"url": "https://drive.google.com/file/d/1QkfMz7_7pwksncrZatiQDBZjGR7GWGTJ/view?usp=sharing",
  			"date": "OneUI-2.0 Core Android-10 ARM32"
+			},
+		},
+	},
+
+"LIMPO-Q: Outdated": {
+ 	"Galaxy J7 Prime": {
+ 		"v6.1 Data: 05-06-2021": {
+ 			"url": "https://drive.google.com/file/d/11R3fFFXxNS-lq7AHNtm-OmIzhdzIl-LG/view?usp=sharing",
+ 			"date": "OneUI-2.0 Android-10 Treble ARM32"
 			},
 		},
 	},
