@@ -34,10 +34,10 @@ var devices = {
 		},
 	},
 
-"LIMPO-Q: Outdated": {
+"LIMPO-Q: Stable": {
  	"Galaxy J7 Prime": {
- 		"v6.1 Data: 05-06-2021": {
- 			"url": "https://drive.google.com/file/d/11R3fFFXxNS-lq7AHNtm-OmIzhdzIl-LG/view?usp=sharing",
+ 		"v7.0 Data: 15-06-2021": {
+ 			"url": "https://drive.google.com/file/d/1Bee_N_qG910aZtNHsofldgSoqmFSzPZi/view?usp=sharing",
  			"date": "OneUI-2.0 Android-10 Treble ARM32"
 			},
 		},
