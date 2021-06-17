@@ -539,7 +539,7 @@ option {
 
 
 .ukazanime {
-	--block-size: 58vmin;
+	--block-size: 78vmin;
 	display: grid;
 	grid-gap: 1vmin;
 	place-items: center;
