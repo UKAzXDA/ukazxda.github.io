@@ -539,7 +539,7 @@ option {
 
 
 .container {
-	--block-size: 38vmin;
+	--block-size: 58vmin;
 	display: grid;
 	grid-gap: 1vmin;
 	place-items: center;
