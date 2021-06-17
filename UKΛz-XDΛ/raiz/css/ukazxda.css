@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css?family=Questrial');
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+.ukazxda {
+	background: linear-gradient(to right, #5c3f9b, #2c7595);
+	font-family: system-ui;
+	color: white;
+}
+
+.oneui {
+	color: #fff;
+	background: rgba(255, 255, 255, 0.1);
+	border: outset 1px #fffbfb1a;
+	box-shadow: 0 0.3em 0.8em rgb(0 0 0 / 1%);
+}
+
+.oneui * {
+	color: #ffffffeb;
+	border-radius: 15px;
+	text-align: center;
+}
+
+option {
+	color: #fff;
+	background: #4a5399;
+}
+
+.fonte {
+	color: #ffffff;
+    font-family: sans-serif;
+	text-decoration: blink;
+	margin-bottom: 1px;
+	margin-top: 1px;
+	width: 100%;
+}
+
+.fonte * {
+	color: #ffffff;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+.ukaz {
+	font-family: 'Poppins', 'Questrial';
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
