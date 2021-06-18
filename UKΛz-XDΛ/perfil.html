@@ -16,18 +16,14 @@
 	<body class="ukaz">
 		<div class="ukazxda" id="kyubey">
 			<body class="ukaz">
-					<div class="fonte" style="margin-top: 65px;width: 250px;
+					<div class="fonte" style="margin-top: 40px;width: 250px;
 						top: 45%;left: 50%;right: 50%;position: absolute;
 						text-align: center;transform: translate(-50%, -50%);
 						padding-left: 10px;padding-top: 10px;padding-right: 10px;
 						padding-bottom: 10px;">
-						<div>
-							<img class="oneui" style="position: absolute!important;
-							border-radius: 100px;top: -70px;left: 100px;width: 67px;" src="../ukazxda.png">
-							<a style="font-family: system-ui;color: #ffffffe3;top: -1px;left: 110px;
-							font-size: 21px;">UKΛz-XDΛ</a>
-						</div>
 						<div style="margin-bottom: 10px;padding-top: 20px;padding-left: 10px;padding-right: 10px;padding-bottom: 20px;border-radius: 100px;">
+							<img class="oneui" style="border-radius: 100px;width: 103px;" src="../ukazxda.png"></img>
+							<h1 style="font-family: system-ui;color: #ffffffe3;top: -1px;left: 110px;font-size: 25px;">UKΛz-XDΛ</h1>
 							<a style="letter-spacing: 3.3px;animation: index 5.5s;font-size: 20px;">Error loading</a>
 						</div>
 						<main class="ukazanime">
@@ -56,29 +52,29 @@
 					<a  class="oneui" href="roms.html" style="margin-top: 67px;font-size: 20px;width: 52%;margin-bottom: 0px;padding: 2px;
 					border-radius: 100px;display: inline-block;vertical-align: middle;text-decoration: auto;font-family: unset;">ROM</a>
 			</div>
-	<script src="raiz/1_anime_txt.css"></script>
-	<script src="raiz/2_anime_txt.css"></script>
-	<script>
-        setTimeout(function() {
-            document.getElementById("kyubey").classList.add("animated");
-            document.getElementById("kyubey").classList.add("fadeOut");
-            setTimeout(function() {
-                document.getElementById("kyubey").classList.remove("animated");
-                document.getElementById("kyubey").classList.remove("fadeOut");
-                document.getElementById("kyubey").style.display = "none";
-            }, 800);
-        }, 1000);
-    </script>
-    <script>
-        var strings = ["アニメです","Exynos 7870","Developer"];
-        $("#_Bio").typed({
-            strings: strings,
-            typeSpeed: 10,
-            backDelay: 3000,
-            startDelay: 0,
-            loop: true,
-            loopCount: false
-        });
-    </script>
+		<script src="raiz/1_anime_txt.css"></script>
+		<script src="raiz/2_anime_txt.css"></script>
+		<script>
+			var strings = ["アニメです","Exynos 7870","Developer"];
+			$("#_Bio").typed({
+				strings: strings,
+				typeSpeed: 10,
+				backDelay: 3000,
+				startDelay: 0,
+				loop: true,
+				loopCount: false
+			});
+		</script>
+		<script>
+			setTimeout(function() {
+				document.getElementById("kyubey").classList.add("animated");
+				document.getElementById("kyubey").classList.add("fadeOut");
+				setTimeout(function() {
+					document.getElementById("kyubey").classList.remove("animated");
+					document.getElementById("kyubey").classList.remove("fadeOut");
+					document.getElementById("kyubey").style.display = "none";
+				}, 800);
+			}, 50);
+		</script>
 	</body>
 </html>
