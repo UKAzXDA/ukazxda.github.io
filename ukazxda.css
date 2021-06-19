@@ -156,7 +156,7 @@ option {
 }
 
 .ukazanime {
-	--block-size: 100vmin;
+	--block-size: 85vmin;
 	display: grid;
 	grid-gap: 1vmin;
 	place-items: center;
