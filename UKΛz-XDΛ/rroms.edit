@@ -10,8 +10,8 @@ var devices = {
 
 "LIMPO-T_Core": {
  	"Galaxy J7 Prime": {
- 		"v1.0 Data: 02-06-2021": {
- 			"url": "https://drive.google.com/file/d/1QLlJo7eUwtPronCt6U_A4aaAegVEK2uR/view?usp=sharing",
+ 		"v2.0 Data: 19-06-2021": {
+ 			"url": "https://drive.google.com/file/d/1PnXGgPGM4Q1-3pFjqKS1ZBd7g9nMwqIl/view?usp=sharing",
  			"date": "OneUI-1.1 Android-9 Treble 32Bit"
 			},
 		},
