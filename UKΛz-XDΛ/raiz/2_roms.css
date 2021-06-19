@@ -119,26 +119,20 @@ select::-ms-expand {
   }
 
 select {
-  width: 200px;
-  height: 32px;
-  padding: .4em .6em;
-  margin: 0;
-  margin-bottom: 10px;
-  background-color: rgba(0, 0, 0, 0.1);
-  outline: none;
-  border: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  transition: background-color .25s;
+    width: 200px;
+    height: 32px;
+    margin-bottom: 10px;
+    border: outset 1px #fffbfb1a;
+    background-color: rgb(255 255 255 / 10%);
+    outline: none;
   }
 
 select:hover {
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgb(208 208 208 / 15%);
   }
 
 select:focus {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgb(208 208 208 / 15%);
   }
 
 main {
