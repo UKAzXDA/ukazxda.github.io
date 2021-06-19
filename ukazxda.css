@@ -2,14 +2,12 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
 .ukazxda {
-	transition: 1s all ease;
 	background: linear-gradient(to right, #5c3f9b, #2c7595);
 	font-family: system-ui;
 	color: white;
 }
 
 .oneui {
-	transition: 1s all ease;
 	color: #fff;
 	background: rgba(255, 255, 255, 0.1);
 	border: outset 1px #fffbfb1a;
@@ -17,22 +15,19 @@
 }
 
 .oneui * {
-	transition: 1s all ease;
 	color: #ffffffeb;
 	border-radius: 15px;
 	text-align: center;
 }
 
 option {
-	transition: 1s all ease;
 	color: #fff;
 	background: #4a5399;
 }
 
 .fonte {
-	transition: 1s all ease;
 	color: #ffffff;
-    font-family: sans-serif;
+        font-family: sans-serif;
 	text-decoration: blink;
 	margin-bottom: 1px;
 	margin-top: 1px;
@@ -40,22 +35,19 @@ option {
 }
 
 .fonte * {
-	transition: 1s all ease;
 	color: #ffffff;
 	margin-bottom: 0px;
 	margin-top: 0px;
 }
 
 .ukaz {
-	transition: 1s all ease;
-	font-family: 'Poppins', 'Questrial';
-    margin: 0;
-    padding: 0;
-    height: 100%;
+        font-family: 'Poppins', 'Questrial';
+        margin: 0;
+        padding: 0;
+        height: 100%;
 }
 
 #kyubey {
-	transition: 1s all ease;
     height: 100vh;
     position: fixed;
     z-index: 1;
