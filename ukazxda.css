@@ -63,34 +63,6 @@ option {
     right: 0;
 }
 
-@keyframes index {
-  0% {
-	font-size: 0px;
-	opacity: 0.0;
-  }
-  20% {
-	font-size: 0px;
-	opacity: 0.0;
-  }
-  40% {
-	font-size: 0px;
-	opacity: 0.0;
-  }
-  60% {
-	font-size: 20px;
-	opacity: 0.0;
-  }
-  80% {
-	font-size: 20px;
-	opacity: 0.0;
-  }
-   100% {
-	font-size: 20px;
-	opacity: 1.0;
-  }
-}
-
-
 /**KYUBEY**/
 .loader {
   --loader-size: calc(var(--block-size) / 2);
