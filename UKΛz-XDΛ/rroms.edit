@@ -12,7 +12,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v1.0 Data: 02-06-2021": {
  			"url": "https://drive.google.com/file/d/1QLlJo7eUwtPronCt6U_A4aaAegVEK2uR/view?usp=sharing",
- 			"date": "OneUI-1.1 Android-9 Treble ARM32"
+ 			"date": "OneUI-1.1 Android-9 Treble 32Bit"
 			},
 		},
 	},
@@ -20,7 +20,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v4.0 Data: 05-06-2021": {
  			"url": "https://drive.google.com/file/d/1QkfMz7_7pwksncrZatiQDBZjGR7GWGTJ/view?usp=sharing",
- 			"date": "OneUI-2.0 Core Android-10 ARM32"
+ 			"date": "OneUI-2.0 Core Android-10 32Bit"
 			},
 		},
 	},
@@ -30,7 +30,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v7.0 Data: 15-06-2021": {
  			"url": "https://drive.google.com/file/d/1Bee_N_qG910aZtNHsofldgSoqmFSzPZi/view?usp=sharing",
- 			"date": "OneUI-2.0 Android-10 Treble ARM32"
+ 			"date": "OneUI-2.0 Android-10 Treble 32Bit"
 			},
 		},
 	},
@@ -38,7 +38,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v2.0 Data: 09-06-2021": {
  			"url": "https://drive.google.com/file/d/1VzB6C82VPYBqV7NCJtz_-6lzbBAz5JUM/view?usp=sharing",
- 			"date": "OneUI-1.1 Android-9 ARM32"
+ 			"date": "OneUI-1.1 Android-9 32Bit"
 			},
 		},
 	},
