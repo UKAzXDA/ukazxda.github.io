@@ -2,12 +2,11 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
 .ukazxda {
-	background: linear-gradient(to right, #5ea7b7, #736abb);
-	font-family: system-ui;
+    background: linear-gradient(to right top, rgb(91 156 171), rgb(99 92 171));
 }
 
 .oneui {
-	color: #fff;
+    color: #fff;
     background-color: rgb(255 255 255 / 13%);
     border: outset 1px #fffbfb1a;
     box-shadow: 0 0.3em 1.8em rgb(255 255 255 / 9%);
