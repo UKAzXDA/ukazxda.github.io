@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
 .ukazxda {
-	background: linear-gradient(to right, #5c3f9b, #2c7595);
+	background: linear-gradient(to right, #140535, #372261);
 	font-family: system-ui;
 	color: white;
 }
@@ -22,7 +22,7 @@
 
 option {
 	color: #fff;
-	background: #4a5399;
+	background: #301f53;
 }
 
 .fonte {
