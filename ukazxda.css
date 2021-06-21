@@ -2,42 +2,35 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
 .ukazxda {
-	background: linear-gradient(to right, #5c3f9b, #2c7595);
+	background: linear-gradient(to right, #5ea7b7, #736abb);
 	font-family: system-ui;
-	color: white;
 }
 
 .oneui {
 	color: #fff;
-	background-color: rgb(255 255 255 / 6%);
-	border: outset 1px #fffbfb1a;
-	box-shadow: 0 0.3em 0.8em rgb(0 0 0 / 1%);
+    background-color: rgb(255 255 255 / 13%);
+    border: outset 1px #fffbfb1a;
+    box-shadow: 0 0.3em 1.8em rgb(255 255 255 / 9%);
 }
 
 .oneui * {
-	color: #ffffffeb;
+	color: #fff;
 	border-radius: 15px;
 	text-align: center;
 }
 
 option {
 	color: #fff;
-	background: #301f53;
+	background: #525b88;
 }
 
 .fonte {
-	color: #ffffff;
-        font-family: sans-serif;
+	color: #fff;
+    font-family: sans-serif;
 	text-decoration: blink;
 	margin-bottom: 1px;
 	margin-top: 1px;
 	width: 100%;
-}
-
-.fonte * {
-	color: #ffffff;
-	margin-bottom: 0px;
-	margin-top: 0px;
 }
 
 .ukaz {
