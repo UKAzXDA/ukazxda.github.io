@@ -40,9 +40,12 @@ var devices = {
  			"url": "https://drive.google.com/u/0/uc?id=1325pGGq7nhjt1plQ89Vtvt9cgzIZkmZD&export=download",
  			"date": "OneUI-1.1 Android-9 32Bit"
 			},
+ 		"v2.0 Data: 09-06-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=1VzB6C82VPYBqV7NCJtz_-6lzbBAz5JUM&export=download",
+ 			"date": "OneUI-1.1 Android-9 32Bit"
+			},
 		},
 	},
-
 };
 
 function onDeviceChanged() {versionsElement.options.length = 0;
