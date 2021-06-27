@@ -2,14 +2,14 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
 .ukazxda {
-   background: linear-gradient(to right top, rgb(2 2 2), rgb(25 25 25));
+	background: linear-gradient(to right top, rgb(17 19 51), rgb(31 36 59));
 }
 
 .oneui {
-    color: #fff;
-    background-color: rgb(255 255 255 / 13%);
-    border: outset 1px #fffbfb0d;
-    box-shadow: 0 0.3em 1.8em rgb(255 255 255 / 6%);
+	color: #fff;
+	background-color: rgb(255 255 255 / 13%);
+	border: outset 1px #fffbfb0d;
+	box-shadow: 0 0.3em 1.8em rgb(255 255 255 / 6%);
 }
 
 .oneui * {
@@ -40,11 +40,11 @@ option {
 }
 
 #kyubey {
-    height: 100vh;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    right: 0;
+	height: 100vh;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	right: 0;
 }
 
 /**KYUBEY**/
