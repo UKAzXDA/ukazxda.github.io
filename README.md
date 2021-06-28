@@ -1,9 +1,9 @@
 # ukazxda.github.io
 LIMPO-ROM
-aaaaaaa
-aaaaaaaa
-aaaaaaa
-aaaaaa
-aaaaaaaaa
-aaaaaaa
-kkkkkkk
+aaaaaaa\n
+aaaaaaaa\n
+aaaaaaa\n
+aaaaaa\n
+aaaaaaaaa\n
+aaaaaaa\n
+kkkkkkk\n
