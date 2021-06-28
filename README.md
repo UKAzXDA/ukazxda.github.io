@@ -1,9 +1,3 @@
 # ukazxda.github.io
-LIMPO-ROM
-aaaaaaa
-aaaaaaaa
-aaaaaaa
-aaaaaa
-aaaaaaaaa
-aaaaaaa
-kkkkkkk
+~     K-y-u-b-e-y
+~   © 2021 UKΛz-XDΛ
