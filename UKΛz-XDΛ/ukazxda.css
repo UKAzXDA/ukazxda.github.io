@@ -33,12 +33,14 @@
 	background-color: rgb(255 255 255 / 8%);
 	border: outset 1px #fffbfb0d;
 	box-shadow: 0 0.3em 1.8em rgb(255 255 255 / 6%);
+	text-decoration: auto;
 }
 
 .oneui * {
 	color: #fff;
 	border-radius: 15px;
 	text-align: center;
+	text-decoration: auto;
 }
 
 option {
