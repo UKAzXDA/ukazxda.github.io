@@ -142,12 +142,12 @@ select {
   --dot-size-half: calc(var(--dot-size) / 2);
   --dot-size-half-neg: calc(var(--dot-size-half) * -1);
   
-  display: block;
-  position: relative;
-  width: var(--loader-size);
-  display: grid;
-  place-items: center;
-  color: white;
+    --light-color: rgba(255, 255, 255, 0.3);
+    --dot-size: 5px;
+    width: var(--loader-size);
+    display: grid;
+    place-items: center;
+    color: white;
 }
 
 .loader::before,
@@ -157,12 +157,12 @@ select {
 }
 
 .loader--7 {
-  --loader-size: calc(var(--block-size) / 3);
-  --anim-duration: 0.8s;
-  aspect-ratio: 1 / 1;
-  border: 1px solid var(--light-color);
-  border-radius: 50%;
-  animation: loader-7 calc(var(--anim-duration) * 2) linear infinite;
+    --loader-size: calc(var(--block-size) / 3);
+    --anim-duration: 0.8s;
+    aspect-ratio: 1 / 1;
+    border: 1px solid var(--light-color);
+    border-radius: 29%;
+    animation: loader-7 calc(var(--anim-duration) * 3) linear infinite;
 }
 
 .loader--7::before,
@@ -178,7 +178,7 @@ select {
 
 .loader--7::after {
   animation-name: loader-7-2;
-  animation-delay: calc(var(--anim-duration) / 3 * -1);
+  animation-delay: calc(var(--anim-duration) / -3);
 }
 
 @keyframes loader-7 {
