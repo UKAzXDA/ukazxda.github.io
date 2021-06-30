@@ -168,9 +168,8 @@ select {
 .loader--7::before,
 .loader--7::after {
   width: var(--dot-size);
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 5 / 5;
   background: currentColor;
-  border-radius: 50%;
   top: calc(50% - var(--dot-size-half));
   left: calc(50% - var(--dot-size-half));
   animation: loader-7-1 var(--anim-duration) cubic-bezier(0.32, 0.41, 0.3, 1.87) infinite;
