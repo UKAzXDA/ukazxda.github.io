@@ -15,7 +15,7 @@
 	border-radius: 40px;
 	background-color: rgb(255 255 255 / 13%);
 	border: outset 1px #fffbfb0d;
-	box-shadow: 0 0.3em 1.8em rgb(255 255 255 / 6%);
+	/**box-shadow: 0 0.3em 1.8em rgb(255 255 255 / 6%);**/
 	text-decoration: auto;
 }
 
