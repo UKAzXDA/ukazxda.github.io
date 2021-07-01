@@ -5,18 +5,23 @@
 }
 
 .ukazxda {
-	width: 100%;
-    height: 100%;
 	background: linear-gradient(to right top, #413084, #6f106c);
 }
 
 .oneui {
 	color: #fff;
 	border-radius: 40px;
-	background-color: rgb(255 255 255 / 13%);
-	border: outset 1px #fffbfb0d;
-	/**box-shadow: 0 0.3em 1.8em rgb(255 255 255 / 6%);**/
+	border: 1px solid #ffffff6b;
 	text-decoration: auto;
+}
+
+select {
+    width: 200px;
+    height: 32px;
+    margin-bottom: 10px;
+    border: 1px solid #ffffff6b;
+	background-color: #fff0;
+    outline: none;
 }
 
 .oneui * {
@@ -103,15 +108,6 @@ option {
   font-size: 20px;
 }
 
-select {
-    width: 200px;
-    height: 32px;
-    margin-bottom: 10px;
-    border: outset 1px #fffbfb0d;
-    background-color: rgb(255 255 255 / 6%);
-    outline: none;
-}
-
 .rommain {
 	display: block;
     margin-left: 20px;
@@ -158,9 +154,9 @@ select {
     --loader-size: calc(var(--block-size) / 3);
     --anim-duration: 0.8s;
     aspect-ratio: 1 / 1;
-    border: 1px solid var(--light-color);
+    border: 1px solid #ffffff6b;
     border-radius: 29%;
-    animation: loader-7 calc(var(--anim-duration) * 3) linear infinite;
+    animation: loader-7 calc(var(--anim-duration) * 4) linear infinite;
 }
 
 .loader--7::before,
