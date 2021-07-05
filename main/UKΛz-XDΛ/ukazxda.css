@@ -1,9 +1,4 @@
 
-@font-face {
-  font-family: 'Poppins';
-  src: url(https://fonts.gstatic.com/s/poppins/v15/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
-}
-
 .ukazxda {
 	background: linear-gradient(to right top, #413084, #6f106c);
 }
@@ -14,6 +9,7 @@
 	border: 1px solid #ffffff6b;
 	text-decoration: auto;
 	background-color: #ffffff0d;
+	font-family: sans-serif;
 }
 
 select {
