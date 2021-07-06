@@ -10,9 +10,9 @@
 	padding-bottom: 2px;
 }
 .main_m {
-    margin-left: 10px;
+	margin-left: 10px;
     margin-right: 10px;
-    padding-block: 20px;
+    padding-block: 30px;
     -webkit-transition: transform .25s;
 }
 .voltar {
