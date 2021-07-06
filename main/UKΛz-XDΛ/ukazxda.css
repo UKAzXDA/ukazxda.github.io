@@ -1,0 +1,27 @@
+
+.ukazxda {
+	background: linear-gradient(to right, rgb(39 55 101), rgb(62 41 125));
+	color: white;
+	font-family: Montserrat;
+}
+
+.oneui {
+	color: #fff;
+	border-radius: 40px;
+	border: 1px solid #ffffff6b;
+	vertical-align: middle;
+    text-decoration: auto;
+	background-color: #ffffff0d;
+}
+.oneui * {
+	color: #fff;
+	border-radius: 40px;
+	text-align: center;
+	vertical-align: middle;
+    text-decoration: auto;
+}
+
+option {
+	color: #fff;
+	background-color: rgb(49 48 112);
+}

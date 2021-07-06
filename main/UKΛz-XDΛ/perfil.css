@@ -1,0 +1,13 @@
+.perfil {
+    width: 250px;
+    top: 40%;
+    left: 50%;
+    right: 50%;
+    position: absolute;
+    text-align: center;
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
