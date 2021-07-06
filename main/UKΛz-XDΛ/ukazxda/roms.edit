@@ -1,0 +1,74 @@
+var devicesElement = document.getElementById("devices");
+var versionsElement = document.getElementById("versions");
+var romsElement = document.getElementById("roms");
+var downloadElement = document.getElementById("download");
+var downloadTitleElement = document.getElementById("downloadTitle");
+var downloadDateElement = document.getElementById("downloadDate");
+/* ROM UKΛz-XDΛ */
+var devices = {
+
+"LIMPO-15": {
+ 	"Galaxy J7 Prime": {
+ 		"v1.0 Data: 03-06-2021": {
+ 			"url": "https://drive.google.com/file/d/1tIq0uWzI296oHJtClOByIwD_hs4ITRh5/view?usp=sharing",
+ 			"date": "OneUI-1.1 Android-9 ARM32"
+			},
+		},
+	},
+
+"LIMPO-T": {
+ 	"Galaxy J7 Prime": {
+ 		"v1.0 Data: 02-06-2021": {
+ 			"url": "https://drive.google.com/file/d/1QLlJo7eUwtPronCt6U_A4aaAegVEK2uR/view?usp=sharing",
+ 			"date": "OneUI-1.1 Android-9 Treble ARM32"
+			},
+		},
+	},
+
+"LIMPO-Q": {
+ 	"Galaxy J7 Prime": {
+ 		"v6.1 Data: 05-06-2021": {
+ 			"url": "https://drive.google.com/file/d/11R3fFFXxNS-lq7AHNtm-OmIzhdzIl-LG/view?usp=sharing",
+ 			"date": "OneUI-2.0 Android-10 Treble ARM32"
+			},
+		},
+	},
+
+"LIMPO-Q_Core": {
+ 	"Galaxy J7 Prime": {
+ 		"v4.0 Data: 05-06-2021": {
+ 			"url": "https://drive.google.com/file/d/1QkfMz7_7pwksncrZatiQDBZjGR7GWGTJ/view?usp=sharing",
+ 			"date": "OneUI-2.0 Core Android-10 ARM32"
+			},
+		},
+	},
+};
+
+function onDeviceChanged() {versionsElement.options.length = 0;
+if (devicesElement.selectedIndex >= 0) {var device = devicesElement.options[devicesElement.selectedIndex].text;
+if (devices[device]) {for (var version in devices[device]) {var versionOption = document.createElement("option");
+versionOption.text = version;versionsElement.add(versionOption);}}}onVersionChanged();}
+function onVersionChanged() {romsElement.options.length = 0;if (devicesElement.selectedIndex >= 0 && versionsElement.selectedIndex >= 0) {
+var device = devicesElement.options[devicesElement.selectedIndex].text;
+var version = versionsElement.options[versionsElement.selectedIndex].text;
+if (devices[device] && devices[device][version]) {
+for (var rom in devices[device][version]) {var romOption = document.createElement("option");
+romOption.text = rom;romsElement.add(romOption);}}}onRomChanged();}function onRomChanged() { 
+if (devicesElement.selectedIndex >= 0 && versionsElement.selectedIndex >= 0 && romsElement.selectedIndex >= 0) {
+var device = devicesElement.options[devicesElement.selectedIndex].text;
+var version = versionsElement.options[versionsElement.selectedIndex].text;
+var rom = romsElement.options[romsElement.selectedIndex].text;
+if (devices[device] && devices[device][version] && devices[device][version][rom]) {
+var download = devices[device][version][rom];downloadElement.style.display = "block";
+downloadDateElement.innerText = download.date;onCollapseSizeChanged();return;}}downloadElement.style.display = "none";}function visitPage(){
+if (devicesElement.selectedIndex >= 0 && versionsElement.selectedIndex >= 0 && romsElement.selectedIndex >= 0) {
+var device = devicesElement.options[devicesElement.selectedIndex].text;
+var version = versionsElement.options[versionsElement.selectedIndex].text;
+var rom = romsElement.options[romsElement.selectedIndex].text;
+if (devices[device] && devices[device][version] && devices[device][version][rom]) {
+var download = devices[device][version][rom];window.location = download.url;return;}}}
+for (var device in devices) {var deviceOption = document.createElement("option");deviceOption.text = device;devicesElement.add(deviceOption);}
+devicesElement.addEventListener("change", onDeviceChanged);
+versionsElement.addEventListener("change", onVersionChanged);
+romsElement.addEventListener("change", onRomChanged);
+onDeviceChanged();
