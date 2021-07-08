@@ -1,0 +1,57 @@
+.perfil {
+    width: 250px;
+    top: 48%;
+    left: 50%;
+    right: 50%;
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+.kyu_div {
+	margin-top: 10px;
+	width: 250px;
+	top: 45%;
+	left: 50%;
+	right: 50%;
+	position: absolute;
+	text-align: center;
+	transform: translate(-50%, -50%);
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+}
+.img_per {
+	width: 150px;
+	border-radius: 100px;
+	margin-bottom: 20px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+    padding-left: 2px;
+    padding-top: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+}
+.rom_bot {
+	margin-top: 47px;
+	font-size: 20px;
+	width: 65%;
+	margin-bottom: 0px;
+	padding: 2px;
+	display: inline-block;
+	vertical-align: middle;
+	text-decoration: blink;
+}
+.ico_img {
+	width: 21px;
+	filter: invert(100%);
+    padding-bottom: 5px;
+    padding-right: 5px;
+	
+	padding-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
