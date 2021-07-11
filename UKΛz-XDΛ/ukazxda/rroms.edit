@@ -25,9 +25,9 @@ var devices = {
 	},
 "LIMPO-15: Stable": {
  	"Galaxy J7 Prime": {
- 		"v3.0 Data: 22-06-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=1325pGGq7nhjt1plQ89Vtvt9cgzIZkmZD&export=download",
- 			"date": "OneUI-1.1 Android-9 32Bit"
+ 		"v4 Data: 11-07-2021": {
+ 			"url": "https://drive.google.com/u/0/uc?id=1_Xd8kj-HGWKn_E_txHU95OlGkUkK8nq1&export=download",
+ 			"date": "OneUI-1.1 Android-9 ARM32"
 			},
 		},
 	},
