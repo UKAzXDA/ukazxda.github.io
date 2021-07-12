@@ -15,13 +15,23 @@
 	<link rel="shortcut icon" href="ukazxda/ukazxda.png">
 	<link rel="stylesheet"    href="ukazxda/ukazxda.css">
 </head>
-	<body class="ukaz">
+	<body class="ukaz wow">
+		<div id="kyubey"style="position: fixed;">
+			<div class="perfil">
+				<div class="lds-ripple">
+					<div></div><div></div>
+				</div>
+			</div>
+			<div class="ukazkyu-1"></div>
+			<div class="ukazkyu-2"></div>
+			<div class="ukazkyu-3"></div>
+		</div>
 		<div style="position: fixed;">
 			<div class="ukazkyu-1"></div>
 			<div class="ukazkyu-2"></div>
 			<div class="ukazkyu-3"></div>
 		</div>
-			<div class="perfil wow">
+			<div class="perfil">
 				<img class="img_per" style="border-radius: 100px;"
 				src="ukazxda/ukazxda.png"></img>
 				<h1  class="fonte" style="font-size: 37px;">UKΛz-XDΛ</h1>
@@ -51,6 +61,17 @@
 				loop: true,
 				loopCount: false
 			});
+		</script>
+		<script>
+        setTimeout(function() {
+            document.getElementById("kyubey").classList.add("animated");
+            document.getElementById("kyubey").classList.add("fadeOut");
+            setTimeout(function() {
+                document.getElementById("kyubey").classList.remove("animated");
+                document.getElementById("kyubey").classList.remove("fadeOut");
+                document.getElementById("kyubey").style.display = "none";
+            }, 800);
+        }, 500);
 		</script>
 	</body>
 </html>

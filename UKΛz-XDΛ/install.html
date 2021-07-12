@@ -18,39 +18,60 @@
 	<link rel="shortcut icon" href="ukazxda/ukazxda.png">
 </head>
 	<body class="ukaz wow">
-	<div style="position: fixed;">
-		<div class="ukazkyu-1"></div>
-		<div class="ukazkyu-2"></div>
-		<div class="ukazkyu-3"></div>
-	</div>
+		<div id="kyubey"style="position: fixed;">
+			<div class="perfil">
+				<div class="lds-ripple">
+					<div></div><div></div>
+				</div>
+			</div>
+			<div class="ukazkyu-1"></div>
+			<div class="ukazkyu-2"></div>
+			<div class="ukazkyu-3"></div>
+		</div>
+		<div style="position: fixed;">
+			<div class="ukazkyu-1"></div>
+			<div class="ukazkyu-2"></div>
+			<div class="ukazkyu-3"></div>
+		</div>
 		<main class="main_m">
-		<div class="oneui" style="padding-left: 10px;padding-right: 10px;">
+			<div class="oneui" style="padding-left: 10px;padding-right: 10px;">
+				<div>
+					<img class="img_div oneui" style="border-radius: 9px;" src="ukazxda/images/home1.jpg">
+					<img class="img_div oneui" style="border-radius: 9px;" src="ukazxda/images/home2.jpg">
+				</div>
+				<div class="fonte">
+					<p style="margin-top: 0px;">
+						Aroma-Kyubey</p><p>
+						Tutorial de instalação:<br>
+						Apos ter baixar qualquer ROM, faça backup<br>
+						de seus dados se for nesesario, entre em<br>
+						recovery e flash a ROM. Não é nesesario<br>
+						limpeza(wipe), criar a partição do vendor<br>
+						ou de ter que configurar o aroma, tudo<br>
+						será feito altomaticamente.</p><p>
+						Installer supports:<br>
+						TWRP-v3.X.X ou Orangefox
+					</p>
+				</div>
+			</div>
 			<div>
-				<img class="img_div oneui" style="border-radius: 9px;" src="ukazxda/images/home1.jpg">
-				<img class="img_div oneui" style="border-radius: 9px;" src="ukazxda/images/home2.jpg">
+				<div style="text-align: center;margin-top: 16px;">
+					<a class="oneui voltar" href="roms.html">voltar</a>
+				</div>
 			</div>
-			<div class="fonte">
-				<p style="margin-top: 0px;">
-					Aroma-Kyubey</p><p>
-					Tutorial de instalação:<br>
-					Apos ter baixar qualquer ROM, faça backup<br>
-					de seus dados se for nesesario, entre em<br>
-					recovery e flash a ROM. Não é nesesario<br>
-					limpeza(wipe), criar a partição do vendor<br>
-					ou de ter que configurar o aroma, tudo<br>
-					será feito altomaticamente.</p><p>
-					Installer supports:<br>
-					TWRP-v3.X.X ou Orangefox
-				</p>
-			</div>
-		</div>
-		<div>
-			<div style="text-align: center;margin-top: 16px;">
-				<a class="oneui voltar" href="roms.html">voltar</a>
-			</div>
-		</div>
-	</main>
-			<footer class="fonte" style="font-size: 12px;position: absolute;
-			bottom: 0;text-align: center;margin-bottom: 5px;">© 2021 UKΛz-XDΛ</footer>
+		</main>
+		<footer class="fonte" style="font-size: 12px;position: absolute;
+		bottom: 0;text-align: center;margin-bottom: 5px;">© 2021 UKΛz-XDΛ</footer>
+		<script>
+        setTimeout(function() {
+            document.getElementById("kyubey").classList.add("animated");
+            document.getElementById("kyubey").classList.add("fadeOut");
+            setTimeout(function() {
+                document.getElementById("kyubey").classList.remove("animated");
+                document.getElementById("kyubey").classList.remove("fadeOut");
+                document.getElementById("kyubey").style.display = "none";
+            }, 800);
+        }, 500);
+		</script>
 	</body>
 </html>
