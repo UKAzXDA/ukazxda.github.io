@@ -54,7 +54,7 @@
     width: 100vw;
     height: 100vh;
     position: fixed;
-    background: linear-gradient(to right, rgb(15 0 29), rgb(25 18 47));
+    background:#000;
     z-index: 999;
 }
 .lds-ripple {
