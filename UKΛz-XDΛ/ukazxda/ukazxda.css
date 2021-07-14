@@ -10,6 +10,7 @@
     border-radius: 40px;
     border: 1px solid #fff;
     vertical-align: middle;
+    box-shadow: 0 0em 4.8em rgb(255 255 255 / 19%);
 }
 .oneui * {
 	color: #fff;
