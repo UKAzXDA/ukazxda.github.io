@@ -1,0 +1,90 @@
+.down {
+	margin-top: 10px;
+	font-size: 23px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	width: 260.142;
+	height: 35px;
+	display: inline-block;
+	display: table-cell;
+	border-radius: 30px;
+	margin-bottom: 10px;
+}
+.install {
+	font-size: 16px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 57px;
+	padding-right: 57px;
+	text-decoration: blink;
+}
+.link--elevated {
+  margin-bottom: -24px;
+  animation: go-back 0.40s;
+}
+@media (min-width: 600px) {
+.link__title--right {
+    display: inline; }
+}
+.select {
+  display: block;
+  text-align-last: center;
+}
+.select__title {
+  display: inherit;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+.rommain {
+	display: block;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: 4em;
+    -webkit-transition: transform .25s;
+}
+@keyframes go-back {
+    0% {
+        transform: translateY(-6px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+select {
+    width: 200px;
+    height: 32px;
+    margin-bottom: 10px;
+    border: 1px solid #fff;
+	background-color: #fff0;
+    outline: none;
+}
+option {
+	color: #fff;
+	background: rgb(10, 10, 10);
+}
+@keyframes perfil {
+    0% {
+    padding-right: 2px;
+    }
+    50% {
+    padding-right: 2px;
+    }
+    70% {
+    padding-right: 2px;
+    }
+    100% {
+    padding-right: 113px;
+    }
+}
+@keyframes fantasma {
+	0% {
+	font-size: 0px;
+	padding-right: 0px;
+    }
+    100% {
+	padding-right: 0px;
+	font-size: 0px;
+    }
+}
