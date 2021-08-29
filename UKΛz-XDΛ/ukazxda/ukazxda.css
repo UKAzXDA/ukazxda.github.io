@@ -20,7 +20,6 @@
     border-radius: 40px;
     border: 1px solid #fff0;
     vertical-align: middle;
-    /** box-shadow: 0 0em 1.5em rgb(255 255 255 / 8%); **/
 }
 .oneui * {
 	color: #fff;
@@ -75,3 +74,63 @@
 .ukazkyu-3{animation:animStar 200s linear infinite;box-shadow:299px 220px rgba(255,255,255,.2),1889px 118px #fff,1395px 1630px #fff,58px 924px #fff,1989px 452px #fff,1889px 1692px #fff,470px 1101px #fff,231px 1617px #fff,319px 180px #fff,294px 1758px #fff;height:3px;width:3px}
 .ukazkyu-3:after{box-shadow:299px 220px rgba(255,255,255,.2),1889px 118px #fff,1395px 1630px #fff,58px 924px #fff,1989px 452px #fff,1889px 1692px #fff,470px 1101px #fff,231px 1617px #fff,319px 180px #fff,294px 1758px #fff;height:3px;width:3px}
 @keyframes animStar{0%{transform:translateY(0)}to{transform:translateY(-1500px)}}@media (prefers-reduced-motion){.ukazkyu-1,.ukazkyu-2,.ukazkyu-3{animation:none}}
+
+/** Loading **/
+#preloader {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:999;
+}
+#preloader .inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);  
+}
+.bolas > div {
+  display: inline-block;
+  background-color: #fff;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  margin: 3px;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-name: animarBola;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+   
+}
+.bolas > div:nth-child(1) {
+    animation-duration:0.75s ;
+    animation-delay: 0;
+}
+.bolas > div:nth-child(2) {
+    animation-duration: 0.75s ;
+    animation-delay: 0.12s;
+}
+.bolas > div:nth-child(3) {
+    animation-duration: 0.75s  ;
+    animation-delay: 0.24s;
+}
+ 
+@keyframes animarBola {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+  16% {
+    -webkit-transform: scale(0.1);
+    transform: scale(0.1);
+    opacity: 0.7;
+  }
+  33% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1; 
+  } 
+}
