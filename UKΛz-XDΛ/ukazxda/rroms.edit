@@ -31,14 +31,6 @@ var devices = {
 			},
 		},
 	},
-"LIMPO-T_Core": {
- 	"Galaxy J7 Prime": {
- 		"v2.0 Data: 05-06-2021": {
- 			"url": "https://drive.google.com/u/0/uc?id=1PnXGgPGM4Q1-3pFjqKS1ZBd7g9nMwqIl&export=download",
- 			"date": "OneUI-1.0 Core Android-9 32Bit"
-			},
-		},
-	},
 };
 
 function onDeviceChanged() {versionsElement.options.length = 0;
