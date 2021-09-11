@@ -7,7 +7,7 @@ document.getElementById("kyubey").classList.remove("fadeOut");
 document.getElementById("kyubey").style.display = "none";
 }, 500);
 }, 500);
-var strings = ["Exynos 7870<BR>Developer","17 y.o. self-taught<BR>my G610M device"];
+var strings = ["Exynos 7870<BR>Developer"];
 $("#_Bio").typed({
 strings: strings,
 typeSpeed: 10,
