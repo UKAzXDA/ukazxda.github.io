@@ -18,8 +18,9 @@
     -webkit-transition: transform .25s;
 }
 .voltar {
+	margin-top: 10px;
 	width: max-content;
-    place-self: center;
+        place-self: center;
 	margin-top: 5px;
 	font-size: 20px;
 	padding-top: 4px;
