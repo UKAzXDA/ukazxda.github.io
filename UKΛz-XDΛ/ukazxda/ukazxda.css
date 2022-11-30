@@ -92,7 +92,7 @@
 }
 .bolas > div {
   display: inline-block;
-  background-color: #ffffffab;
+  border: 1px solid #c5c5c5;
   width: 25px;
   height: 25px;
   border-radius: 200%;
