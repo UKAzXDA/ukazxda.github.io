@@ -18,7 +18,7 @@ var devices = {
 
 "LIMPO-16: Safety": {
  	"Galaxy J7 Prime": {
- 		"v2.2 Data: 11-12-2022": {
+ 		"v3.0 Data: 12-01-2023": {
  			"url": "roms/LIMPO-16.html",
  			"date": "OneUI-1.1 Android-9 ARM32"
 			},
