@@ -9,7 +9,7 @@ var devices = {
 
 "LIMPO-64: Stable": {
  	"Galaxy J7 Prime": {
- 		"v2.1 Data: 21-01-2023": {
+ 		"v3.0 Data: 22-01-2023": {
  			"url": "roms/LIMPO-64.html",
  			"date": "OneUI-1.0 Android-9 ARM64"
 			},
