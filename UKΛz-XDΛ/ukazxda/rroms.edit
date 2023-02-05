@@ -16,7 +16,7 @@ var devices = {
 		},
 	},
 
-"LIMPO-16: Safety: {
+"LIMPO-16: Safety": {
  	"Galaxy J7 Prime": {
  		"vPP Data: 05-02-2023": {
  			"url": "roms/LIMPO-16.html",
