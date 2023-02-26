@@ -15,25 +15,16 @@ var devices = {
 			},
 		},
 	},
-
-"LIMPO-16: Safety": {
- 	"Galaxy J7 Prime": {
- 		"vPP Data: 05-02-2023": {
- 			"url": "roms/LIMPO-16.html",
- 			"date": "OneUI-1.1 Android-9 ARM32"
-			},
-		},
-	},
-
+/*
 "LIMPO-15: Stable": {
  	"Galaxy J7 Prime": {
- 		"v5.0 Data: 07-09-2021": {
+ 		"vPP Data: 07-09-2021": {
  			"url": "roms/LIMPO-15.html",
  			"date": "OneUI-1.1 Android-9 ARM32"
 			},
 		},
 	},
-
+*/
 "LIMPO-Q: Stable": {
  	"Galaxy J7 Prime": {
  		"v7.0 Data: 15-06-2021": {
