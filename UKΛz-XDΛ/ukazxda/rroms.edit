@@ -7,7 +7,7 @@ var downloadDateElement = document.getElementById("downloadDate");
 /* ROM UKΛz-XDΛ */
 var devices = {
 
-"LIMPO-64: OneUI Non-treble PP Arm64": {
+"LIMPO-64: Stable": {
  	"Galaxy J7 Prime": {
  		"v3.1 Stable Data: 24-01-2023": {
  			"url": "roms/LIMPO-64.html",
@@ -16,7 +16,7 @@ var devices = {
 		},
 	},
 
-"LIMPO-15: OneUI Non-treble PP Arm32": {
+"LIMPO-15: Stable": {
  	"Galaxy J7 Prime": {
  		"vPP Stable Data: 26-02-2023": {
  			"url": "roms/LIMPO-15.html",
@@ -25,7 +25,7 @@ var devices = {
 		},
 	},
 
-"LIMPO-Q: OneUI Treble QQ Arm32": {
+"LIMPO-Q: Stable": {
  	"Galaxy J7 Prime": {
  		"v7.0 Stable Data: 15-06-2021": {
  			"url": "roms/LIMPO-Q.html",
@@ -34,7 +34,7 @@ var devices = {
 		},
 	},
 
-"LIMPO-Q_Core: OneUI Treble QQ Arm32": {
+"LIMPO-Q_Core: Stable": {
  	"Galaxy J7 Prime": {
  		"v4.0 Stable Data: 05-06-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1QkfMz7_7pwksncrZatiQDBZjGR7GWGTJ&export=download",
