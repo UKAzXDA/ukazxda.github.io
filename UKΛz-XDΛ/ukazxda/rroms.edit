@@ -18,7 +18,7 @@ var devices = {
 
 "LIMPO-15: Stable": {
  	"Galaxy J7 Prime": {
- 		"vPP Stable Data: 26-02-2023": {
+ 		"vPP Stable Data: 27-02-2023": {
  			"url": "roms/LIMPO-15.html",
  			"date": "OneUI-1.1 Android-9 ARM32"
 			},
