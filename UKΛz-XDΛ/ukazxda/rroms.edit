@@ -7,20 +7,20 @@ var downloadDateElement = document.getElementById("downloadDate");
 /* ROM UKΛz-XDΛ */
 var devices = {
 
+"LIMPO-17: Stable": {
+ 	"Galaxy J7 Prime": {
+ 		"Final Data: 02-03-2023": {
+ 			"url": "roms/LIMPO-17.html",
+ 			"date": "OneUI-1.1 Android-9 ARM32"
+			},
+		},
+	},
+
 "LIMPO-64: Stable": {
  	"Galaxy J7 Prime": {
  		"v3.1 Stable Data: 24-01-2023": {
  			"url": "roms/LIMPO-64.html",
  			"date": "OneUI-1.0 Android-9 ARM64"
-			},
-		},
-	},
-
-"LIMPO-15: Stable": {
- 	"Galaxy J7 Prime": {
- 		"vPP Stable Data: 27-02-2023": {
- 			"url": "roms/LIMPO-15.html",
- 			"date": "OneUI-1.1 Android-9 ARM32"
 			},
 		},
 	},
