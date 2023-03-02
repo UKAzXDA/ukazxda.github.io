@@ -34,7 +34,7 @@ var devices = {
 		},
 	},
 
-"LIMPO-Q_Core: Stable": {
+"LIMPO-Q_Core": {
  	"Galaxy J7 Prime": {
  		"v4.0 Stable Data: 05-06-2021": {
  			"url": "https://drive.google.com/u/0/uc?id=1QkfMz7_7pwksncrZatiQDBZjGR7GWGTJ&export=download",
