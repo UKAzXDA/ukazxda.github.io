@@ -7,17 +7,18 @@ const reportTable = document.getElementById('report').getElementsByTagName('tbod
 
 let intervalId; // Variável para armazenar o ID do intervalo
 
-// Converte um número de minutos para uma string formatada como 'HH:MM'
-function formatTime(minutes) {
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+// Converte um número de segundos para uma string formatada como 'HH:MM:SS'
+function formatTime(seconds) {
+  const hours = Math.floor(seconds / 3600);
+  const mins = Math.floor(seconds / 60) % 60;
+  const secs = seconds % 60;
+  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 }
 
 // Atualiza o elemento do temporizador com o tempo decorrido
 function updateTimer(startTime) {
-  const elapsedMins = Math.floor((Date.now() - startTime) / 1000 / 60);
-  timerEl.textContent = formatTime(elapsedMins);
+  const elapsedSecs = Math.floor((Date.now() - startTime) / 1000);
+  timerEl.textContent = formatTime(elapsedSecs);
 }
 
 // Cria uma nova linha na tabela de relatórios com os dados fornecidos
@@ -54,7 +55,7 @@ function stopTimer() {
   const startTime = Date.now() - (Number(timerEl.textContent.split(':')[0]) * 60 * 1000) - (Number(timerEl.textContent.split(':')[1]) * 1000);
   const endTime = Date.now();
   addReportEntry(reason, startTime, endTime);
-  timerEl.textContent = '00:00';
+  timerEl.textContent = '00:00:00';
   startBtn.disabled = false;
   reasonInput.disabled = false;
   stopBtn.disabled = true;
