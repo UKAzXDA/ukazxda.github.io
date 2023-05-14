@@ -6,6 +6,7 @@ const reasonInput = document.getElementById('reason');
 const reportTable = document.getElementById('report').getElementsByTagName('tbody')[0];
 
 let intervalId; // Variável para armazenar o ID do intervalo
+let startTime; // Variável para armazenar a hora de início
 
 // Converte um número de segundos para uma string formatada como 'HH:MM:SS'
 function formatTime(seconds) {
@@ -16,7 +17,7 @@ function formatTime(seconds) {
 }
 
 // Atualiza o elemento do temporizador com o tempo decorrido
-function updateTimer(startTime) {
+function updateTimer() {
   const elapsedSecs = Math.floor((Date.now() - startTime) / 1000);
   timerEl.textContent = formatTime(elapsedSecs);
 }
@@ -38,10 +39,10 @@ function addReportEntry(reason, startTime, endTime) {
 // Inicia a contagem regressiva e atualiza o temporizador a cada segundo
 function startTimer() {
   const reason = reasonInput.value;
-  const startTime = Date.now();
-  updateTimer(startTime);
+  startTime = Date.now();
+  updateTimer();
   intervalId = setInterval(() => {
-    updateTimer(startTime);
+    updateTimer();
   }, 1000);
   startBtn.disabled = true;
   reasonInput.disabled = true;
@@ -52,10 +53,9 @@ function startTimer() {
 function stopTimer() {
   clearInterval(intervalId);
   const reason = reasonInput.value;
-  const startTime = Date.now() - (Number(timerEl.textContent.split(':')[0]) * 60 * 1000) - (Number(timerEl.textContent.split(':')[1]) * 1000);
   const endTime = Date.now();
   addReportEntry(reason, startTime, endTime);
-  timerEl.textContent = '00:00';
+  timerEl.textContent = '00:00:00';
   startBtn.disabled = false;
   reasonInput.disabled = false;
   stopBtn.disabled = true;
