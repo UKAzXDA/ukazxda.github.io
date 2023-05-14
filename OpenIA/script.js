@@ -55,7 +55,7 @@ function stopTimer() {
   const startTime = Date.now() - (Number(timerEl.textContent.split(':')[0]) * 60 * 1000) - (Number(timerEl.textContent.split(':')[1]) * 1000);
   const endTime = Date.now();
   addReportEntry(reason, startTime, endTime);
-  timerEl.textContent = '00:00:00';
+  timerEl.textContent = '00:00';
   startBtn.disabled = false;
   reasonInput.disabled = false;
   stopBtn.disabled = true;
