@@ -74,6 +74,16 @@ button {
   cursor: pointer;
 }
 
+button_delete {
+    padding: 2px 6px;
+    border: none;
+    border-radius: 4px;
+    background-color: #818583;
+    color: white;
+    cursor: pointer;
+    font-size: 11px;
+}
+
 button:disabled {
   background-color: #993d3d;
   cursor: not-allowed;

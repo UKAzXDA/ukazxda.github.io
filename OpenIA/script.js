@@ -36,8 +36,8 @@ function addReportEntry(reason, startTime, endTime) {
   endTimeCell.textContent = new Date(endTime).toLocaleTimeString();
   totalMinsCell.textContent = totalMins;
 
-  const removeButton = document.createElement('button');
-  removeButton.textContent = 'Remover';
+  const removeButton = document.createElement('button_delete');
+  removeButton.textContent = 'X';
   removeButton.addEventListener('click', function() {
     removeReportEntry(newRow);
   });
