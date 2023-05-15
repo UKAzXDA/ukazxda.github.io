@@ -22,18 +22,31 @@ function updateTimer() {
   timerEl.textContent = formatTime(elapsedSecs);
 }
 
-// Cria uma nova linha na tabela de relatórios com os dados fornecidos
+// Cria uma nova linha na tabela de relatórios com os dados fornecidos e adiciona o botão de remoção
 function addReportEntry(reason, startTime, endTime) {
   const totalMins = Math.floor((endTime - startTime) / 1000 / 60);
-  const newRow = reportTable.insertRow(-1);
-  const reasonCell = newRow.insertCell(0);
-  const startTimeCell = newRow.insertCell(1);
-  const endTimeCell = newRow.insertCell(2);
-  const totalMinsCell = newRow.insertCell(3);
+  const newRow = reportTable.insertRow();
+  const reasonCell = newRow.insertCell();
+  const startTimeCell = newRow.insertCell();
+  const endTimeCell = newRow.insertCell();
+  const totalMinsCell = newRow.insertCell();
+  const removeCell = newRow.insertCell();
   reasonCell.textContent = reason;
   startTimeCell.textContent = new Date(startTime).toLocaleTimeString();
   endTimeCell.textContent = new Date(endTime).toLocaleTimeString();
   totalMinsCell.textContent = totalMins;
+
+  const removeButton = document.createElement('button');
+  removeButton.textContent = 'Remover';
+  removeButton.addEventListener('click', function() {
+    removeReportEntry(newRow);
+  });
+  removeCell.appendChild(removeButton);
+}
+
+// Função para remover uma linha da tabela de relatórios
+function removeReportEntry(row) {
+  row.remove();
 }
 
 // Inicia a contagem regressiva e atualiza o temporizador a cada segundo
@@ -41,9 +54,7 @@ function startTimer() {
   const reason = reasonInput.value;
   startTime = Date.now();
   updateTimer();
-  intervalId = setInterval(() => {
-    updateTimer();
-  }, 1000);
+  intervalId = setInterval(updateTimer, 1000);
   startBtn.disabled = true;
   reasonInput.disabled = true;
   stopBtn.disabled = false;
