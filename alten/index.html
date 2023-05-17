@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+~
+~
+~     K-y-u-b-e-y
+~   © 2021 UKΛz-XDΛ
+~
+~
+-->
+<html>
+	<head>
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>Relatório</title>
+	  <link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+	  <footer id="footer">© 2023 UKΛz-XDΛ By Lucas - verção v2.2</footer>
+	  <div class="container lucas">
+		<div class="input-container">
+		  <div class="timer-container">
+			<p class="timer">00:00:00</p>
+		  </div>
+		  <label for="reason">Qual é o motivo do tempo de inatividade?</label>
+		  <input type="text" id="reason" placeholder="Digite o motivo aqui">
+		</div>
+		<div class="buttons-container">
+		  <button id="start-btn" style="font-size: 20px;">Iniciar</button>
+		  <button id="stop-btn" style="font-size: 20px;">Parar</button>
+		</div>
+		<div id="report-container">
+		  <table id="report">
+		    <thead>
+		      <tr>
+		        <th>Motivo</th>
+		        <th>Hora de Início</th>
+		        <th>Hora de Fim</th>
+		        <th>Tempo Total (minutos)</th>
+		        <th>Delete</th>
+		      </tr>
+		    </thead>
+		    <tbody></tbody>
+		    <tfoot>
+		      <tr>
+		        <th colspan="4">Total:</th>
+		        <th id="total-time" colspan="2">0</th>
+		      </tr>
+		    </tfoot>
+		  </table>
+		</div>
+	  </div>
+	  <script src="script.js"></script>
+	</body>
+</html>
