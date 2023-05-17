@@ -1,0 +1,114 @@
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+.lucas {
+    background-color: #ffffff;
+}
+
+h1 {
+  font-family: sans-serif;
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+
+label {
+  margin-bottom: 0.5em;
+}
+
+input[type="text"] {
+  font-family: sans-serif;
+  padding: 0.5em;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5em;
+  margin-bottom: 1em;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.timer {
+  font-family: sans-serif;
+  font-size: 4em;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+button {
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  background-color: #39a868;
+  color: white;
+  cursor: pointer;
+}
+
+button_delete {
+	font-family: sans-serif;
+	padding: 2px 6px;
+    border-radius: 4px;
+    background-color: #787777;
+    color: white;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+button:disabled {
+  background-color: #787777;
+  cursor: not-allowed;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+th,
+td {
+    text-align: center;
+    padding: 0.5em;
+    border: 1px solid #5e5e5e75;
+}
+
+th {
+  font-size: 12px;
+  font-family: sans-serif;
+  color: #000000;
+}
+
+#footer{
+	text-align: center;
+    color: #000000b0;
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 5px;
+}
