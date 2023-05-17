@@ -32,14 +32,15 @@ function addReportEntry(reason, startTime, endTime) {
   const totalMinsCell = newRow.insertCell();
   const removeCell = newRow.insertCell();
   reasonCell.textContent = reason !== '' ? reason : '00';
-  startTimeCell.textContent = new Date(startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  endTimeCell.textContent = new Date(endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  startTimeCell.textContent = new Date(startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  endTimeCell.textContent = new Date(endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   totalMinsCell.textContent = totalMins;
 
-  const removeButton = document.createElement('button_delete');
+  const removeButton = document.createElement('button');
   removeButton.textContent = 'X';
   removeButton.addEventListener('click', function() {
     removeReportEntry(newRow);
+    saveTableData();
   });
   removeCell.appendChild(removeButton);
 }
@@ -47,6 +48,30 @@ function addReportEntry(reason, startTime, endTime) {
 // Função para remover uma linha da tabela de relatórios
 function removeReportEntry(row) {
   row.remove();
+}
+
+// Função para salvar os dados da tabela no armazenamento local
+function saveTableData() {
+  const tableRows = Array.from(reportTable.rows);
+  const tableData = tableRows.map(row => {
+    const reason = row.cells[0].textContent;
+    const startTime = new Date(row.cells[1].textContent).getTime();
+    const endTime = new Date(row.cells[2].textContent).getTime();
+    return { reason, startTime, endTime };
+  });
+  localStorage.setItem('tableData', JSON.stringify(tableData));
+}
+
+// Função para salvar os dados da tabela no armazenamento local
+function saveTableData() {
+  const tableRows = Array.from(reportTable.rows);
+  const tableData = tableRows.map(row => {
+    const reason = row.cells[0].textContent;
+    const startTime = new Date(row.cells[1].textContent).getTime();
+    const endTime = new Date(row.cells[2].textContent).getTime();
+    return { reason, startTime, endTime };
+  });
+  localStorage.setItem('tableData', JSON.stringify(tableData));
 }
 
 // Inicia a contagem regressiva e atualiza o temporizador a cada segundo
@@ -71,8 +96,17 @@ function stopTimer() {
   reasonInput.disabled = false;
   stopBtn.disabled = true;
   reasonInput.value = '';
+
+  saveTableData(); // Adicionado para salvar os dados da tabela ao parar o temporizador
 }
 
 // Associa os manipuladores de eventos aos botões relevantes
 startBtn.addEventListener('click', startTimer);
 stopBtn.addEventListener('click', stopTimer);
+
+// Função para iniciar o aplicativo
+function startApp() {
+  loadTableData();
+}
+
+startApp();

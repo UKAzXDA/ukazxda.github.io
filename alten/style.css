@@ -69,14 +69,14 @@ button {
   cursor: pointer;
 }
 
-button_delete {
-	font-family: sans-serif;
-	padding: 2px 6px;
-    border-radius: 4px;
-    background-color: #787777;
-    color: white;
-    cursor: pointer;
-    font-size: 11px;
+button.delete {
+  font-family: sans-serif;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: #787777;
+  color: white;
+  cursor: pointer;
+  font-size: 11px;
 }
 
 button:disabled {
@@ -104,7 +104,7 @@ th {
 }
 
 #footer{
-	text-align: center;
+  text-align: center;
     color: #000000b0;
     font-size: 12px;
     position: absolute;
