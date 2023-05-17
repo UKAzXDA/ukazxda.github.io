@@ -12,7 +12,7 @@
 }
 
 .lucas {
-    background-color: #ffffff;
+  background-color: #ffffff;
 }
 
 h1 {
@@ -69,7 +69,7 @@ button {
   cursor: pointer;
 }
 
-button.delete {
+button_delete {
   font-family: sans-serif;
   padding: 2px 6px;
   border-radius: 4px;
@@ -85,30 +85,26 @@ button:disabled {
 }
 
 table {
-  border-collapse: collapse;
   width: 100%;
+  border-collapse: collapse;
   margin-bottom: 1em;
 }
 
 th,
 td {
-    text-align: center;
-    padding: 0.5em;
-    border: 1px solid #5e5e5e75;
+  padding: 0.5em;
+  border: 1px solid #ddd;
 }
 
 th {
-  font-size: 12px;
-  font-family: sans-serif;
-  color: #000000;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  font-size: 11px;
 }
 
-#footer{
+#footer {
+  background-color: #f2f2f2;
+  padding: 10px;
   text-align: center;
-    color: #000000b0;
-    font-size: 12px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    margin-bottom: 5px;
+  font-size: 11px;
 }

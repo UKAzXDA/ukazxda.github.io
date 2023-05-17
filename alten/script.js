@@ -1,112 +1,100 @@
-// Seleciona os elementos HTML relevantes
-const timerEl = document.querySelector('.timer');
-const startBtn = document.getElementById('start-btn');
-const stopBtn = document.getElementById('stop-btn');
-const reasonInput = document.getElementById('reason');
-const reportTable = document.getElementById('report').getElementsByTagName('tbody')[0];
+document.addEventListener('DOMContentLoaded', function() {
+  const timerEl = document.querySelector('.timer');
+  const startBtn = document.getElementById('start-btn');
+  const stopBtn = document.getElementById('stop-btn');
+  const reasonInput = document.getElementById('reason');
+  const reportTable = document.getElementById('report').getElementsByTagName('tbody')[0];
 
-let intervalId; // Variável para armazenar o ID do intervalo
-let startTime; // Variável para armazenar a hora de início
+  let intervalId;
+  let startTime;
+  let reportData = [];
 
-// Converte um número de segundos para uma string formatada como 'HH:MM:SS'
-function formatTime(seconds) {
-  const hours = Math.floor(seconds / 3600);
-  const mins = Math.floor(seconds / 60) % 60;
-  const secs = seconds % 60;
-  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-}
+  function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const mins = Math.floor(seconds / 60) % 60;
+    const secs = seconds % 60;
+    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
 
-// Atualiza o elemento do temporizador com o tempo decorrido
-function updateTimer() {
-  const elapsedSecs = Math.floor((Date.now() - startTime) / 1000);
-  timerEl.textContent = formatTime(elapsedSecs);
-}
+  function updateTimer() {
+    const elapsedSecs = Math.floor((Date.now() - startTime) / 1000);
+    timerEl.textContent = formatTime(elapsedSecs);
+  }
 
-// Cria uma nova linha na tabela de relatórios com os dados fornecidos e adiciona o botão de remoção
-function addReportEntry(reason, startTime, endTime) {
-  const totalMins = Math.floor((endTime - startTime) / 1000 / 60);
-  const newRow = reportTable.insertRow();
-  const reasonCell = newRow.insertCell();
-  const startTimeCell = newRow.insertCell();
-  const endTimeCell = newRow.insertCell();
-  const totalMinsCell = newRow.insertCell();
-  const removeCell = newRow.insertCell();
-  reasonCell.textContent = reason !== '' ? reason : '00';
-  startTimeCell.textContent = new Date(startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  endTimeCell.textContent = new Date(endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  totalMinsCell.textContent = totalMins;
-
-  const removeButton = document.createElement('button');
-  removeButton.textContent = 'X';
-  removeButton.addEventListener('click', function() {
-    removeReportEntry(newRow);
+  function addReportEntry(reason, startTime, endTime) {
+    const totalMins = Math.floor((endTime - startTime) / 1000 / 60);
+    const entry = {
+      reason: reason !== '' ? reason : '00',
+      startTime: new Date(startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      endTime: new Date(endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      totalMins: totalMins
+    };
+    reportData.push(entry);
+    appendReportEntry(entry);
     saveTableData();
-  });
-  removeCell.appendChild(removeButton);
-}
+  }
 
-// Função para remover uma linha da tabela de relatórios
-function removeReportEntry(row) {
-  row.remove();
-}
+  function appendReportEntry(entry) {
+    const newRow = reportTable.insertRow();
+    newRow.innerHTML = `
+      <td>${entry.reason}</td>
+      <td>${entry.startTime}</td>
+      <td>${entry.endTime}</td>
+      <td>${entry.totalMins}</td>
+      <td><button_delete class="delete-btn">X</button_delete></td>
+    `;
 
-// Função para salvar os dados da tabela no armazenamento local
-function saveTableData() {
-  const tableRows = Array.from(reportTable.rows);
-  const tableData = tableRows.map(row => {
-    const reason = row.cells[0].textContent;
-    const startTime = new Date(row.cells[1].textContent).getTime();
-    const endTime = new Date(row.cells[2].textContent).getTime();
-    return { reason, startTime, endTime };
-  });
-  localStorage.setItem('tableData', JSON.stringify(tableData));
-}
+    const deleteButton = newRow.querySelector('.delete-btn');
+    deleteButton.addEventListener('click', function() {
+      removeReportEntry(newRow);
+    });
+  }
 
-// Função para salvar os dados da tabela no armazenamento local
-function saveTableData() {
-  const tableRows = Array.from(reportTable.rows);
-  const tableData = tableRows.map(row => {
-    const reason = row.cells[0].textContent;
-    const startTime = new Date(row.cells[1].textContent).getTime();
-    const endTime = new Date(row.cells[2].textContent).getTime();
-    return { reason, startTime, endTime };
-  });
-  localStorage.setItem('tableData', JSON.stringify(tableData));
-}
+  function removeReportEntry(row) {
+    const index = Array.from(reportTable.rows).indexOf(row);
+    reportData.splice(index, 1);
+    row.remove();
+    saveTableData();
+  }
 
-// Inicia a contagem regressiva e atualiza o temporizador a cada segundo
-function startTimer() {
-  const reason = reasonInput.value;
-  startTime = Date.now();
-  updateTimer();
-  intervalId = setInterval(updateTimer, 1000);
-  startBtn.disabled = true;
-  reasonInput.disabled = true;
-  stopBtn.disabled = false;
-}
+  function startTimer() {
+    const reason = reasonInput.value;
+    startTime = Date.now();
+    updateTimer();
+    intervalId = setInterval(updateTimer, 1000);
+    startBtn.disabled = true;
+    reasonInput.disabled = true;
+    stopBtn.disabled = false;
+  }
 
-// Pausa a contagem regressiva e adiciona uma entrada à tabela de relatórios
-function stopTimer() {
-  clearInterval(intervalId);
-  const reason = reasonInput.value;
-  const endTime = Date.now();
-  addReportEntry(reason, startTime, endTime);
-  timerEl.textContent = '00:00:00';
-  startBtn.disabled = false;
-  reasonInput.disabled = false;
-  stopBtn.disabled = true;
-  reasonInput.value = '';
+  function stopTimer() {
+    clearInterval(intervalId);
+    const reason = reasonInput.value;
+    const endTime = Date.now();
+    addReportEntry(reason, startTime, endTime);
+    timerEl.textContent = '00:00:00';
+    startBtn.disabled = false;
+    reasonInput.disabled = false;
+    stopBtn.disabled = true;
+    reasonInput.value = '';
+  }
 
-  saveTableData(); // Adicionado para salvar os dados da tabela ao parar o temporizador
-}
+  function loadTableData() {
+    const savedData = localStorage.getItem('reportData');
+    if (savedData) {
+      reportData = JSON.parse(savedData);
+      reportData.forEach(entry => {
+        appendReportEntry(entry);
+      });
+    }
+  }
 
-// Associa os manipuladores de eventos aos botões relevantes
-startBtn.addEventListener('click', startTimer);
-stopBtn.addEventListener('click', stopTimer);
+  function saveTableData() {
+    localStorage.setItem('reportData', JSON.stringify(reportData));
+  }
 
-// Função para iniciar o aplicativo
-function startApp() {
   loadTableData();
-}
 
-startApp();
+  startBtn.addEventListener('click', startTimer);
+  stopBtn.addEventListener('click', stopTimer);
+});
