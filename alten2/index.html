@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+~
+~
+~     K-y-u-b-e-y
+~   © 2021 UKΛz-XDΛ
+~
+~
+-->
+<html>
+	<head>
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>Relatório</title>
+	  <link rel="stylesheet" href="style.css">
+	</head>
+	<body  class="wow">
+		<div style="position: fixed;">
+			<div class="ukazkyu-1"></div>
+			<div class="ukazkyu-2"></div>
+			<div class="ukazkyu-3"></div>
+		</div>
+	  <footer class="wow" id="footer">© 2023 UKΛz-XDΛ By Lucas - verção v2.4</footer>
+	  <div class="container lucas wow">
+		<div class="input-container wow">
+		  <div class="timer-container wow">
+			<p class="timer wow">00:00:00</p>
+		  </div >
+		  <label for="reason">Qual é o motivo do tempo de inatividade?</label>
+		  <input type="text" id="reason" placeholder="Digite o motivo aqui">
+		</div>
+		<div class="buttons-container wow">
+		  <button class="wow" id="start-btn" style="font-size: 20px;">Iniciar</button>
+		  <button class="wow" id="stop-btn" style="font-size: 20px;">Parar</button>
+		</div>
+		<div id="report-container wow">
+		  <table class="wow" id="report">
+		    <thead class="wow">
+		      <tr class="wow">
+		        <th class="wow">Motivo</th>
+		        <th class="wow">Hora de Início</th>
+		        <th class="wow">Hora de Fim</th>
+		        <th class="wow">Tempo Total (minutos)</th>
+		        <th class="wow">Delete</th>
+		      </tr>
+		    </thead>
+		    <tbody  class="wow"></tbody>
+		    <tfoot  class="wow">
+		      <tr  class="wow">
+		        <th class="wow" colspan="4">Total:</th>
+		        <th class="wow" id="total-time" colspan="2">0</th>
+		      </tr>
+		    </tfoot>
+		  </table>
+		</div>
+	  </div>
+	  <script src="script.js"></script>
+	</body>
+</html>
