@@ -107,4 +107,67 @@ th {
   padding: 10px;
   text-align: center;
   font-size: 11px;
+  color: #888;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.timer-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.timer {
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.input-container {
+  margin-bottom: 20px;
+}
+
+.buttons-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+tfoot th {
+  text-align: right;
+}
+
+.delete-btn {
+  padding: 4px 8px;
+  background-color: #787777;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #e53935;
+}
+
+.new-table {
+  background-color: lightyellow;
 }

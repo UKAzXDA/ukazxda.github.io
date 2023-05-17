@@ -14,7 +14,7 @@
 	  <link rel="stylesheet" href="style.css">
 	</head>
 	<body>
-	  <footer id="footer">© 2023 UKΛz-XDΛ By Lucas</footer>
+	  <footer id="footer">© 2023 UKΛz-XDΛ By Lucas - verção v2.0</footer>
 	  <div class="container lucas">
 		<div class="input-container">
 		  <div class="timer-container">
@@ -27,19 +27,26 @@
 		  <button id="start-btn" style="font-size: 20px;">Iniciar</button>
 		  <button id="stop-btn" style="font-size: 20px;">Parar</button>
 		</div>
-		<table id="report">
-		  <thead>
-			<tr>
-			  <th>Motivo</th>
-			  <th>Hora de Início</th>
-			  <th>Hora de Fim</th>
-			  <th>Tempo Total (minutos)</th>
-			  <th>Delete</th>
-			</tr>
-		  </thead>
-		  <tbody>
-		  </tbody>
-		</table>
+		<div id="report-container">
+		  <table id="report">
+		    <thead>
+		      <tr>
+		        <th>Motivo</th>
+		        <th>Hora de Início</th>
+		        <th>Hora de Fim</th>
+		        <th>Tempo Total (minutos)</th>
+		        <th>Delete</th>
+		      </tr>
+		    </thead>
+		    <tbody></tbody>
+		    <tfoot>
+		      <tr>
+		        <th colspan="4">Total:</th>
+		        <th id="total-time" colspan="2">0</th>
+		      </tr>
+		    </tfoot>
+		  </table>
+		</div>
 	  </div>
 	  <script src="script.js"></script>
 	</body>

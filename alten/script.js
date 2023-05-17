@@ -4,55 +4,54 @@ document.addEventListener('DOMContentLoaded', function() {
   const stopBtn = document.getElementById('stop-btn');
   const reasonInput = document.getElementById('reason');
   const reportTable = document.getElementById('report').getElementsByTagName('tbody')[0];
+  const totalTimeEl = document.getElementById('total-time');
 
   let intervalId;
   let startTime;
-  let reportData = [];
+  let totalMinutes = 0;
 
-  function formatTime(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const mins = Math.floor(seconds / 60) % 60;
-    const secs = seconds % 60;
-    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }
+	function formatTime(seconds) {
+	  const hours = Math.floor(seconds / 3600);
+	  const mins = Math.floor(seconds / 60) % 60;
+	  const secs = seconds % 60;
+	  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+	}
 
-  function updateTimer() {
-    const elapsedSecs = Math.floor((Date.now() - startTime) / 1000);
-    timerEl.textContent = formatTime(elapsedSecs);
-  }
+	function updateTimer() {
+	  const elapsedSecs = Math.floor((Date.now() - startTime) / 1000);
+	  timerEl.textContent = formatTime(elapsedSecs);
+	}
 
-  function addReportEntry(reason, startTime, endTime) {
-    const totalMins = Math.floor((endTime - startTime) / 1000 / 60);
-    const entry = {
-      reason: reason !== '' ? reason : '00',
-      startTime: new Date(startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      endTime: new Date(endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      totalMins: totalMins
-    };
-    reportData.push(entry);
-    appendReportEntry(entry);
-    saveTableData();
-  }
+	function appendReportEntry(entry) {
+	  const newRow = reportTable.insertRow(0);
+	  newRow.innerHTML = `
+		<td>${entry.reason}</td>
+		<td>${entry.startTime}</td>
+		<td>${entry.endTime}</td>
+		<td>${entry.totalMins}</td>
+		<td><button_delete class="delete-btn">X</button_delete></td>
+	  `;
 
-  function appendReportEntry(entry) {
-    const newRow = reportTable.insertRow();
-    newRow.innerHTML = `
-      <td>${entry.reason}</td>
-      <td>${entry.startTime}</td>
-      <td>${entry.endTime}</td>
-      <td>${entry.totalMins}</td>
-      <td><button_delete class="delete-btn">X</button_delete></td>
-    `;
+	  totalMinutes += entry.totalMins;
+	  totalTimeEl.textContent = totalMinutes;
+	  saveTableData();
 
-    const deleteButton = newRow.querySelector('.delete-btn');
-    deleteButton.addEventListener('click', function() {
-      removeReportEntry(newRow);
-    });
-  }
+	  // Remover a classe 'new-table' das outras tabelas
+	  const existingTables = document.querySelectorAll('.new-table');
+	  existingTables.forEach(table => {
+		table.classList.remove('new-table');
+	  });
+
+	  // Adicionar a classe 'new-table' à tabela mais recente
+	  newRow.classList.add('new-table');
+	}
 
   function removeReportEntry(row) {
-    const index = Array.from(reportTable.rows).indexOf(row);
-    reportData.splice(index, 1);
+    const totalMinsCell = row.cells[3];
+    const totalMins = parseInt(totalMinsCell.textContent);
+    totalMinutes -= totalMins;
+    totalTimeEl.textContent = totalMinutes;
+
     row.remove();
     saveTableData();
   }
@@ -71,7 +70,14 @@ document.addEventListener('DOMContentLoaded', function() {
     clearInterval(intervalId);
     const reason = reasonInput.value;
     const endTime = Date.now();
-    addReportEntry(reason, startTime, endTime);
+    const totalMins = Math.floor((endTime - startTime) / 1000 / 60);
+    const entry = {
+      reason: reason !== '' ? reason : '00',
+      startTime: new Date(startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      endTime: new Date(endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      totalMins: totalMins
+    };
+    appendReportEntry(entry);
     timerEl.textContent = '00:00:00';
     startBtn.disabled = false;
     reasonInput.disabled = false;
@@ -80,21 +86,36 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function loadTableData() {
-    const savedData = localStorage.getItem('reportData');
-    if (savedData) {
-      reportData = JSON.parse(savedData);
-      reportData.forEach(entry => {
-        appendReportEntry(entry);
+    const tableData = localStorage.getItem('tableData');
+    if (tableData) {
+      const parsedData = JSON.parse(tableData);
+      parsedData.forEach(data => {
+        appendReportEntry(data);
       });
     }
   }
 
   function saveTableData() {
-    localStorage.setItem('reportData', JSON.stringify(reportData));
+    const tableRows = Array.from(reportTable.rows);
+    const tableData = tableRows.map(row => {
+      const reason = row.cells[0].textContent;
+      const startTime = row.cells[1].textContent;
+      const endTime = row.cells[2].textContent;
+      const totalMins = parseInt(row.cells[3].textContent);
+      return { reason, startTime, endTime, totalMins };
+    });
+    localStorage.setItem('tableData', JSON.stringify(tableData));
   }
 
   loadTableData();
 
   startBtn.addEventListener('click', startTimer);
   stopBtn.addEventListener('click', stopTimer);
+
+  reportTable.addEventListener('click', function(e) {
+    if (e.target.classList.contains('delete-btn')) {
+      const row = e.target.parentNode.parentNode;
+      removeReportEntry(row);
+    }
+  });
 });
