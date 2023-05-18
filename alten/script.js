@@ -25,11 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
   function appendReportEntry(entry) {
     const newRow = reportTable.insertRow();
     newRow.innerHTML = `
-      <td  class="wow">${entry.reason}</td>
-      <td  class="wow">${entry.startTime}</td>
-      <td  class="wow">${entry.endTime}</td>
-      <td  class="wow">${entry.totalMins}</td>
-      <td  class="wow"><button_delete class="delete-btn wow">X</button_delete></td>
+      <td  class="wow"><center>${entry.reason}</center></td>
+      <td  class="wow"><center>${entry.startTime}</center></td>
+      <td  class="wow"><center>${entry.endTime}</center></td>
+      <td  class="wow"><center>${entry.totalMins}</center></td>
+      <td  class="wow"><center><button_delete class="delete-btn wow">X</button_delete></center></td>
     `;
 
     totalMinutes += entry.totalMins;
