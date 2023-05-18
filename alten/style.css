@@ -140,12 +140,11 @@ tfoot th {
 @media (max-width: 768px) {
   .new-table {
     background-color: lightblue;
-    transition: background-color 0.10s;
   }
 }
 
 .wow {
-	animation: wow 1.5s;
+	animation: wow 0.5s;
 }@keyframes wow {
 	0% {
 	opacity: 0.0;
