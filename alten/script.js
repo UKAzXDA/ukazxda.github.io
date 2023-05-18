@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <td  class="wow"><center>${entry.startTime}</center></td>
       <td  class="wow"><center>${entry.endTime}</center></td>
       <td  class="wow"><center>${entry.totalMins}</center></td>
-      <td  class="wow"><center><button_delete class="delete-btn wow">X</button_delete></center></td>
+      <td  class="wow"><button_delete class="delete-btn wow">X</button_delete></td>
     `;
 
     totalMinutes += entry.totalMins;
