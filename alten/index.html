@@ -14,14 +14,15 @@
 	  <link rel="stylesheet" href="style.css">
 	</head>
 	<body  class="wow">
-	  <footer class="wow" id="footer">© 2023 UKΛz-XDΛ By Lucas - verção v2.4</footer>
+	  <footer class="wow" id="footer">
+		<img src="https://d8vlg9z1oftyc.cloudfront.net/altenburgdesenv/altenburgdesenv-file-manager/B2C/logo.png"></img>
+	  </footer>
 	  <div class="container lucas wow">
 		<div class="input-container wow">
 		  <div class="timer-container wow">
 			<p class="timer wow">00:00:00</p>
 		  </div >
-		  <label for="reason">Qual é o motivo do tempo de inatividade?</label>
-		  <input type="text" id="reason" placeholder="Digite o motivo aqui">
+		  <input type="text" id="reason" placeholder="Digite aqui cód. do motivo da parada">
 		</div>
 		<div class="buttons-container wow">
 		  <button class="wow" id="start-btn" style="font-size: 20px;">Iniciar</button>
@@ -31,17 +32,17 @@
 		  <table class="wow" id="report">
 		    <thead class="wow">
 		      <tr class="wow">
-		        <th class="wow">Motivo</th>
-		        <th class="wow">Hora de Início</th>
-		        <th class="wow">Hora de Fim</th>
+		        <th class="wow">Cód. Motivo</th>
+		        <th class="wow">Parada (Hora)</th>
+		        <th class="wow">Retorno (Hora)</th>
 		        <th class="wow">Tempo Total (minutos)</th>
-		        <th class="wow">Delete</th>
+		        <th class="wow">Remover</th>
 		      </tr>
 		    </thead>
 		    <tbody  class="wow"></tbody>
 		    <tfoot  class="wow">
 		      <tr  class="wow">
-		        <th class="wow" colspan="4">Total:</th>
+		        <th class="wow" colspan="4"><h1>Developed by Lucas</h1>Total Minutos:</th>
 		        <th class="wow" id="total-time" colspan="2">0</th>
 		      </tr>
 		    </tfoot>

@@ -58,7 +58,7 @@ button {
   border: none;
   padding: 0.5em 1em;
   border-radius: 4px;
-  background-color: #39a868;
+  background-color: #6e957f;
   color: white;
   cursor: pointer;
 }
@@ -152,4 +152,11 @@ tfoot th {
     100% {
 	opacity: 1.0;
     }
+}
+
+h1 {
+    margin-bottom: -1em;
+    text-align: left;
+    color: #424242;
+    font-size: 10px;
 }
