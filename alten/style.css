@@ -58,7 +58,7 @@ button {
   border: none;
   padding: 0.5em 1em;
   border-radius: 4px;
-  background-color: #6e957f;
+  background-color: #3e855d;
   color: white;
   cursor: pointer;
 }
@@ -76,6 +76,12 @@ button_delete {
 button:disabled {
   background-color: #787777;
   cursor: not-allowed;
+}
+
+.button_iniciar {}
+
+.button_parar {
+	background-color: #a34054;
 }
 
 table {
