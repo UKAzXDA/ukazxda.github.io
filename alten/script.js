@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function appendReportEntry(entry) {
-    const newRow = reportTable.insertRow(0);
+    const newRow = reportTable.insertRow();
     newRow.innerHTML = `
       <td  class="wow">${entry.reason}</td>
       <td  class="wow">${entry.startTime}</td>
