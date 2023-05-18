@@ -44,11 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Adicionar a classe 'new-table' à tabela mais recente
     newRow.classList.add('new-table');
-
-    // Remover a classe 'new-table' após um tempo para remover o destaque visual
-    setTimeout(() => {
-      newRow.classList.remove('new-table');
-    }, 5000);
   }
 
   function removeReportEntry(row) {
