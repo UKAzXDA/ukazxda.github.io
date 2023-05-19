@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+~
+~
+~     K-y-u-b-e-y
+~   © 2021 UKΛz-XDΛ
+~
+~
+-->
+<html>
+	<head>
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>Relatorio</title>
+	  <link rel="stylesheet" href="style.css">
+	</head>
+	<body  class="wow">
+	  <footer class="wow" id="footer">
+		<img src="https://d8vlg9z1oftyc.cloudfront.net/altenburgdesenv/altenburgdesenv-file-manager/B2C/logo.png"></img>
+	  </footer>
+	  <div class="container lucas wow">
+		<div class="input-container wow">
+		  <div class="timer-container wow">
+			<p class="timer wow">00:00:00</p>
+		  </div >
+		  <input type="text" id="reason" placeholder="Digite aqui cod. do motivo da parada">
+		</div>
+		<div class="buttons-container wow">
+		  <button class="wow button_iniciar" id="start-btn" style="font-size: 20px;">Iniciar</button>
+		  <button class="wow button_parar" id="stop-btn" style="font-size: 20px;" disabled="">Parar</button>
+		</div>
+		<div id="report-container wow">
+		  <table class="wow" id="report">
+		    <thead class="wow">
+		      <tr class="wow">
+		        <th class="wow">Cod. Motivo</th>
+		        <th class="wow">Parada (Hora)</th>
+		        <th class="wow">Retorno (Hora)</th>
+		        <th class="wow">Tempo Total (minutos)</th>
+		        <th class="wow">Remover</th>
+		      </tr>
+		    </thead>
+		    <tbody  class="wow"></tbody>
+		    <tfoot  class="wow">
+		      <tr  class="wow">
+		        <th class="wow" colspan="4"><h1>Developed by Lucas</h1>Total Minutos:</th>
+		        <th class="wow" id="total-time" colspan="2">0</th>
+		      </tr>
+		    </tfoot>
+		  </table>
+		</div>
+	  </div>
+	  <script src="script.js"></script>
+	</body>
+</html>
