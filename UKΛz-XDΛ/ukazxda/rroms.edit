@@ -7,10 +7,10 @@ var downloadDateElement = document.getElementById("downloadDate");
 /* ROM UKΛz-XDΛ */
 var devices = {
 
-"LIMPO-17: Stable": {
+"LIMPOS: Stable": {
  	"Galaxy J7 Prime": {
- 		"Final Data: 02-03-2023": {
- 			"url": "roms/LIMPO-17.html",
+ 		"Data: 21-05-2023": {
+ 			"url": "roms/LIMPOS.html",
  			"date": "OneUI-1.1 Android-9 ARM32"
 			},
 		},
