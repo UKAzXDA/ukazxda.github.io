@@ -16,10 +16,10 @@
 	left: 0px;
 }
 .oneui {
-/* background-color: #ffffff30; */
+    background-color: #ffffff30;
     color: #fff;
     border-radius: 40px;
-    border: 1px solid #c5c5c5;
+    /* border: 1px solid #c5c5c5; */
     vertical-align: middle;
 }
 .oneui * {
