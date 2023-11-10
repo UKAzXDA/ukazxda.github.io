@@ -10,54 +10,117 @@
 
 <body>
     <div class="container" id="container">
-		<!-- pefil esquerda -->
-        <div class="form-container sign-up">
-           <form>
-                <img class="img_perfil" src="fotos/perfil_ico/ukazxda.png"></img>
-				<h1  class="fonte"><center>UKΛz-XDΛ</center></h1>
-                <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
-				</h1><span class="typed-cursor"></span><span class="typed-cursor"></span>
-            </form>
-        </div>
-		<!-- pefil direita -->
+		<!-- Perfil -->
         <div class="form-container sign-in">
             <form>
                 <img class="img_perfil" src="fotos/perfil_ico/ukazxda.png"></img>
-				<h1  class="fonte"><center>UKΛz-XDΛ</center></h1>
+				<p style="font-size: 30px;">UKΛz-XDΛ</p>
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
                     <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
-				</h1><span class="typed-cursor"></span><span class="typed-cursor"></span>
+				<span class="typed-cursor"></span><span class="typed-cursor"></span>
             </form>
         </div>
 		<!-- Projetos -->
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
-                    <h1>ROMS OS</h1>
-                    <button class="hidden" id="login">LIMPOS</button>
-					<button class="hidden" id="login">LIMPO 64</button>
-					<button class="hidden" id="login">LIMPO Q</button>
-					<button class="hidden" id="login">LIMPO Q Core</button>
-					<p>Galaxy J7 prime</p>
+					<!-- Projetos -->
+					<div class="toggle-panel toggle-right" id="limpos-container">
+						<h1>LIMPOS</h1>
+						<p>Conteúdo específico para LIMPOS vai aqui.</p>
+					</div>
+					<div class="toggle-panel toggle-right" id="limpo64-container">
+						<h1>LIMPO64</h1>
+						<p>Conteúdo específico para LIMPO64 vai aqui.</p>
+					</div>
+					<div class="toggle-panel toggle-right" id="limpoq-container">
+						<h1>LIMPOQ</h1>
+						<p>Conteúdo específico para LIMPOQ vai aqui.</p>
+					</div>
+					<div class="toggle-panel toggle-right" id="limpoqcore-container">
+						<h1>LIMPOQCORE</h1>
+						<p>Conteúdo específico para LIMPOQCORE vai aqui.</p>
+					</div>
+					<div class="toggle-panel toggle-left">
+						<h1>ROMS OS</h1>
+						<button class="hidden" id="limpos-btn">LIMPOS</button>
+						<button class="hidden" id="limpo64-btn">LIMPO64</button>
+						<button class="hidden" id="limpoq-btn">LIMPOQ</button>
+						<button class="hidden" id="limpoqcore-btn">LIMPOQCORE</button>
+						<p style="font-size: 10px;">Galaxy J7 prime</p>
+					</div>
                 </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Projetos</h1>
-                    <button class="hidden" id="register">ROMS OS</button>
+                    <button class="hidden" id="roms_os-btn">ROMS OS</button>
                 </div>
             </div>
         </div>
     </div>
-</body>
+		<button class="voltar" id="voltar">Voltar</button>
 
+		<script>
+			const container = document.getElementById('container');
+			const roms_osBtn = document.getElementById('roms_os-btn');
+			const limposBtn = document.getElementById('limpos-btn');
+			const limpo64Btn = document.getElementById('limpo64-btn');
+			const limpoqBtn = document.getElementById('limpoq-btn');
+			const limpoqcoreBtn = document.getElementById('limpoqcore-btn');
+			const voltarBtn = document.getElementById('voltar');
+
+			const limposContainer = document.getElementById('limpos-container');
+			const limpo64Container = document.getElementById('limpo64-container');
+			const limpoqContainer = document.getElementById('limpoq-container');
+			const limpoqcoreContainer = document.getElementById('limpoqcore-container');
+			const romsOSContainer = document.getElementById('roms_os-container');
+
+			roms_osBtn.addEventListener('click', () => {
+				container.classList.add("active");
+				hideContainers();
+				romsOSContainer.style.display = "block";
+			});
+
+			limposBtn.addEventListener('click', () => {
+				container.classList.add("active");
+				hideContainers();
+				limposContainer.style.display = "block";
+			});
+
+			limpo64Btn.addEventListener('click', () => {
+				container.classList.add("active");
+				hideContainers();
+				limpo64Container.style.display = "block";
+			});
+
+			limpoqBtn.addEventListener('click', () => {
+				container.classList.add("active");
+				hideContainers();
+				limpoqContainer.style.display = "block";
+			});
+
+			limpoqcoreBtn.addEventListener('click', () => {
+				container.classList.add("active");
+				hideContainers();
+				limpoqcoreContainer.style.display = "block";
+			});
+
+			voltarBtn.addEventListener('click', () => {
+				container.classList.remove("active");
+				hideContainers();
+			});
+
+			function hideContainers() {
+				limposContainer.style.display = "none";
+				limpo64Container.style.display = "none";
+				limpoqContainer.style.display = "none";
+				limpoqcoreContainer.style.display = "none";
+				romsOSContainer.style.display = "none";
+			}
+		</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
@@ -70,7 +133,7 @@
 
 body{
     background-color: #c9d6ff;
-    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    background: linear-gradient(to right, #7f5d80, #772c6d);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -79,7 +142,7 @@ body{
 }
 
 .container{
-    background-color: #fff;
+    /* background-color: #fff; */
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
@@ -90,10 +153,10 @@ body{
 }
 
 .container p{
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    margin: 20px 0;
+    color: #fff;
+    line-height: 0px;
+    letter-spacing: 1.3px;
+    margin: 13px;
 }
 
 .container span{
@@ -101,14 +164,14 @@ body{
 }
 
 .container a{
-    color: #333;
+    color: #ffffff;
     font-size: 13px;
     text-decoration: none;
     margin: 15px 0 10px;
 }
 
 .container button{
-    background-color: #512da8;
+    /* background-color: #512da8; */
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
@@ -127,7 +190,7 @@ body{
 }
 
 .container form{
-    background-color: #fff;
+    /* background-color: #fff; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -137,7 +200,7 @@ body{
 }
 
 .container input{
-    background-color: #eee;
+    /* background-color: #eee; */
     border: none;
     margin: 8px 0;
     padding: 10px 15px;
@@ -164,20 +227,6 @@ body{
     transform: translateX(100%);
 }
 
-.sign-up{
-    left: 0;
-    width: 50%;
-    opacity: 0;
-    z-index: 1;
-}
-
-.container.active .sign-up{
-    transform: translateX(100%);
-    opacity: 1;
-    z-index: 5;
-    animation: move 0.6s;
-}
-
 @keyframes move{
     0%, 49.99%{
         opacity: 0;
@@ -194,7 +243,7 @@ body{
 }
 
 .social-icons a{
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     border-radius: 20%;
     display: inline-flex;
     justify-content: center;
@@ -222,10 +271,10 @@ body{
 }
 
 .toggle{
-    background-color: #512da8;
+    /* background-color: #512da8; */
     height: 100%;
-    background: linear-gradient(to right, #5c6bc0, #512da8);
-    color: #fff;
+    /* background: linear-gradient(to right, #5c6bc0, #512da8); */
+    color: #ffffff;
     position: relative;
     left: -100%;
     height: 100%;
@@ -270,6 +319,21 @@ body{
     transform: translateX(200%);
 }
 
+.voltar {
+	background-color: transparent;
+    border-color: #fff;
+    color: #fff;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid white;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
 .img_perfil {
 	width: 150px;
 	border-radius: 100px;
@@ -285,17 +349,4 @@ body{
 	border-radius: 100px;
 }
 </style>
-<script>
-const container = document.getElementById('container');
-const registerBtn = document.getElementById('register');
-const loginBtn = document.getElementById('login');
-
-registerBtn.addEventListener('click', () => {
-    container.classList.add("active");
-});
-
-loginBtn.addEventListener('click', () => {
-    container.classList.remove("active");
-});
-</script>
 </html>
