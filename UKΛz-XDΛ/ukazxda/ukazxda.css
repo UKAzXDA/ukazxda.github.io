@@ -1,9 +1,8 @@
 @font-face {
   font-family: 'Poppins';
-  src: url(https://fonts.gstatic.com/s/poppins/v15/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2'); /*color*/
+  src: url(https://fonts.gstatic.com/s/poppins/v15/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
 } 
 .ukazxda {
-        /*background: linear-gradient(to right top, #806296, #6278a7, #6ea9af);*/
 	background: linear-gradient(to right top, #553f64, #455578, #43676a);
 }
 .fundo {
@@ -18,8 +17,7 @@
 .oneui {
     background-color: #ffffff30;
     color: #fff;
-    border-radius: 40px;
-    /* border: 1px solid #c5c5c5; */
+    border-radius: 8px;
     vertical-align: middle;
 }
 .oneui * {
@@ -77,7 +75,6 @@
 .ukazkyu-3:after{box-shadow:299px 220px rgba(255,255,255,.2),1889px 118px #fff,1395px 1630px #fff,58px 924px #fff,1989px 452px #fff,1889px 1692px #fff,470px 1101px #fff,231px 1617px #fff,319px 180px #fff,294px 1758px #fff;height:3px;width:3px}
 @keyframes animStar{0%{transform:translateY(0)}to{transform:translateY(-1500px)}}@media (prefers-reduced-motion){.ukazkyu-1,.ukazkyu-2,.ukazkyu-3{animation:none}}
 
-/** Loading **/
 #preloader {
     position:fixed;
     top:0;
