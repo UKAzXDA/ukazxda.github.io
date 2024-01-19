@@ -47,7 +47,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v4.0 Stable Data: 05-06-2021": {
  			"url": "https://www.mediafire.com/file/8r3uaz9zdurtyi2/LIMPO-Q_2.0-CORE-ARM32-QQ-G610.zip/file",
- 			"date": "OneUI-2.0 Core Android-10 32Bit"
+ 			"date": "OneUI-2.0 Core Android-10 Treble 32Bit"
 			},
 		},
 	},
@@ -56,7 +56,7 @@ var devices = {
  	"Galaxy J7 Prime": {
  		"v4.0 Stable Data: 00-00-2021": {
  			"url": "https://www.mediafire.com/file/4r8pyf6oukj8hef/LIMPO-T_2.0-CORE-PP-ARM32-G610.zip/file",
- 			"date": "OneUI-2.0 Core Android-10 32Bit"
+ 			"date": "OneUI-1.1 Core Android-9 Treble 32Bit"
 			},
 		},
 	},
