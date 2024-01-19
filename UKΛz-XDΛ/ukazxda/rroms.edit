@@ -1,0 +1,93 @@
+var devicesElement = document.getElementById("devices");
+var versionsElement = document.getElementById("versions");
+var romsElement = document.getElementById("roms");
+var downloadElement = document.getElementById("download");
+var downloadTitleElement = document.getElementById("downloadTitle");
+var downloadDateElement = document.getElementById("downloadDate");
+/* ROM UKΛz-XDΛ */
+var devices = {
+
+"LIMPOS: Stable": {
+ 	"Galaxy J7 Prime": {
+ 		"Data: 27-05-2023": {
+ 			"url": "https://www.mediafire.com/file/rb2me4vpzeug1th/LIMPOS_2.0-ARM32-PP-G610.zip/file",
+ 			"date": "OneUI-1.1 Android-9 ARM32"
+			},
+		},
+	},
+
+"LIMPO-15: Stable": {
+ 	"Galaxy J7 Prime": {
+ 		"Data: 00-00-2022": {
+ 			"url": "https://www.mediafire.com/file/nl9w7j4buzw2uda/LIMPO-15_5.0-ARM32-PP-G610.zip/file",
+ 			"date": "OneUI-1.1 Android-9 ARM32"
+			},
+		},
+	},
+
+"LIMPO-64: Stable": {
+ 	"Galaxy J7 Prime": {
+ 		"v3.1 Stable Data: 24-01-2023": {
+ 			"url": "https://www.mediafire.com/file/669u91159681fy0/LIMPO-64_v3.1-ARM64-PP-G610.zip/file",
+ 			"date": "OneUI-1.0 Android-9 ARM64"
+			},
+		},
+	},
+
+"LIMPO-Q: Stable": {
+ 	"Galaxy J7 Prime": {
+ 		"v7.0 Stable Data: 15-06-2021": {
+ 			"url": "https://www.mediafire.com/file/apw4ntfbtcufml5/LIMPO-Q_7.0-ARM32-QQ-G610.zip/file",
+ 			"date": "OneUI-2.0 Android-10 Treble 32Bit"
+			},
+		},
+	},
+
+"LIMPO-Q_Core": {
+ 	"Galaxy J7 Prime": {
+ 		"v4.0 Stable Data: 05-06-2021": {
+ 			"url": "https://www.mediafire.com/file/8r3uaz9zdurtyi2/LIMPO-Q_2.0-CORE-ARM32-QQ-G610.zip/file",
+ 			"date": "OneUI-2.0 Core Android-10 32Bit"
+			},
+		},
+	},
+
+"LIMPO-T_Core": {
+ 	"Galaxy J7 Prime": {
+ 		"v4.0 Stable Data: 00-00-2021": {
+ 			"url": "https://www.mediafire.com/file/4r8pyf6oukj8hef/LIMPO-T_2.0-CORE-PP-ARM32-G610.zip/file",
+ 			"date": "OneUI-2.0 Core Android-10 32Bit"
+			},
+		},
+	},
+
+};
+
+function onDeviceChanged() {versionsElement.options.length = 0;
+if (devicesElement.selectedIndex >= 0) {var device = devicesElement.options[devicesElement.selectedIndex].text;
+if (devices[device]) {for (var version in devices[device]) {var versionOption = document.createElement("option");
+versionOption.text = version;versionsElement.add(versionOption);}}}onVersionChanged();}
+function onVersionChanged() {romsElement.options.length = 0;if (devicesElement.selectedIndex >= 0 && versionsElement.selectedIndex >= 0) {
+var device = devicesElement.options[devicesElement.selectedIndex].text;
+var version = versionsElement.options[versionsElement.selectedIndex].text;
+if (devices[device] && devices[device][version]) {
+for (var rom in devices[device][version]) {var romOption = document.createElement("option");
+romOption.text = rom;romsElement.add(romOption);}}}onRomChanged();}function onRomChanged() { 
+if (devicesElement.selectedIndex >= 0 && versionsElement.selectedIndex >= 0 && romsElement.selectedIndex >= 0) {
+var device = devicesElement.options[devicesElement.selectedIndex].text;
+var version = versionsElement.options[versionsElement.selectedIndex].text;
+var rom = romsElement.options[romsElement.selectedIndex].text;
+if (devices[device] && devices[device][version] && devices[device][version][rom]) {
+var download = devices[device][version][rom];downloadElement.style.display = "block";
+downloadDateElement.innerText = download.date;onCollapseSizeChanged();return;}}downloadElement.style.display = "none";}function visitPage(){
+if (devicesElement.selectedIndex >= 0 && versionsElement.selectedIndex >= 0 && romsElement.selectedIndex >= 0) {
+var device = devicesElement.options[devicesElement.selectedIndex].text;
+var version = versionsElement.options[versionsElement.selectedIndex].text;
+var rom = romsElement.options[romsElement.selectedIndex].text;
+if (devices[device] && devices[device][version] && devices[device][version][rom]) {
+var download = devices[device][version][rom];window.location = download.url;return;}}}
+for (var device in devices) {var deviceOption = document.createElement("option");deviceOption.text = device;devicesElement.add(deviceOption);}
+devicesElement.addEventListener("change", onDeviceChanged);
+versionsElement.addEventListener("change", onVersionChanged);
+romsElement.addEventListener("change", onRomChanged);
+onDeviceChanged();
