@@ -54,10 +54,11 @@ sudo bash Kyubey.sh
 # KYU <CRIARA O EXECUTAVEL> <KYU "$LS" "$CODE" "$FIX"> $SUBE$FILE
 #===================================================#
 
-mkdir -p STOCK/KYUBEY
-mkdir -p CUSTOM/KYUBEY
-mkdir -p KANG-BUILD/CUSTOM-BUILD
-
+sudo mkdir -p STOCK/KYUBEY
+sudo mkdir -p CUSTOM/KYUBEY
+sudo mkdir -p KANG-BUILD/CUSTOM-BUILD
+sudo mkdir -p KANG-BUILD/DEBLOAT-STOCK
+sudo mkdir -p KANG-BUILD/ADICIONADO-CUSTOM
 
 #===================================================#
 LS="STOCK/KYUBEY"
@@ -68,6 +69,8 @@ if [ -e "CUSTOM/KYUBEY/$SUBE$FILE" ]; then
 	echo
 else
 	sudo echo "rm STOCK/KYUBEY/$SUBE$FILE" >> KANG-BUILD/CUSTOM-BUILD/Debloat.sh
+	sudo mkdir -p KANG-BUILD/DEBLOAT-STOCK/$SUBE
+	sudo cp STOCK/KYUBEY/$SUBE$FILE KANG-BUILD/DEBLOAT-STOCK/$SUBE$FILE
 fi
 '
 KYU "$LS" "$CODE" "$FIX"
@@ -79,7 +82,9 @@ clear
 if [ -e "STOCK/KYUBEY/$SUBE$FILE" ]; then
 	echo
 else
-	sudo echo "ADICIONADO: CUSTOM/KYUBEY/$SUBE$FILE" >> KANG-BUILD/CUSTOM-BUILD/ADICIONADO.txt
+	sudo echo "ADICIONADO: CUSTOM/KYUBEY/$SUBE$FILE" >> KANG-BUILD/CUSTOM-BUILD/Adicionado.txt
+	sudo sudo mkdir -p KANG-BUILD/ADICIONADO-CUSTOM/$SUBE
+	sudo cp CUSTOM/KYUBEY/$SUBE$FILE KANG-BUILD/ADICIONADO-CUSTOM/$SUBE$FILE
 fi
 '
 KYU "$LS" "$CODE" "$FIX"
