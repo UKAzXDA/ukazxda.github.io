@@ -46,7 +46,7 @@ $2
 #===================================================#
 # LISTA <DIRETORIO QUE SERÁ LISTADO>
 # CODE <CODIGO QUE SERÁ EXECUTADO SOBRE A LISTA>
-# KYU <CRIARA O EXECUTAVEL> <KYU "$LS" "$CODE" "$FIX"> $SUBE$FILE
+# KYU <CRIARA O EXECUTAVEL> <KYU "$LS" "$CODE" "$FIX"> $SUBE/$FILE
 #===================================================#
 
 sudo rm -rf KANG-BUILD
@@ -68,14 +68,14 @@ echo "
   =  Busca por arquivos subistituidos. =
   =    v7.0 Suporte para Subpastas     =
   ======================================
-  PROCESSANDO.. $SUBE$FILE
+  PROCESSANDO.. $SUBE/$FILE
 "
-if [ -e "CUSTOM/KYUBEY/$SUBE$FILE" ]; then
+if [ -e "CUSTOM/KYUBEY/$SUBE/$FILE" ]; then
 	echo
 else
-	sudo echo "rm STOCK/KYUBEY/$SUBE$FILE" >> KANG-BUILD/Debloat.sh
+	sudo echo "rm STOCK/KYUBEY/$SUBE/$FILE" >> KANG-BUILD/Debloat.sh
 	sudo mkdir -p KANG-BUILD/DEBLOAT-STOCK/$SUBE
-	sudo cp STOCK/KYUBEY/$SUBE$FILE KANG-BUILD/DEBLOAT-STOCK/$SUBE$FILE
+	sudo cp STOCK/KYUBEY/$SUBE/$FILE KANG-BUILD/DEBLOAT-STOCK/$SUBE/$FILE
 fi
 '
 KYU "$LISTA" "$CODE" "$LIMPE"
@@ -91,14 +91,14 @@ echo "
   =  Busca por arquivos subistituidos. =
   =    v7.0 Suporte para Subpastas     =
   ======================================
-  PROCESSANDO.. $SUBE$FILE
+  PROCESSANDO.. $SUBE/$FILE
 "
-if [ -e "STOCK/KYUBEY/$SUBE$FILE" ]; then
+if [ -e "STOCK/KYUBEY/$SUBE/$FILE" ]; then
 	echo
 else
-	sudo echo "ADICIONADO: CUSTOM/KYUBEY/$SUBE$FILE" >> KANG-BUILD/Adicionado.txt
+	sudo echo "ADICIONADO: CUSTOM/KYUBEY/$SUBE/$FILE" >> KANG-BUILD/Adicionado.txt
 	sudo sudo mkdir -p KANG-BUILD/ADICIONADO-CUSTOM/$SUBE
-	sudo cp CUSTOM/KYUBEY/$SUBE$FILE KANG-BUILD/ADICIONADO-CUSTOM/$SUBE$FILE
+	sudo cp CUSTOM/KYUBEY/$SUBE/$FILE KANG-BUILD/ADICIONADO-CUSTOM/$SUBE/$FILE
 fi
 '
 KYU "$LISTA" "$CODE" "$LIMPE"
@@ -114,13 +114,13 @@ echo "
   =  Busca por arquivos subistituidos. =
   =    v7.0 Suporte para Subpastas     =
   ======================================
-  PROCESSANDO.. $SUBE$FILE
+  PROCESSANDO.. $SUBE/$FILE
 "
-if cmp -s "STOCK/KYUBEY/$SUBE$FILE" "CUSTOM/KYUBEY/$SUBE$FILE"; then
+if cmp -s "STOCK/KYUBEY/$SUBE/$FILE" "CUSTOM/KYUBEY/$SUBE/$FILE"; then
     echo
 else
 	sudo mkdir -p KANG-BUILD/CUSTOM-BUILD/$SUBE
-	sudo cp CUSTOM/KYUBEY/$SUBE$FILE KANG-BUILD/CUSTOM-BUILD/$SUBE$FILE
+	sudo cp CUSTOM/KYUBEY/$SUBE/$FILE KANG-BUILD/CUSTOM-BUILD/$SUBE/$FILE
 fi
 '
 KYU "$LISTA" "$CODE" "$LIMPE"
