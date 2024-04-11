@@ -73,7 +73,7 @@ echo "
 if [ -e "CUSTOM/KYUBEY/$SUBE$FILE" ]; then
 	echo
 else
-	sudo echo "rm STOCK/KYUBEY/$SUBE$FILE" >> KANG-BUILD/CUSTOM-BUILD/Debloat.sh
+	sudo echo "rm STOCK/KYUBEY/$SUBE$FILE" >> KANG-BUILD/Debloat.sh
 	sudo mkdir -p KANG-BUILD/DEBLOAT-STOCK/$SUBE
 	sudo cp STOCK/KYUBEY/$SUBE$FILE KANG-BUILD/DEBLOAT-STOCK/$SUBE$FILE
 fi
@@ -96,7 +96,7 @@ echo "
 if [ -e "STOCK/KYUBEY/$SUBE$FILE" ]; then
 	echo
 else
-	sudo echo "ADICIONADO: CUSTOM/KYUBEY/$SUBE$FILE" >> KANG-BUILD/CUSTOM-BUILD/Adicionado.txt
+	sudo echo "ADICIONADO: CUSTOM/KYUBEY/$SUBE$FILE" >> KANG-BUILD/Adicionado.txt
 	sudo sudo mkdir -p KANG-BUILD/ADICIONADO-CUSTOM/$SUBE
 	sudo cp CUSTOM/KYUBEY/$SUBE$FILE KANG-BUILD/ADICIONADO-CUSTOM/$SUBE$FILE
 fi
