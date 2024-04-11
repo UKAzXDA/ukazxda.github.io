@@ -47,7 +47,8 @@ $2
 #===================================================#
 # LISTA <DIRETORIO QUE SERÁ LISTADO>
 # CODE <CODIGO QUE SERÁ EXECUTADO SOBRE A LISTA>
-# KYU <CRIARA O EXECUTAVEL> <KYU "$LS" "$CODE" "$FIX"> $SUBE/$FILE
+# KYU <CRIARA O EXECUTAVEL> <KYU "$LS" "$CODE"
+# DIRETORIO <$SUBE> || ARQUIVO <$FILE>
 #===================================================#
 
 sudo rm -rf KANG-BUILD
