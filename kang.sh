@@ -28,6 +28,7 @@ $2
 
 	listar_arquivos() {
 		local diretorio="$1"
+		local subdiretorio="$2"
 		for item in "$diretorio"/*; do
 			if [ -d "$item" ]; then
 				listar_arquivos "$item" "$subdiretorio/${item##*/}"
@@ -36,7 +37,7 @@ $2
 			fi
 		done
 	}
-	listar_arquivos "$LISTA"
+	listar_arquivos "$LISTA" ""
 	cat Kyulist >> Kyubey.sh
 	sudo rm Kyulist
 	echo "find $3 -type d -empty -delete" >> Kyubey.sh
@@ -48,6 +49,7 @@ $2
 # KYU <CRIARA O EXECUTAVEL> <KYU "$LS" "$CODE" "$FIX"> $SUBE$FILE
 #===================================================#
 
+sudo rm -rf KANG-BUILD
 sudo mkdir -p STOCK/KYUBEY
 sudo mkdir -p CUSTOM/KYUBEY
 sudo mkdir -p KANG-BUILD/CUSTOM-BUILD
