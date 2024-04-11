@@ -34,6 +34,7 @@ $2
 				listar_arquivos "$item" "$subdiretorio/${item##*/}"
 			elif [ -f "$item" ]; then
 				echo "SUBE=\"$subdiretorio\"; FILE=\"${item##*/}\"; KYU" >> Kyulist
+				sed -i s/'SUBE="\/'/'SUBE="'/g Kyulist
 			fi
 		done
 	}
