@@ -201,3 +201,22 @@
     transform: translateZ(var(--z-dist));
   }
 }
+
+.load {
+	font-size: 0px;
+}
+
+.show{
+	color: #fff;
+	font-size: 15px;
+	animation: errorr 1.5s
+}
+
+@keyframes errorr {
+    0% {
+        font-size: 0px;
+    }
+    100% {
+        font-size: 15px;
+    }
+}
