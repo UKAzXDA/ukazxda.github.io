@@ -6,6 +6,7 @@
     background: linear-gradient(to right top, #6b476f, #4e6f95, #4e7c7d);
     border-radius: 15px;
     box-shadow: 0 0 10px rgb(0 0 0 / 53%);
+    contain: style;
 }
 .fundo {
 	mix-blend-mode: overlay;
