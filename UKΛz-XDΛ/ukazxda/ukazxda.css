@@ -3,7 +3,9 @@
   src: url(https://fonts.gstatic.com/s/poppins/v15/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
 } 
 .ukazxda {
-	background: linear-gradient(to right top, #553f64, #455578, #43676a);
+    background: linear-gradient(to right top, #6b476f, #4e6f95, #4e7c7d);
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 53%);
 }
 .fundo {
 	mix-blend-mode: overlay;
