@@ -29,6 +29,9 @@
 	text-align: center;
 }
 .ukaz {
+    background: linear-gradient(to right top, #6b476f, #4e6f95, #4e7c7d);
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 53%);	
     font-family: 'Poppins', 'Questrial';
     margin: 0;
     padding: 0;
@@ -92,33 +95,6 @@
     left: 50%;
     transform: translate(-50%, -50%);  
 }
-.bolas > div {
-  display: inline-block;
-  border: 1px solid #c5c5c5;
-  width: 25px;
-  height: 25px;
-  border-radius: 200%;
-  margin: 3px;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-  animation-name: animarBola;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-   
-}
-.bolas > div:nth-child(1) {
-    animation-duration:0.75s ;
-    animation-delay: 0;
-}
-.bolas > div:nth-child(2) {
-    animation-duration: 0.75s ;
-    animation-delay: 0.12s;
-}
-.bolas > div:nth-child(3) {
-    animation-duration: 0.75s  ;
-    animation-delay: 0.24s;
-}
- 
 @keyframes animarBola {
   0% {
     -webkit-transform: scale(1);
@@ -152,13 +128,11 @@
   place-items: center;
   color: white;
 }
-
 .loader::before,
 .loader::after {
   content: '';
   position: absolute;
 }
-
 .loader--8 {
   --loader-size: calc(var(--block-size) / 3);
   --anim-duration: 0.8s;
@@ -169,12 +143,10 @@
   transform-style: preserve-3d;
   transform: rotateX(45deg) rotateY(15deg);
 }
-
 .loader--8::before,
 .loader--8::after {   
   animation: loader-8 var(--anim-duration) cubic-bezier(0.39, 0.24, 0, 0.99) infinite;
 }
-
 .loader--8::before {
   --z-dist: 8vmin;
   width: var(--dot-size);
@@ -185,7 +157,6 @@
   left: calc(50% - var(--dot-size-half));
   animation-delay: calc(var(--anim-duration) / 4 * -1);
 }
-
 .loader--8::after {
   --z-dist: 4vmin;
   width: 65%;
@@ -193,27 +164,22 @@
   border-radius: 50%;
   border: 1px solid currentColor;
 }
-
 @keyframes loader-8 {
   0%, 100% {
     transform: translateZ(calc(var(--z-dist) * -1)) scale(0.6);
   }
-  
   55% {
     transform: translateZ(var(--z-dist));
   }
 }
-
 .load {
 	font-size: 0px;
 }
-
 .show{
 	color: #fff;
 	font-size: 15px;
 	animation: errorr 1.5s
 }
-
 @keyframes errorr {
     0% {
         font-size: 0px;
