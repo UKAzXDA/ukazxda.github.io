@@ -88,7 +88,7 @@
         .roms {
             text-align: center;
             margin: 40px auto;
-            width: 90%;
+            width: 50%;
         }
 
         .roms select {
@@ -194,45 +194,32 @@
     </style>
 </head>
 <body>
-		<div style="position: fixed;">
-			<div class="ukazkyu-1"></div>
-			<div class="ukazkyu-2"></div>
-			<div class="ukazkyu-3"></div>
-		</div>
-    <div class="profile" style="
-    margin-bottom: 0px;
-    margin-top: 58px;
-">
+	<div style="position: fixed;">
+		<div class="ukazkyu-1"></div>
+		<div class="ukazkyu-2"></div>
+		<div class="ukazkyu-3"></div>
+	</div>
+    <div class="profile" style="margin-bottom: 0px;margin-top: 58px;">
         <img src="images/perfil.png" alt="Foto de Perfil">
         <h2>UKΛz-XDΛ</h2>
-        
         <div class="social-links">
-            <a href="https://github.com/ukazxda" target="_blank" style="
-    padding-left: 14px;
-    padding-right: 14px;
-"><i class="fab fa-github"></i></a>
-            
-            <a href="https://t.me/LimpoROMgrupo" target="_blank" style="
-    padding-left: 14px;
-    padding-right: 14px;
-"><i class="fab fa-telegram"></i></a>
+            <a href="https://github.com/ukazxda" target="_blank" style="padding-left: 14px;padding-right: 14px;">
+			<i class="fab fa-github"></i></a>
+            <a href="https://t.me/LimpoROMgrupo" target="_blank" style="padding-left: 14px;padding-right: 14px;">
+			<i class="fab fa-telegram"></i></a>
         </div>
     </div>
+    <div class="roms">
 
-    <div class="roms" style="
-    margin-top: 0px;
-    margin-bottom: 0px;
-">
-       <h2>Galaxy J7 Prime</h2>
-       <select id="romSelect" onchange="showRomInfo()"
-			style="margin-bottom: 0px;color: #414141;font-weight: bold;">
+		<select id="romSelect" onchange="showRomInfo()" style="margin-bottom: 0px;color: #414141;font-weight: bold;">
 		    <option value="">Selecione uma ROM...</option>
 			<option value="rom1">Limpo OS PP OneUI 1.1 32bit</option>
 			<option value="rom2">Limpo 64 PP OneUI 1.0 64bit</option>
 			<option value="rom3">Limpo QQ QQ OneUI 2.0 32bit</option>
-			<!-- <option value="rom4">OrangeFox r11_1 Moded</option> -->
-			<option value="rom5">Install? Aroma-Kyubey</option>
+			<option value="rom4">Install? Aroma-Kyubey</option>
         </select>
+
+       <h2>Galaxy J7 Prime</h2>
         <div id="rom1" class="rom-info">
             <h3>Limpo OS</h3>
             <p style="font-weight: bold;"><center>
@@ -248,7 +235,7 @@
 				<a href="https://www.mediafire.com/file/rb2me4vpzeug1th/LIMPOS_2.0-ARM32-PP-G610.zip" class="btn" style="font-weight: bold;"><center>Download<BR>MediaFire</center></a>
 			</div>
         </div>
-        <div id="rom2" class="rom-info" style="display: none;">
+        <div id="rom2" class="rom-info">
             <h3>Limpo 64</h3>
             <p style="font-weight: bold;"><center>
 			v3.1 Stable Data: 24-01-2023<br>
@@ -263,8 +250,7 @@
 				<a href="https://www.mediafire.com/file/669u91159681fy0/LIMPO-64_v3.1-ARM64-PP-G610.zip" class="btn" style="font-weight: bold;"><center>Download<BR>MediaFire</center></a>
 			</div>
         </div>
-
-        <div id="rom3" class="rom-info" style="display: none;">
+        <div id="rom3" class="rom-info">
             <h3>Limpo QQ</h3>
             <p style="font-weight: bold;"><center>
 			v7.0 Stable Data: 15-06-2021<br>
@@ -279,23 +265,7 @@
 				<a href="https://www.mediafire.com/file/apw4ntfbtcufml5/LIMPO-Q_7.0-ARM32-QQ-G610.zip" class="btn" style="font-weight: bold;"><center>Download<BR>MediaFire</center></a>
 			</div>
         </div>
-        <div id="rom4" class="rom-info" style="display: none;">
-            <h3>OrangeFox Moded</h3>
-            <p style="font-weight: bold;"><center>
-			v1.0 Stable Data: 05-10-2024<br><br>
-			Bugs: BootlogFox loop após reparticionamento de imagens (Repartition),
-			a RecoveryFox não inicializa com imagens pré-corrompidas pela repartição.</center></p>
-            <div class="rom-images">
-                <img src="images/fox_home.png" alt="ukazxda">
-                <img src="images/fox_config.png" alt="ukazxda">
-                <img src="images/fox_apps.png" alt="ukazxda">
-            </div>
-			<div style="display: flex;font-weight: bold;margin-left: 0px;margin-right: 0px;">
-				<a href="https://drive.usercontent.google.com/download?id=1DT6XDqgxxvMpvczWAdWWfVdfhaE4ETol&export=download" class="btn" style="font-weight: bold;"><center>Download<BR>Google Drive</center></a>
-				<a href="https://www.mediafire.com/file/llc8lkdjwloykg8/OrangeFox-r11.0_2_Moded_on7xelte.img" class="btn" style="font-weight: bold;"><center>Download<BR>MediaFire</center></a>
-			</div>
-		</div>
-        <div id="rom5" class="rom-info" style="display: none;">
+        <div id="rom4" class="rom-info">
             <h3>AROMA-KYUBEY</h3>
             <p style="font-weight: bold;"><center>
 			<p style="margin-top: 0px;">
