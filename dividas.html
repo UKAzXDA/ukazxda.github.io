@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Controle de Pagamentos</title>
   <style>
     * {
@@ -63,7 +63,7 @@
     }
 
     .btn-apagar {
-	  inline-size: auto;
+      inline-size: auto;
       background: #ef5350;
       position: absolute;
       top: 10px;
@@ -106,7 +106,7 @@
     }
 
     .btn-remover-pg {
-	  inline-size: auto;
+      inline-size: auto;
       background: none;
       color: #d32f2f;
       font-size: 16px;
@@ -164,6 +164,10 @@
 
     <h2>Contas</h2>
     <div id="contas"></div>
+
+    <h2>Gerenciar Dados</h2>
+    <button class="btn" onclick="baixarDados()">⬇️ Baixar Dados</button>
+    <input type="file" id="importarArquivo" accept=".json" onchange="importarDados()" class="btn" style="margin-top:10px">
   </div>
 
   <script>
@@ -207,6 +211,38 @@
       conta.pagos.splice(index, 1);
       salvar();
       renderizar();
+    }
+
+    function baixarDados() {
+      const dados = JSON.stringify(contas, null, 2);
+      const blob = new Blob([dados], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "dados_contas.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importarDados() {
+      const input = document.getElementById("importarArquivo");
+      const file = input.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const dadosImportados = JSON.parse(e.target.result);
+          if (!Array.isArray(dadosImportados)) throw new Error("Formato inválido");
+          contas = dadosImportados;
+          salvar();
+          renderizar();
+          alert("Dados importados com sucesso!");
+        } catch (err) {
+          alert("Erro ao importar dados: " + err.message);
+        }
+      };
+      reader.readAsText(file);
     }
 
     function renderizar() {
