@@ -36,7 +36,7 @@
       width: 100%;
       padding: 10px 15px;
       margin: 5px 0;
-      border-radius: 12px;
+      border-radius: 7px;
       border: 1px solid #ccc;
       font-size: 16px;
       transition: all 0.3s ease;
@@ -63,6 +63,7 @@
     }
 
     .btn-apagar {
+	  inline-size: auto;
       background: #ef5350;
       position: absolute;
       top: 10px;
@@ -105,6 +106,7 @@
     }
 
     .btn-remover-pg {
+	  inline-size: auto;
       background: none;
       color: #d32f2f;
       font-size: 16px;
@@ -218,7 +220,7 @@
         const el = document.createElement("div");
         el.className = "conta";
         el.innerHTML = `
-          <h3>👤 ${conta.nome}</h3>
+          <h3>🙍 ${conta.nome}</h3>
           <button class="btn btn-apagar" onclick="apagarConta(${conta.id})">🗑 Apagar</button>
           <p>💰 Valor Total: R$ ${conta.valorTotal.toFixed(2)}</p>
           <p class="pago">✅ Pago: R$ ${totalPago.toFixed(2)}</p>
