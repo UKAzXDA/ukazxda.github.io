@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle de Pagamentos</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f8e8ee, #e0f7fa);
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #5f4b8b;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fffafc;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      animation: fadeIn 0.8s ease;
+    }
+
+    input, button {
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #ffb6c1;
+      outline: none;
+      box-shadow: 0 0 5px #ffc0cb;
+    }
+
+    .btn {
+      background: #ff80ab;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(255,128,171,0.4);
+    }
+
+    .btn:hover {
+      background: #f06292;
+      transform: scale(1.05);
+    }
+
+    .btn-apagar {
+      background: #ef5350;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 13px;
+    }
+
+    .btn-apagar:hover {
+      background: #e53935;
+    }
+
+    .conta {
+      border: 2px dashed #f8bbd0;
+      background: #fff0f5;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 16px;
+      position: relative;
+      animation: slideIn 0.4s ease-in-out;
+    }
+
+    .historico {
+      background: #fce4ec;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .pagamento-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffffb0;
+      padding: 5px 10px;
+      margin-top: 6px;
+      border-radius: 8px;
+    }
+
+    .btn-remover-pg {
+      background: none;
+      color: #d32f2f;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s;
+    }
+
+    .btn-remover-pg:hover {
+      transform: scale(1.2);
+    }
+
+    .pago {
+      color: #43a047;
+      font-weight: bold;
+    }
+
+    .falta {
+      color: #e65100;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌸 Controle de Pagamentos 🌸</h1>
+
+    <h2>Adicionar Conta</h2>
+    <input id="nome" placeholder="Nome da pessoa">
+    <input id="valor" placeholder="Valor da dívida" type="number">
+    <button class="btn" onclick="adicionarConta()">➕ Adicionar Conta</button>
+
+    <h2>Contas</h2>
+    <div id="contas"></div>
+  </div>
+
+  <script>
+    let contas = JSON.parse(localStorage.getItem("contas")) || [];
+
+    function salvar() {
+      localStorage.setItem("contas", JSON.stringify(contas));
+    }
+
+    function adicionarConta() {
+      const nome = document.getElementById("nome").value.trim();
+      const valor = parseFloat(document.getElementById("valor").value);
+      if (!nome || isNaN(valor)) return alert("Preencha corretamente!");
+      contas.push({ nome, valorTotal: valor, pagos: [], id: Date.now() });
+      salvar();
+      renderizar();
+      document.getElementById("nome").value = "";
+      document.getElementById("valor").value = "";
+    }
+
+    function registrarPagamento(id) {
+      const valor = prompt("Digite o valor pago:");
+      const num = parseFloat(valor);
+      if (isNaN(num) || num <= 0) return alert("Valor inválido!");
+      const conta = contas.find(c => c.id === id);
+      conta.pagos.push({ valor: num, data: new Date().toLocaleDateString() });
+      salvar();
+      renderizar();
+    }
+
+    function apagarConta(id) {
+      if (confirm("Tem certeza que deseja apagar esta dívida?")) {
+        contas = contas.filter(c => c.id !== id);
+        salvar();
+        renderizar();
+      }
+    }
+
+    function removerPagamento(contaId, index) {
+      const conta = contas.find(c => c.id === contaId);
+      conta.pagos.splice(index, 1);
+      salvar();
+      renderizar();
+    }
+
+    function renderizar() {
+      const div = document.getElementById("contas");
+      div.innerHTML = "";
+
+      contas.forEach(conta => {
+        const totalPago = conta.pagos.reduce((soma, p) => soma + p.valor, 0);
+        const falta = conta.valorTotal - totalPago;
+
+        const el = document.createElement("div");
+        el.className = "conta";
+        el.innerHTML = `
+          <h3>👤 ${conta.nome}</h3>
+          <button class="btn btn-apagar" onclick="apagarConta(${conta.id})">🗑 Apagar</button>
+          <p>💰 Valor Total: R$ ${conta.valorTotal.toFixed(2)}</p>
+          <p class="pago">✅ Pago: R$ ${totalPago.toFixed(2)}</p>
+          <p class="falta">❗ Falta: R$ ${falta.toFixed(2)}</p>
+          <button class="btn" onclick="registrarPagamento(${conta.id})">💵 Registrar Pagamento</button>
+          <div class="historico">
+            <strong>📜 Histórico:</strong><br>
+            ${
+              conta.pagos.length === 0 
+                ? "Nenhum pagamento ainda"
+                : conta.pagos.map((p, i) => `
+                    <div class="pagamento-item">
+                      💸 R$ ${p.valor.toFixed(2)} - ${p.data}
+                      <button class="btn-remover-pg" onclick="removerPagamento(${conta.id}, ${i})">❌</button>
+                    </div>
+                  `).join("")
+            }
+          </div>
+        `;
+        div.appendChild(el);
+      });
+    }
+
+    renderizar();
+  </script>
+</body>
+</html>
