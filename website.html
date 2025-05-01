@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<!--
+~
+~
+~     K-y-u-b-e-y
+~   © 2021 UKΛz-XDΛ
+~
+~
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LIMPO-ROM, UKΛz-XDΛ">
+  <title>UKΛz-XDΛ</title>
+  <link rel="shortcut icon" href="ukazxda/images/perfil.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+  :root {
+    background: linear-gradient(to right, #f8e8ee, #e0f7fa);
+    --glass: rgba(255, 255, 255, 0.3);
+    --accent: #ff82b2;
+    --text-light: #3b3b3b;
+    --text-muted: #777;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-gradient);
+    color: var(--text-light);
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .bubbles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .bubbles span {
+    position: absolute;
+    bottom: -150px;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 192, 203, 0.3);
+    border-radius: 50%;
+    animation: rise 20s linear infinite;
+  }
+
+  .bubbles span:nth-child(odd) {
+    background: rgba(255, 192, 203, 0.4);
+  }
+
+  @keyframes rise {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-1200px) scale(0.5);
+      opacity: 0;
+    }
+  }
+
+  header, footer {
+    background-color: rgba(255, 182, 193, 0.3);
+    text-align: center;
+    padding: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    z-index: 2;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(255, 182, 193, 0.3);
+    border-radius: 0 0 20px 20px;
+  }
+
+  .profile {
+    text-align: center;
+    padding: 40px 20px;
+    z-index: 2;
+    position: relative;
+  }
+
+  .profile img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.3);
+    transition: transform 0.3s ease;
+  }
+
+  .profile img:hover {
+    transform: scale(1.1);
+  }
+
+  .profile h2 {
+    margin: 20px 0 10px;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--accent);
+  }
+
+  .social-links {
+    margin-top: 10px;
+  }
+
+  .social-links a {
+    color: var(--text-light);
+    margin: 0 10px;
+    font-size: 1.8rem;
+    transition: color 0.3s;
+  }
+
+  .social-links a:hover {
+    color: var(--accent);
+  }
+
+  .roms {
+    padding: 0 20px;
+    margin-bottom: 40px;
+    z-index: 2;
+    position: relative;
+  }
+
+  .roms h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #d63384;
+  }
+
+  .rom-info {
+    background-color: var(--glass);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 8px 30px rgba(255, 182, 193, 0.25);
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.7s ease-in-out;
+  }
+
+  .rom-info h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .rom-info p {
+    text-align: center;
+    color: var(--text-muted);
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .rom-images {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .rom-images img {
+    width: 30%;
+    border-radius: 12px;
+    transition: transform 0.3s;
+    box-shadow: 0 0 15px rgba(255, 192, 203, 0.2);
+  }
+
+  .rom-images img:hover {
+    transform: scale(1.05);
+  }
+
+  .btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 12px 20px;
+    background-color: #fff0f5;
+    color: #d63384;
+    text-decoration: none;
+    border: 2px solid #ff82b2;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: all 0.3s;
+    text-align: center;
+  }
+
+  .btn:hover {
+    background-color: #ffe0f0;
+    transform: scale(1.05);
+  }
+
+  footer {
+    font-size: 0.9rem;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+@media (max-width: 768px) {
+  .rom-images {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rom-images img {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .btn {
+    display: block;
+    width: 90%;
+    max-width: 300px;
+    margin: 10px auto;
+    font-size: 1rem;
+  }
+
+  .profile img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile h2 {
+    font-size: 1.8rem;
+  }
+
+  .social-links a {
+    font-size: 1.5rem;
+    margin: 0 6px;
+  }
+
+  .rom-info {
+    padding: 15px;
+    margin: 15px 10px;
+  }
+}
+
+</style>
+
+</head>
+<body>
+<div class="bubbles">
+  <span style="left: 10%; animation-delay: 0s;"></span>
+  <span style="left: 20%; animation-delay: 3s;"></span>
+  <span style="left: 30%; animation-delay: 5s;"></span>
+  <span style="left: 40%; animation-delay: 2s;"></span>
+  <span style="left: 50%; animation-delay: 4s;"></span>
+  <span style="left: 60%; animation-delay: 6s;"></span>
+  <span style="left: 70%; animation-delay: 1s;"></span>
+  <span style="left: 80%; animation-delay: 3s;"></span>
+  <span style="left: 90%; animation-delay: 2s;"></span>
+</div>
+  <div class="profile">
+    <img src="ukazxda/images/perfil.png" alt="Foto de Perfil">
+    <h2>UKΛz-XDΛ</h2>
+    <div class="social-links">
+      <a href="https://github.com/ukazxda" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://t.me/LimpoROMgrupo" target="_blank"><i class="fab fa-telegram"></i></a>
+    </div>
+  </div>
+
+  <div class="roms">
+    <h2>Galaxy J7 Prime</h2>
+
+    <div class="rom-info">
+      <h3>Limpo OS</h3>
+      <p>Stable - 27/05/2023 • OneUI 1.1 • Android 9 • ARM32</p>
+      <div class="rom-images">
+        <img src="ukazxda/images/limpos_home.jpg">
+        <img src="ukazxda/images/limpos_config.jpg">
+        <img src="ukazxda/images/limpos_apps.jpg">
+      </div>
+      <div>
+        <a class="btn" href="https://drive.usercontent.google.com/download?id=1_YHcRU6j6KaM-vavMdBX_ZslbYWK4eHp&export=download">Download Google Drive</a>
+        <a class="btn" href="https://www.mediafire.com/file/rb2me4vpzeug1th/LIMPOS_2.0-ARM32-PP-G610.zip">Download MediaFire</a>
+      </div>
+    </div>
+
+    <div class="rom-info">
+      <h3>Limpo 64</h3>
+      <p>v3.1 - 24/01/2023 • OneUI 1.0 • Android 9 • ARM64</p>
+      <div class="rom-images">
+        <img src="ukazxda/images/limpo64_home.jpg">
+        <img src="ukazxda/images/limpo64_config.jpg">
+        <img src="ukazxda/images/limpo64_apps.jpg">
+      </div>
+      <div>
+        <a class="btn" href="https://drive.usercontent.google.com/download?id=1vH_yNORCkI1sGDPelL1unc60cdbN-Ihc&export=download">Download Google Drive</a>
+        <a class="btn" href="https://www.mediafire.com/file/669u91159681fy0/LIMPO-64_v3.1-ARM64-PP-G610.zip">Download MediaFire</a>
+      </div>
+    </div>
+
+    <div class="rom-info">
+      <h3>Limpo QQ</h3>
+      <p>v7.0 - 15/06/2021 • OneUI 2.0 • Android 10 • Treble 32Bit</p>
+      <div class="rom-images">
+        <img src="ukazxda/images/limpoq_home.jpg">
+        <img src="ukazxda/images/limpoq_config.jpg">
+        <img src="ukazxda/images/limpoq_apps.jpg">
+      </div>
+      <div>
+        <a class="btn" href="https://drive.usercontent.google.com/download?id=1x6LvATY5do8r4wAW-QkIE-SdJ3AoaG2R&export=download">Download Google Drive</a>
+        <a class="btn" href="https://www.mediafire.com/file/apw4ntfbtcufml5/LIMPO-Q_7.0-ARM32-QQ-G610.zip">Download MediaFire</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2021 UKΛz-XDΛ</p>
+  </footer>
+</body>
+</html>

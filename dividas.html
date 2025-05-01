@@ -2,8 +2,13 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Controle de Pagamentos</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to right, #f8e8ee, #e0f7fa);
@@ -28,8 +33,9 @@
     }
 
     input, button {
+      width: 100%;
       padding: 10px 15px;
-      margin: 5px;
+      margin: 5px 0;
       border-radius: 12px;
       border: 1px solid #ccc;
       font-size: 16px;
@@ -53,7 +59,7 @@
 
     .btn:hover {
       background: #f06292;
-      transform: scale(1.05);
+      transform: scale(1.02);
     }
 
     .btn-apagar {
@@ -62,6 +68,7 @@
       top: 10px;
       right: 10px;
       font-size: 13px;
+      padding: 5px 10px;
     }
 
     .btn-apagar:hover {
@@ -94,6 +101,7 @@
       padding: 5px 10px;
       margin-top: 6px;
       border-radius: 8px;
+      flex-wrap: wrap;
     }
 
     .btn-remover-pg {
@@ -127,6 +135,19 @@
     @keyframes slideIn {
       from { transform: translateY(10px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 480px) {
+      .btn-apagar {
+        top: 5px;
+        right: 5px;
+        font-size: 12px;
+        padding: 4px 8px;
+      }
+
+      .pagamento-item {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
