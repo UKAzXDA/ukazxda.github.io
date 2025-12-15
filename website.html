@@ -1,310 +1,203 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="LIMPO-ROM • Custom ROMs by UKAzXDA • Galaxy J7 Prime">
-  <meta name="theme-color" content="#c471ed">
-  <title>UKAzXDA</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --pink: #ff6bcb;
-      --purple: #c471ed;
-      --neon: #f64f59;
-      --dark: #0d0a1f;
-      --glass: rgba(255,255,255,0.06);
-      --glow-pink: 0 0 30px rgba(255,107,203,0.7);
-      --glow-purple: 0 0 30px rgba(196,113,237,0.7);
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      background: radial-gradient(circle at center, #1a0b3d, #0d0a1f);
-      color: #fff;
-      font-family: 'Exo 2', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    canvas#particles-js-canvas-el { position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events: none; }
-    #particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; }
-
-    header {
-      text-align:center;
-      padding:4rem 1rem 2rem;
-      position:relative;
-      z-index:10;
-    }
-    header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(3rem, 10vw, 7rem);
-      background: linear-gradient(90deg, #ff6bcb, #c471ed, #ff6bcb);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: var(--glow-pink);
-      animation: neon 3s infinite alternate;
-    }
-    @keyframes neon { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(40deg); } }
-
-    .profile {
-      text-align:center;
-      margin:2rem 0 4rem;
-      position:relative;
-      z-index:10;
-    }
-    .profile img {
-      width:180px;
-      height:180px;
-      border-radius:50%;
-      border:6px solid var(--pink);
-      box-shadow: var(--glow-pink);
-      transition:0.5s;
-      object-fit: cover;
-      background: #000;
-    }
-    .profile img:hover { transform:scale(1.15) rotate(15deg); }
-    
-    .profile .nome {
-      margin-top:20px;
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 900;
-      font-size: 3.5rem;
-      background: linear-gradient(90deg, #ff6bcb, #ffffff, #c471ed);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color:transparent;
-      text-shadow: var(--glow-purple);
-    }
-
-    .social-links {
-      margin-top: 20px;
-      margin-bottom: 20px; /* Adicionado espaço abaixo dos ícones */
-    }
-
-    .social-links a {
-      color:#fff;
-      font-size:2.8rem;
-      margin:0 20px;
-      transition:0.4s;
-      display: inline-block;
-    }
-    .social-links a:hover { color:var(--pink); transform:translateY(-10px); }
-
-    .profile .btn {
-        font-size: 1rem;
-        padding: 12px 30px;
-    }
-
-    .social-links a {
-      color:#fff;
-      font-size:2.8rem;
-      margin:0 20px;
-      transition:0.4s;
-      display: inline-block;
-    }
-    .social-links a:hover { color:var(--pink); transform:translateY(-10px); }
-
-    .roms {
-      max-width:1100px;
-      margin:0 auto 5rem;
-      padding:0 1rem;
-      position:relative;
-      z-index:10;
-    }
-    .roms h2 {
-    margin-top: 7px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
-    background: linear-gradient(90deg, #ff6bcb, #ffffff, #c471ed);
-    background-clip: text;
-    color: transparent;
-    text-shadow: var(--glow-purple);
-    }
-
-    .rom-card {
-      background:var(--glass);
-      backdrop-filter:blur(15px);
-      border:1px solid rgba(255,107,203,0.3);
-      border-radius:24px;
-      padding:2rem;
-      margin:3rem 0;
-      box-shadow: var(--glow-purple);
-      transition:0.5s;
-    }
-    .rom-card:hover {
-      transform:translateY(-20px);
-      box-shadow:0 30px 60px rgba(255,107,203,0.5);
-    }
-    .rom-card h3 {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 900;
-      font-size: 2.2rem;
-      text-align:center;
-      color:var(--pink);
-      margin-bottom:0.8rem;
-    }
-    .rom-card p {
-      text-align:center;
-      opacity:0.9;
-      font-size:1.1rem;
-      margin-bottom: 1.5rem;
-    }
-    .rom-images {
-      display:flex;
-      justify-content:center;
-      gap:20px;
-      flex-wrap:wrap;
-      margin:2rem 0;
-    }
-    .rom-images img {
-      width:20%;
-      object-fit: cover;
-      border-radius: 7px;
-      box-shadow:var(--glow-pink);
-      transition:0.4s;
-      background: #1a0b3d;
-    }
-    .rom-images img:hover { transform:scale(1.1); }
-
-    .buttons {
-      text-align:center;
-      margin-top:1.5rem;
-    }
-    .btn {
-      display:inline-block;
-      padding:16px 40px;
-      margin:12px;
-      background:linear-gradient(45deg, rgba(255,107,203,0.2), rgba(196,113,237,0.2));
-      color:#fff;
-      border:2px solid var(--pink);
-      border-radius:50px;
-      font-weight:800;
-      text-decoration:none;
-      transition:0.4s;
-    }
-    .btn:hover {
-      background:var(--pink);
-      transform:scale(1.12);
-      box-shadow:var(--glow-pink);
-    }
-
-    footer {
-      text-align:center;
-      padding:3rem;
-      background:rgba(0,0,0,0.5);
-      font-size:1rem;
-      position: relative;
-      z-index: 10;
-    }
-
-    @media (max-width:768px) {
-      .rom-images img { width:25%; height: auto; }
-      .btn { width:90%; margin:15px auto; display:block; }
-      .profile .nome { font-size:2.8rem; }
-      header h1 { font-size: 3rem; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LIMPO-ROM • Custom ROMs by UKAzXDA • Galaxy J7 Prime">
+    <meta name="theme-color" content="#1a1c2a">
+    <title>UKAzXDA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#1a1c2a',
+                        'soft-white': '#f7f8fa',
+                        'accent-soft': '#63b3ed',
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 30px rgba(0, 0, 0, 0.2)',
+                        'subtle': '0 5px 15px rgba(0, 0, 0, 0.1)',
+                        'md-accent': '0 4px 12px rgba(99, 179, 237, 0.6)',
+                    },
+                    animation: {
+                        'pulse-subtle': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+        body {
+            background-color: #1a1c2a;
+            color: #f7f8fa;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative; 
+        }
+        .glassmorphism {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        #particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        header, main, footer {
+            position: relative;
+            z-index: 10;
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 0.8s ease-out;
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
-<body>
-
+<body class="font-sans antialiased">
 <div id="particles"></div>
-<header>
+<header class="py-12 px-4 text-center">
+    <h1 class="text-xs font-semibold uppercase tracking-widest text-gray-400 scroll-reveal">
+    </h1>
 </header>
-<div class="profile">
-  <img src="ukazxda/images/perfil.png" alt="UKA z XDA" onerror="this.src='https://ui-avatars.com/api/?name=UKA+z+XDA&background=ff6bcb&color=fff&size=256'">
-  <div class="nome">UKAzXDA</div>
-  <div class="social-links">
-    <a href="https://github.com/ukazxda" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-    <a href="https://t.me/LimpoROMgrupo" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
-  </div>
-  <div class="buttons">
-    <a href="https://t.me/limporomopen" class="btn"><i class="fas fa-code"></i> Projetos</a>
-    <a href="sobre.html" class="btn"><i class="fas fa-user"></i> Sobre</a>
-  </div>
-</div>
-
-<div class="roms">
-  <center><h2>Galaxy J7 Prime</h2></center>
-  <div class="rom-card">
-    <h3>Limpo OS</h3>
-    <p>Stable • 27/05/2023 • OneUI 1.1 • Android 9 • ARM32</p>
-    <div class="rom-images">
-      <img src="ukazxda/images/limpos_home.jpg" alt="Home Screen" onerror="this.src='https://placehold.co/320x600/1a0b3d/ff6bcb?text=Home+Screen'">
-      <img src="ukazxda/images/limpos_config.jpg" alt="Settings" onerror="this.src='https://placehold.co/320x600/1a0b3d/ff6bcb?text=Settings'">
-      <img src="ukazxda/images/limpos_apps.jpg" alt="Apps" onerror="this.src='https://placehold.co/320x600/1a0b3d/ff6bcb?text=Apps'">
-    </div>
-    <div class="buttons">
-      <a href="https://drive.usercontent.google.com/download?id=1_YHcRU6j6KaM-vavMdBX_ZslbYWK4eHp&export=download" class="btn"><i class="fab fa-google-drive"></i> Google Drive</a>
-      <a href="https://www.mediafire.com/file/rb2me4vpzeug1th/LIMPOS_2.0-ARM32-PP-G610.zip" class="btn"><i class="fas fa-fire"></i> MediaFire</a>
-    </div>
-  </div>
-  <div class="rom-card">
-    <h3>Limpo 64</h3>
-    <p>v3.1 • 24/01/2023 • OneUI 1.0 • Android 9 • ARM64</p>
-    <div class="rom-images">
-      <img src="ukazxda/images/limpo64_home.jpg" alt="Home Screen" onerror="this.src='https://placehold.co/320x600/0d0a1f/c471ed?text=Home+64'">
-      <img src="ukazxda/images/limpo64_config.jpg" alt="Settings" onerror="this.src='https://placehold.co/320x600/0d0a1f/c471ed?text=Settings+64'">
-      <img src="ukazxda/images/limpo64_apps.jpg" alt="Apps" onerror="this.src='https://placehold.co/320x600/0d0a1f/c471ed?text=Apps+64'">
-    </div>
-    <div class="buttons">
-      <a href="https://drive.usercontent.google.com/download?id=1vH_yNORCkI1sGDPelL1unc60cdbN-Ihc&export=download" class="btn"><i class="fab fa-google-drive"></i> Google Drive</a>
-      <a href="https://www.mediafire.com/file/669u91159681fy0/LIMPO-64_v3.1-ARM64-PP-G610.zip" class="btn"><i class="fas fa-fire"></i> MediaFire</a>
-    </div>
-  </div>
-  <div class="rom-card">
-    <h3>Limpo QQ</h3>
-    <p>v7.0 • 15/06/2021 • OneUI 2.0 • Android 10 • Treble 32Bit</p>
-    <div class="rom-images">
-      <img src="ukazxda/images/limpoq_home.jpg" alt="Home Screen" onerror="this.src='https://placehold.co/320x600/1a0b3d/f64f59?text=Home+QQ'">
-      <img src="ukazxda/images/limpoq_config.jpg" alt="Settings" onerror="this.src='https://placehold.co/320x600/1a0b3d/f64f59?text=Settings+QQ'">
-      <img src="ukazxda/images/limpoq_apps.jpg" alt="Apps" onerror="this.src='https://placehold.co/320x600/1a0b3d/f64f59?text=Apps+QQ'">
-    </div>
-    <div class="buttons">
-      <a href="https://drive.usercontent.google.com/download?id=1x6LvATY5do8r4wAW-QkIE-SdJ3AoaG2R&export=download" class="btn"><i class="fab fa-google-drive"></i> Google Drive</a>
-      <a href="https://www.mediafire.com/file/apw4ntfbtcufml5/LIMPO-Q_7.0-ARM32-QQ-G610.zip" class="btn"><i class="fas fa-fire"></i> MediaFire</a>
-    </div>
-  </div>
-</div>
-<footer>
-  <p>© 2025 UKAzXDA</p>
+<main class="container mx-auto px-4 pb-20">
+    <section class="profile text-center mb-16 scroll-reveal">
+        <div class="relative inline-block p-1 rounded-full bg-primary-dark shadow-soft transition duration-500 hover:shadow-md-accent">
+            <img 
+                src="ukazxda/images/perfil.png" 
+                alt="UKA z XDA Profile" 
+                class="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover border-4 border-accent-soft transition duration-500 transform hover:scale-105"
+                onerror="this.src='https://ui-avatars.com/api/?name=UKA+z+XDA&background=63b3ed&color=fff&size=256'"
+            >
+        </div>
+        <h2 class="text-4xl md:text-6xl font-extrabold mt-6 text-soft-white tracking-tight">UKAzXDA</h2>
+        <div class="social-links mt-6 flex justify-center space-x-6">
+            <a href="https://github.com/ukazxda" target="_blank" title="GitHub" class="text-gray-400 hover:text-soft-white transition-colors duration-300 transform hover:scale-110">
+                <i class="fab fa-github text-3xl"></i>
+            </a>
+            <a href="https://t.me/LimpoROMgrupo" target="_blank" title="Telegram" class="text-gray-400 hover:text-accent-soft transition-colors duration-300 transform hover:scale-110">
+                <i class="fab fa-telegram text-3xl"></i>
+            </a>
+        </div>
+    </section>
+    <section class="roms max-w-4xl mx-auto">
+        <div class="rom-card glassmorphism p-6 md:p-10 mb-12 rounded-3xl transition-all duration-500 hover:shadow-lg scroll-reveal">
+            <h4 class="text-3xl font-bold text-soft-white text-center mb-3">Limpo OS <span class="text-accent-soft font-medium text-lg ml-2">Stable</span></h4>
+            <p class="text-center text-gray-400 mb-6 text-sm">27/05/2023 • OneUI 1.1 • Android 9 • ARM32</p>
+            <div class="rom-images flex justify-center md:gap-6 flex-wrap mb-8">
+                <img src="ukazxda/images/limpos_home.jpg" alt="Home Screen Limpo OS" class="w-24 h-48 md:w-32 md:h-64 object-cover rounded-xl shadow-md transition duration-500 transform hover:scale-105" onerror="this.src='https://placehold.co/320x600/374151/f7f8fa?text=Home+Screen'">
+                <img src="ukazxda/images/limpos_config.jpg" alt="Settings Limpo OS" class="w-24 h-48 md:w-32 md:h-64 object-cover rounded-xl shadow-md transition duration-500 transform hover:scale-105" onerror="this.src='https://placehold.co/320x600/374151/f7f8fa?text=Settings'">
+                <img src="ukazxda/images/limpos_apps.jpg" alt="Apps Limpo OS" class="w-24 h-48 md:w-32 md:h-64 object-cover rounded-xl shadow-md transition duration-500 transform hover:scale-105" onerror="this.src='https://placehold.co/320x600/374151/f7f8fa?text=Apps'">
+            </div>
+            <div class="buttons text-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="https://drive.usercontent.google.com/download?id=1_YHcRU6j6KaM-vavMdBX_ZslbYWK4eHp&export=download" class="btn-download bg-primary-dark hover:bg-gray-800 text-soft-white border border-gray-600">
+                    <i class="fab fa-google-drive mr-2"></i> Google Drive
+                </a>
+                <a href="https://www.mediafire.com/file/rb2me4vpzeug1th/LIMPOS_2.0-ARM32-PP-G610.zip" class="btn-download bg-primary-dark hover:bg-gray-800 text-soft-white border border-gray-600">
+                    <i class="fas fa-fire mr-2"></i> MediaFire
+                </a>
+            </div>
+        </div>
+        <div class="rom-card glassmorphism p-6 md:p-10 mb-12 rounded-3xl transition-all duration-500 hover:shadow-lg scroll-reveal">
+            <h4 class="text-3xl font-bold text-soft-white text-center mb-3">Limpo 64 <span class="text-gray-400 font-medium text-lg ml-2">v3.1</span></h4>
+            <p class="text-center text-gray-400 mb-6 text-sm">24/01/2023 • OneUI 1.0 • Android 9 • ARM64</p>
+            <div class="rom-images flex justify-center md:gap-6 flex-wrap mb-8">
+                <img src="ukazxda/images/limpo64_home.jpg" alt="Home Screen Limpo 64" class="w-24 h-48 md:w-32 md:h-64 object-cover rounded-xl shadow-md transition duration-500 transform hover:scale-105" onerror="this.src='https://placehold.co/320x600/374151/f7f8fa?text=Home+64'">
+                <img src="ukazxda/images/limpo64_config.jpg" alt="Settings Limpo 64" class="w-24 h-48 md:w-32 md:h-64 object-cover rounded-xl shadow-md transition duration-500 transform hover:scale-105" onerror="this.src='https://placehold.co/320x600/374151/f7f8fa?text=Settings+64'">
+                <img src="ukazxda/images/limpo64_apps.jpg" alt="Apps Limpo 64" class="w-24 h-48 md:w-32 md:h-64 object-cover rounded-xl shadow-md transition duration-500 transform hover:scale-105" onerror="this.src='https://placehold.co/320x600/374151/f7f8fa?text=Apps+64'">
+            </div>
+            <div class="buttons text-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="https://drive.usercontent.google.com/download?id=1vH_yNORCkI1sGDPelL1unc60cdbN-Ihc&export=download" class="btn-download bg-primary-dark hover:bg-gray-800 text-soft-white border border-gray-600">
+                    <i class="fab fa-google-drive mr-2"></i> Google Drive
+                </a>
+                <a href="https://www.mediafire.com/file/669u91159681fy0/LIMPO-64_v3.1-ARM64-PP-G610.zip" class="btn-download bg-primary-dark hover:bg-gray-800 text-soft-white border border-gray-600">
+                    <i class="fas fa-fire mr-2"></i> MediaFire
+                </a>
+            </div>
+        </div>
+        <div class="rom-card glassmorphism p-6 md:p-10 rounded-3xl transition-all duration-500 hover:shadow-lg scroll-reveal">
+            <h4 class="text-3xl font-bold text-soft-white text-center mb-3">Limpo QQ <span class="text-gray-400 font-medium text-lg ml-2">v7.0</span></h4>
+            <p class="text-center text-gray-400 mb-6 text-sm">15/06/2021 • OneUI 2.0 • Android 10 • Treble 32Bit</p>
+            <div class="rom-images flex justify-center md:gap-6 flex-wrap mb-8">
+                <img src="ukazxda/images/limpoq_home.jpg" alt="Home Screen Limpo QQ" class="w-24 h-48 md:w-32 md:h-64 object-cover rounded-xl shadow-md transition duration-500 transform hover:scale-105" onerror="this.src='https://placehold.co/320x600/374151/f7f8fa?text=Home+QQ'">
+                <img src="ukazxda/images/limpoq_config.jpg" alt="Settings Limpo QQ" class="w-24 h-48 md:w-32 md:h-64 object-cover rounded-xl shadow-md transition duration-500 transform hover:scale-105" onerror="this.src='https://placehold.co/320x600/374151/f7f8fa?text=Settings+QQ'">
+                <img src="ukazxda/images/limpoq_apps.jpg" alt="Apps Limpo QQ" class="w-24 h-48 md:w-32 md:h-64 object-cover rounded-xl shadow-md transition duration-500 transform hover:scale-105" onerror="this.src='https://placehold.co/320x600/374151/f7f8fa?text=Apps+QQ'">
+            </div>
+            <div class="buttons text-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="https://drive.usercontent.google.com/download?id=1x6LvATY5do8r4wAW-QkIE-SdJ3AoaG2R&export=download" class="btn-download bg-primary-dark hover:bg-gray-800 text-soft-white border border-gray-600">
+                    <i class="fab fa-google-drive mr-2"></i> Google Drive
+                </a>
+                <a href="https://www.mediafire.com/file/apw4ntfbtcufml5/LIMPO-Q_7.0-ARM32-QQ-G610.zip" class="btn-download bg-primary-dark hover:bg-gray-800 text-soft-white border border-gray-600">
+                    <i class="fas fa-fire mr-2"></i> MediaFire
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="text-center py-8 border-t border-gray-700 text-gray-400 text-sm" style="background-color: rgb(1 1 1 / 22%)">
+    <p>© 2025 UKAzXDA. Todos os direitos reservados.</p>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
-  particlesJS("particles", {
-    "particles": {
-      "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-      "color": { "value": ["#ff6bcb", "#c471ed", "#ffffff"] },
-      "shape": { "type": "circle" },
-      "opacity": { "value": 0.5, "random": true },
-      "size": { "value": 4, "random": true },
-      "line_linked": {
-        "enable": true,
-        "distance": 150,
-        "color": "#c471ed",
-        "opacity": 0.4,
-        "width": 1
-      },
-      "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "out_mode": "out" }
-    },
-    "interactivity": {
-      "detect_on": "canvas",
-      "events": {
-        "onhover": { "enable": true, "mode": "repulse" },
-        "onclick": { "enable": true, "mode": "push" }
-      }
-    },
-    "retina_detect": true
-  });
+    document.querySelectorAll('.btn-download').forEach(button => {
+        button.classList.add('inline-flex', 'items-center', 'justify-center', 'px-6', 'py-3', 'text-base', 'font-medium', 'rounded-full', 'transition-all', 'duration-300', 'transform', 'hover:scale-105');
+    });
+    document.addEventListener("DOMContentLoaded", () => {
+        const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.1
+        };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.scroll-reveal').forEach(element => {
+            observer.observe(element);
+        });
+        particlesJS("particles", {
+            "particles": {
+                "number": { "value": 50, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#f7f8fa", "#63b3ed"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.4, "random": true },
+                "size": { "value": 2, "random": true, "anim": { "enable": true, "speed": 1, "size_min": 0.5, "sync": false } },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 180,
+                    "color": "#9ca3af",
+                    "opacity": 0.3,
+                    "width": 1
+                },
+                "move": { "enable": true, "speed": 1.5, "direction": "none", "random": true, "out_mode": "out" }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "repulse" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                }
+            },
+            "retina_detect": true
+        });
+    });
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
