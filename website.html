@@ -64,10 +64,48 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Novo CSS para o Modal de Imagem */
+        #image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none; /* Escondido por padrão */
+            justify-content: center;
+            align-items: center;
+            z-index: 50; /* Z-index alto para sobrepor tudo */
+            cursor: pointer; /* Indica que é clicável para fechar */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #image-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        #image-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transform: scale(0.95);
+            transition: transform 0.3s ease-in-out;
+        }
+        #image-modal.active #image-modal-content {
+            transform: scale(1);
+        }
+        /* Ajuste para as imagens clicáveis */
+        .rom-images img {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="font-sans antialiased">
 <div id="particles"></div>
+
+<div id="image-modal">
+    <img id="image-modal-content" src="" alt="Visualização de Imagem da ROM" class="rounded-xl shadow-2xl">
+</div>
 <header class="py-12 px-4 text-center">
     <h1 class="text-xs font-semibold uppercase tracking-widest text-gray-400 scroll-reveal">
     </h1>
@@ -154,6 +192,44 @@
     document.querySelectorAll('.btn-download').forEach(button => {
         button.classList.add('inline-flex', 'items-center', 'justify-center', 'px-6', 'py-3', 'text-base', 'font-medium', 'rounded-full', 'transition-all', 'duration-300', 'transform', 'hover:scale-105');
     });
+
+    // Novo script para o Modal de Imagem
+    const modal = document.getElementById('image-modal');
+    const modalContent = document.getElementById('image-modal-content');
+    const romImages = document.querySelectorAll('.rom-images img');
+
+    romImages.forEach(img => {
+        img.addEventListener('click', (e) => {
+            // Previne que o evento de clique atinja elementos pais se houver
+            e.stopPropagation(); 
+            // Define a imagem do modal como a imagem clicada
+            modalContent.src = img.src;
+            // Torna o modal visível
+            modal.classList.add('active');
+            // Impede o scroll do corpo
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // Função para fechar o modal
+    function closeModal() {
+        modal.classList.remove('active');
+        // Restaura o scroll do corpo
+        document.body.style.overflow = '';
+    }
+
+    // Fecha o modal ao clicar no overlay
+    modal.addEventListener('click', closeModal);
+    
+    // Fecha o modal ao pressionar a tecla ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+    // Fim Novo script para o Modal de Imagem
+
+
     document.addEventListener("DOMContentLoaded", () => {
         const observerOptions = {
             root: null,
