@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="UKAzXDA - GIF para Live Photo Converter">
     <meta name="theme-color" content="#f2f2f7">
-    <title>GIF para Live Photo UKAzXDA</title>
+    <title>GIF para Live Photo | UKAzXDA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -363,6 +363,7 @@
         const downloadVideoBtn = document.getElementById('download-video-btn');
         const previewOutputVideoBtn = document.getElementById('preview-output-video-btn');
         const finalVideoPlayer = document.getElementById('final-video-player');
+
         function initEvents() {
             dropZone.addEventListener('click', () => gifInput.click());
             dropZone.addEventListener('dragover', (e) => {
@@ -458,14 +459,16 @@
                 }
             });
         }
+
         function handleFileSelect(file) {
-            if (!file || !file.type.includes('gif')) {
+            if (!file || (!file.type.includes('gif') && !file.name.toLowerCase().endsWith('.gif'))) {
                 alert('Por favor, selecione um arquivo GIF animado válido.');
                 return;
             }
             const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
             fileSizeBadge.textContent = `${sizeMB} MB`;
             fileSizeBadge.classList.remove('hidden');
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 const buffer = new Uint8Array(e.target.result);
@@ -473,74 +476,122 @@
                     parseGifBuffer(buffer);
                 } catch(err) {
                     console.error("Erro ao ler GIF:", err);
-                    alert("Ocorreu um erro ao processar os quadros do GIF. Tente outro arquivo.");
+                    alert("Ocorreu um erro ao processar os quadros do GIF. O arquivo pode estar corrompido ou em formato incompatível. Tente outro arquivo.");
                 }
+            };
+            reader.onerror = function() {
+                alert("Erro ao ler o arquivo selecionado.");
             };
             reader.readAsArrayBuffer(file);
         }
+
         function parseGifBuffer(buffer) {
-            const gifReader = new Omggif.GifReader(buffer);
+            if (typeof Omggif === 'undefined' || !Omggif.GifReader) {
+                throw new Error("Biblioteca Omggif não carregada.");
+            }
+
+            let gifReader;
+            try {
+                gifReader = new Omggif.GifReader(buffer);
+            } catch (err) {
+                throw new Error("Cabeçalho GIF inválido ou corrompido.");
+            }
+
             state.gifParsed = gifReader;
             state.gifWidth = gifReader.width;
             state.gifHeight = gifReader.height;
             const frameCount = gifReader.numFrames();
+            
+            if (!frameCount || frameCount <= 0) {
+                throw new Error("O GIF não contém quadros válidos.");
+            }
+
             state.rawFrames = [];
             let totalDurationMs = 0;
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = state.gifWidth;
             tempCanvas.height = state.gifHeight;
             const tempCtx = tempCanvas.getContext('2d');
+
             for (let i = 0; i < frameCount; i++) {
-                const frameInfo = gifReader.frameInfo(i);
-                const delayMs = (frameInfo.delay || 10) * 10;
-                totalDurationMs += delayMs;
-                const framePixels = new Uint8ClampedArray(state.gifWidth * state.gifHeight * 4);
-                gifReader.decodeAndBlitFrameRGBA(i, framePixels);
-                const imgData = new ImageData(framePixels, state.gifWidth, state.gifHeight);
-                const fCanvas = document.createElement('canvas');
-                fCanvas.width = state.gifWidth;
-                fCanvas.height = state.gifHeight;
-                const fCtx = fCanvas.getContext('2d');
-                if (i > 0 && frameInfo.disposal !== 2) {
-                    fCtx.drawImage(tempCanvas, 0, 0);
+                try {
+                    const frameInfo = gifReader.frameInfo(i);
+                    const delayMs = (frameInfo.delay && frameInfo.delay > 0 ? frameInfo.delay : 10) * 10;
+                    totalDurationMs += delayMs;
+
+                    const framePixels = new Uint8ClampedArray(state.gifWidth * state.gifHeight * 4);
+                    gifReader.decodeAndBlitFrameRGBA(i, framePixels);
+
+                    const imgData = new ImageData(framePixels, state.gifWidth, state.gifHeight);
+                    const fCanvas = document.createElement('canvas');
+                    fCanvas.width = state.gifWidth;
+                    fCanvas.height = state.gifHeight;
+                    const fCtx = fCanvas.getContext('2d');
+
+                    if (i > 0 && frameInfo.disposal !== 2) {
+                        fCtx.drawImage(tempCanvas, 0, 0);
+                    }
+                    const patchCanvas = document.createElement('canvas');
+                    patchCanvas.width = state.gifWidth;
+                    patchCanvas.height = state.gifHeight;
+                    patchCanvas.getContext('2d').putImageData(imgData, 0, 0);
+                    fCtx.drawImage(patchCanvas, 0, 0);
+
+                    tempCtx.clearRect(0, 0, state.gifWidth, state.gifHeight);
+                    tempCtx.drawImage(fCanvas, 0, 0);
+
+                    state.rawFrames.push({
+                        canvas: fCanvas,
+                        delayMs: delayMs
+                    });
+                } catch (frameErr) {
+                    console.warn(`Aviso: falha ao decodificar o quadro ${i}, clonando quadro anterior se possível.`, frameErr);
+                    if (state.rawFrames.length > 0) {
+                        const lastValid = state.rawFrames[state.rawFrames.length - 1];
+                        state.rawFrames.push({
+                            canvas: lastValid.canvas,
+                            delayMs: lastValid.delayMs
+                        });
+                        totalDurationMs += lastValid.delayMs;
+                    }
                 }
-                const patchCanvas = document.createElement('canvas');
-                patchCanvas.width = state.gifWidth;
-                patchCanvas.height = state.gifHeight;
-                patchCanvas.getContext('2d').putImageData(imgData, 0, 0);
-                fCtx.drawImage(patchCanvas, 0, 0);
-                tempCtx.clearRect(0, 0, state.gifWidth, state.gifHeight);
-                tempCtx.drawImage(fCanvas, 0, 0);
-                state.rawFrames.push({
-                    canvas: fCanvas,
-                    delayMs: delayMs
-                });
             }
+
+            if (state.rawFrames.length === 0) {
+                throw new Error("Nenhum quadro pudo ser decodificado.");
+            }
+
             state.totalGifDurationSec = totalDurationMs / 1000;
-            infoFrames.textContent = frameCount;
+            infoFrames.textContent = state.rawFrames.length;
             infoDuration.textContent = state.totalGifDurationSec.toFixed(1) + 's';
             infoRes.textContent = `${state.gifWidth}x${state.gifHeight}`;
+            
             gifInfoPanel.classList.remove('hidden');
             sectionRes.classList.remove('opacity-60', 'pointer-events-none');
             sectionTime.classList.remove('opacity-60', 'pointer-events-none');
             sectionExport.classList.remove('opacity-60', 'pointer-events-none');
             timelineControls.classList.remove('opacity-50', 'pointer-events-none');
             previewPlaceholder.classList.add('hidden');
+
             if (presetSelect.value === 'original') {
                 state.targetWidth = state.gifWidth;
                 state.targetHeight = state.gifHeight;
             }
-            frameScrubber.max = frameCount - 1;
+
+            frameScrubber.max = state.rawFrames.length - 1;
             frameScrubber.value = 0;
             state.currentFrameIndex = 0;
+
             updateResolutionUI();
             recalculateTiming();
             startPlaybackLoop();
         }
+
         function recalculateTiming() {
             if (!state.rawFrames.length) return;
             const targetDur = state.targetDurationSec;
             const originalDur = state.totalGifDurationSec;
+
             if (originalDur > targetDur) {
                 state.calculatedSpeedup = originalDur / targetDur;
                 speedStatusBox.className = "p-3.5 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3 text-amber-800";
@@ -557,12 +608,14 @@
                 speedDesc.innerHTML = `O GIF tem <b>${originalDur.toFixed(1)}s</b>, o que cabe perfeitamente na limitação de <b>${targetDur.toFixed(1)}s</b> sem necessidade de acelerar.`;
             }
         }
+
         function updateResolutionUI() {
             previewResBadge.textContent = `${state.targetWidth} x ${state.targetHeight}`;
             previewCanvas.width = state.targetWidth;
             previewCanvas.height = state.targetHeight;
             renderCurrentPreviewFrame();
         }
+
         function drawSmartFillFrame(ctx, sourceCanvas, width, height, mode) {
             ctx.clearRect(0, 0, width, height);
             const srcW = sourceCanvas.width;
@@ -577,6 +630,7 @@
                 const bgY = (height - bgH) / 2;
                 ctx.drawImage(sourceCanvas, bgX, bgY, bgW, bgH);
                 ctx.restore();
+
                 const scaleFit = Math.min(width / srcW, height / srcH);
                 const fgW = srcW * scaleFit;
                 const fgH = srcH * scaleFit;
@@ -609,6 +663,7 @@
                 ctx.drawImage(sourceCanvas, fgX, fgY, fgW, fgH);
             }
         }
+
         function renderCurrentPreviewFrame() {
             if (!state.rawFrames.length) return;
             const frame = state.rawFrames[state.currentFrameIndex];
@@ -626,6 +681,7 @@
                 timeCurrent.textContent = curSec.toFixed(1) + 's';
             }
         }
+
         function startPlaybackLoop() {
             if (state.animTimer) clearTimeout(state.animTimer);
             function step() {
@@ -653,6 +709,7 @@
             }
             step();
         }
+
         function togglePlayPause() {
             state.isPlaying = !state.isPlaying;
             if (state.isPlaying) {
@@ -663,6 +720,7 @@
                 if (state.animTimer) clearTimeout(state.animTimer);
             }
         }
+
         async function renderVideoExport() {
             if (!state.rawFrames.length) return;
             state.isPlaying = false;
@@ -670,15 +728,18 @@
             processingOverlay.classList.remove('hidden');
             processTitle.textContent = "Gerando Vídeo para Live Photo...";
             processProgressBar.style.width = '0%';
+
             const renderCanvas = document.createElement('canvas');
             renderCanvas.width = state.targetWidth;
             renderCanvas.height = state.targetHeight;
             const renderCtx = renderCanvas.getContext('2d');
             const fps = 30;
             const stream = renderCanvas.captureStream(fps);
+
             let mimeType = 'video/webm;codecs=vp9';
             if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
             if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/mp4';
+
             let mediaRecorder;
             try {
                 mediaRecorder = new MediaRecorder(stream, {
@@ -686,19 +747,28 @@
                     videoBitsPerSecond: 8000000
                 });
             } catch (e) {
-                mediaRecorder = new MediaRecorder(stream);
+                try {
+                    mediaRecorder = new MediaRecorder(stream);
+                } catch (err) {
+                    alert("Seu navegador não suporta gravação de vídeo nesta página.");
+                    processingOverlay.classList.add('hidden');
+                    return;
+                }
             }
+
             const recordedChunks = [];
             mediaRecorder.ondataavailable = (e) => {
                 if (e.data.size > 0) recordedChunks.push(e.data);
             };
             mediaRecorder.start();
+
             const totalTargetDurationMs = state.targetDurationSec * 1000;
             const frameStepMs = 1000 / fps;
             let currentVideoTimeMs = 0;
             let sourceGifTimeMs = 0;
             const gifDelays = state.rawFrames.map(f => f.delayMs);
             const totalGifDurationMs = state.totalGifDurationSec * 1000;
+
             while (currentVideoTimeMs < totalTargetDurationMs) {
                 if (state.timeMode === 'speedup') {
                     sourceGifTimeMs = (currentVideoTimeMs * state.calculatedSpeedup) % totalGifDurationMs;
@@ -724,22 +794,26 @@
                 await new Promise(r => setTimeout(r, 10));
                 currentVideoTimeMs += frameStepMs;
             }
+
             mediaRecorder.stop();
             await new Promise(resolve => {
                 mediaRecorder.onstop = resolve;
             });
+
             const videoBlob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'video/webm' });
             state.renderedBlob = videoBlob;
             const videoUrl = URL.createObjectURL(videoBlob);
             downloadVideoBtn.href = videoUrl;
             downloadVideoBtn.download = `live_photo_${state.targetWidth}x${state.targetHeight}.mp4`;
             finalVideoPlayer.src = videoUrl;
+
             processingOverlay.classList.add('hidden');
             outputCard.classList.remove('hidden');
             outputCard.scrollIntoView({ behavior: 'smooth' });
             state.isPlaying = true;
             startPlaybackLoop();
         }
+
         window.addEventListener('DOMContentLoaded', initEvents);
     </script>
 </body>
