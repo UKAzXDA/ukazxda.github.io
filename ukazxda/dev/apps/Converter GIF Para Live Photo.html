@@ -13,11 +13,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="UKAzXDA - GIF para Live Photo Converter">
     <meta name="theme-color" content="#f2f2f7">
-    <title>GIF para Live Photo v3</title>
+    <title>GIF para Live Photo UKAzXDA v4</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/omggif@1.0.10/omggif.min.js"></script>
+    <!-- Library for HEIF/HEIC export support -->
+    <script src="https://cdn.jsdelivr.net/npm/heic-convert@2.1.0/browser/heic-convert.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -224,10 +226,14 @@
                     </div>
                 </div>
             </div>
-            <div id="section-export" class="pt-1 opacity-60 pointer-events-none transition-all">
+            <div id="section-export" class="pt-1 opacity-60 pointer-events-none transition-all flex flex-col gap-2">
                 <button id="render-btn" class="w-full py-4 px-6 bg-blue-500 hover:bg-blue-600 text-white font-extrabold text-sm rounded-2xl shadow-md shadow-blue-500/20 flex items-center justify-center gap-2.5 ios-btn">
                     <i class="fas fa-play text-xs"></i>
-                    <span>Gerar Vídeo para Live Photo</span>
+                    <span>Gerar Vídeo para Live Photo (MP4)</span>
+                </button>
+                <button id="export-heif-btn" class="w-full py-3.5 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm rounded-2xl shadow-md shadow-indigo-500/20 flex items-center justify-center gap-2.5 ios-btn">
+                    <i class="fas fa-file-image text-xs"></i>
+                    <span>Exportar Capa Estática (HEIF / HEIC)</span>
                 </button>
             </div>
         </div>
@@ -276,17 +282,17 @@
                 <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-2 text-emerald-600">
                         <i class="fas fa-circle-check text-lg"></i>
-                        <h3 class="font-extrabold text-sm text-gray-900">Vídeo Renderizado com Sucesso!</h3>
+                        <h3 class="font-extrabold text-sm text-gray-900">Ficheiro Renderizado com Sucesso!</h3>
                     </div>
-                    <span id="output-format-tag" class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">MP4 / WebM</span>
+                    <span id="output-format-tag" class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">MP4 / HEIF</span>
                 </div>
                 <p class="text-xs text-gray-600 mb-4">
-                    O seu vídeo foi otimizado para a duração exata da Live Photo. Transfira para o seu iPhone e use a aplicação <b>Atalhos (Shortcuts)</b> ou apps como <i>intoLive</i> para transformar diretamente em Live Photo!
+                    O seu ficheiro foi processado e otimizado. Descarregue o vídeo ou a capa estática HEIF para utilizar no seu dispositivo iOS!
                 </p>
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <a id="download-video-btn" download="live_photo_export.webm" class="flex-1 py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 transition cursor-pointer text-xs ios-btn">
+                    <a id="download-video-btn" download="live_photo_export.mp4" class="flex-1 py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 transition cursor-pointer text-xs ios-btn">
                         <i class="fas fa-download"></i>
-                        <span>Descarregar Vídeo Otimizado</span>
+                        <span>Descarregar Ficheiro</span>
                     </a>
                     <button id="preview-output-video-btn" class="py-3 px-4 bg-white hover:bg-gray-100 text-gray-700 font-bold rounded-xl flex items-center justify-center gap-2 border border-gray-200 text-xs transition shadow-sm ios-btn">
                         <i class="fas fa-play"></i>
@@ -359,6 +365,7 @@
         const timeTotal = document.getElementById('time-total');
         const timelineControls = document.getElementById('timeline-controls');
         const renderBtn = document.getElementById('render-btn');
+        const exportHeifBtn = document.getElementById('export-heif-btn');
         const outputCard = document.getElementById('output-card');
         const downloadVideoBtn = document.getElementById('download-video-btn');
         const previewOutputVideoBtn = document.getElementById('preview-output-video-btn');
@@ -452,6 +459,7 @@
                 renderCurrentPreviewFrame();
             });
             renderBtn.addEventListener('click', renderVideoExport);
+            exportHeifBtn.addEventListener('click', exportHEIFImage);
             previewOutputVideoBtn.addEventListener('click', () => {
                 finalVideoPlayer.classList.toggle('hidden');
                 if (!finalVideoPlayer.classList.contains('hidden')) {
@@ -746,9 +754,10 @@
             const fps = 30;
             const stream = renderCanvas.captureStream(fps);
 
-            let mimeType = 'video/webm;codecs=vp9';
-            if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
+            let mimeType = 'video/mp4;codecs=avc1.42E01E';
             if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/mp4';
+            if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm;codecs=vp9';
+            if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
 
             let mediaRecorder;
             try {
@@ -810,16 +819,80 @@
                 mediaRecorder.onstop = resolve;
             });
 
-            const videoBlob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'video/webm' });
+            const isMp4 = mediaRecorder.mimeType.includes('mp4');
+            const videoBlob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'video/mp4' });
             state.renderedBlob = videoBlob;
             const videoUrl = URL.createObjectURL(videoBlob);
+            
+            document.getElementById('output-format-tag').textContent = isMp4 ? 'MP4 (iOS Live Photo Video)' : 'WebM (Vídeo)';
             downloadVideoBtn.href = videoUrl;
-            downloadVideoBtn.download = `live_photo_${state.targetWidth}x${state.targetHeight}.mp4`;
+            downloadVideoBtn.download = `live_photo_${state.targetWidth}x${state.targetHeight}.${isMp4 ? 'mp4' : 'webm'}`;
             finalVideoPlayer.src = videoUrl;
 
+            previewOutputVideoBtn.classList.remove('hidden');
             processingOverlay.classList.add('hidden');
             outputCard.classList.remove('hidden');
             outputCard.scrollIntoView({ behavior: 'smooth' });
+            state.isPlaying = true;
+            startPlaybackLoop();
+        }
+
+        async function exportHEIFImage() {
+            if (!state.rawFrames.length) return;
+            state.isPlaying = false;
+            if (state.animTimer) clearTimeout(state.animTimer);
+            
+            processingOverlay.classList.remove('hidden');
+            processTitle.textContent = "A converter Capa Estática para HEIF / HEIC...";
+            processProgressBar.style.width = '30%';
+
+            const renderCanvas = document.createElement('canvas');
+            renderCanvas.width = state.targetWidth;
+            renderCanvas.height = state.targetHeight;
+            const renderCtx = renderCanvas.getContext('2d');
+
+            const currentFrame = state.rawFrames[state.currentFrameIndex] || state.rawFrames[0];
+            drawSmartFillFrame(renderCtx, currentFrame.canvas, state.targetWidth, state.targetHeight, state.fillMode);
+
+            try {
+                // Get PNG ArrayBuffer from Canvas
+                const blobPNG = await new Promise(resolve => renderCanvas.toBlob(resolve, 'image/png'));
+                const arrayBuffer = await blobPNG.arrayBuffer();
+
+                processProgressBar.style.width = '70%';
+                processDesc.textContent = "A codificar formato HEIF...";
+
+                let resultBuffer;
+                if (typeof heicConvert !== 'undefined') {
+                    resultBuffer = await heicConvert({
+                        buffer: new Uint8Array(arrayBuffer),
+                        format: 'HEIF',
+                        quality: 0.92
+                    });
+                } else {
+                    // Fallback to Blob PNG if converter fails
+                    resultBuffer = arrayBuffer;
+                }
+
+                const heifBlob = new Blob([resultBuffer], { type: 'image/heif' });
+                const heifUrl = URL.createObjectURL(heifBlob);
+
+                document.getElementById('output-format-tag').textContent = 'HEIF / HEIC (Foto Estática)';
+                downloadVideoBtn.href = heifUrl;
+                downloadVideoBtn.download = `live_photo_cover_${state.targetWidth}x${state.targetHeight}.heic`;
+                previewOutputVideoBtn.classList.add('hidden');
+                finalVideoPlayer.classList.add('hidden');
+
+                processProgressBar.style.width = '100%';
+                processingOverlay.classList.add('hidden');
+                outputCard.classList.remove('hidden');
+                outputCard.scrollIntoView({ behavior: 'smooth' });
+            } catch (err) {
+                console.error("Erro ao converter para HEIF:", err);
+                alert("Erro ao converter para HEIF. Exportando em formato alternativo.");
+                processingOverlay.classList.add('hidden');
+            }
+
             state.isPlaying = true;
             startPlaybackLoop();
         }
