@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!--
+~
+~
+~     K-y-u-b-e-y
+~   © 2021 UKΛz-XDΛ
+~
+~
+-->
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIMPO ROM</title>
+    <meta name="description" content="Coleção de sistemas operacionais otimizados e Custom ROMs (Limpo OS, Limpo 64, Limpo QQ) para o Samsung Galaxy J7 Prime.">
+    <meta name="keywords" content="Android, OneUI, ROM, Samsung, J7 Prime">
+    <meta name="author" content="UKAzXDA">
+    <meta name="theme-color" content="#f2f2f7">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                    },
+                    colors: {
+                        ios: {
+                            bg: '#f2f2f7',
+                            card: 'rgba(255, 255, 255, 0.75)',
+                            blue: '#007aff',
+                            'blue-hover': '#0062cc',
+                            text: '#1c1c1e',
+                            secondary: '#8e8e93',
+                            border: 'rgba(255, 255, 255, 0.85)',
+                        }
+                    },
+                    boxShadow: {
+                        'ios-card': '0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset',
+                        'ios-modal': '0 25px 60px -10px rgba(0, 0, 0, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f2f2f7;
+            color: #1c1c1e;
+            overflow-x: hidden;
+        }
+        .ios-glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(25px) saturate(190%);
+            -webkit-backdrop-filter: blur(25px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .ios-glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes blob-float-1 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(50px, -30px) scale(1.1); }
+        }
+        @keyframes blob-float-2 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(-40px, 40px) scale(0.95); }
+        }
+        .animate-blob-1 { animation: blob-float-1 14s ease-in-out infinite; }
+        .animate-blob-2 { animation: blob-float-2 18s ease-in-out infinite; }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(24px) scale(0.98);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .ios-btn {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease;
+        }
+        .ios-btn:active {
+            transform: scale(0.94) !important;
+        }
+        .screenshot-item {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+        .screenshot-item:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.12);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); border-radius: 99px; }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen relative flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute -top-24 -left-20 w-[30rem] h-[30rem] bg-blue-200/40 rounded-full blur-3xl animate-blob-1"></div>
+        <div class="absolute top-1/2 -right-20 w-[32rem] h-[32rem] bg-indigo-200/30 rounded-full blur-3xl animate-blob-2"></div>
+        <div class="absolute -bottom-24 left-1/3 w-[30rem] h-[30rem] bg-sky-200/40 rounded-full blur-3xl animate-blob-1"></div>
+    </div>
+    <div class="relative z-10 py-8 px-4 max-w-4xl mx-auto w-full">
+        <main class="space-y-8">
+            <article class="rom-card ios-glass-card p-6 md:p-8 rounded-[2.2rem] shadow-ios-card scroll-reveal">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200/60">
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Limpo OS</h2>
+                            <span class="px-3 py-1 bg-emerald-100 text-emerald-700 font-semibold text-xs rounded-full border border-emerald-200">Stable</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-medium mt-1"><i class="far fa-calendar-alt mr-1"></i> Lançamento: 27/05/2023</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs font-semibold">
+                        <span class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-xl"><i class="fas fa-desktop mr-1"></i>OneUI 1.1</span>
+                        <span class="px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-xl"><i class="fab fa-android mr-1"></i>Android 9</span>
+                        <span class="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-xl"><i class="fas fa-microchip mr-1"></i>ARM32</span>
+                    </div>
+                </div>
+                <div class="rom-images flex justify-center gap-3 md:gap-6 my-6">
+                    <div onclick="openModal('pixel/limpos_home.jpg')" class="screenshot-item rounded-2xl overflow-hidden border-2 border-white shadow-md bg-gray-100 cursor-pointer">
+                        <img src="pixel/limpos_home.jpg" alt="Home Screen Limpo OS" class="w-24 h-48 md:w-32 md:h-64 object-cover" onerror="this.src='https://placehold.co/320x600/e2e8f0/475569?text=Home+Screen'">
+                    </div>
+                    <div onclick="openModal('pixel/limpos_config.jpg')" class="screenshot-item rounded-2xl overflow-hidden border-2 border-white shadow-md bg-gray-100 cursor-pointer">
+                        <img src="pixel/limpos_config.jpg" alt="Settings Limpo OS" class="w-24 h-48 md:w-32 md:h-64 object-cover" onerror="this.src='https://placehold.co/320x600/e2e8f0/475569?text=Settings'">
+                    </div>
+                    <div onclick="openModal('pixel/limpos_apps.jpg')" class="screenshot-item rounded-2xl overflow-hidden border-2 border-white shadow-md bg-gray-100 cursor-pointer">
+                        <img src="pixel/limpos_apps.jpg" alt="Apps Limpo OS" class="w-24 h-48 md:w-32 md:h-64 object-cover" onerror="this.src='https://placehold.co/320x600/e2e8f0/475569?text=Apps'">
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6 pt-2">
+                    <a href="https://drive.usercontent.google.com/download?id=1_YHcRU6j6KaM-vavMdBX_ZslbYWK4eHp&export=download" target="_blank" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 text-xs transition ios-btn">
+                        <i class="fab fa-google-drive text-sm"></i> Google Drive
+                    </a>
+                    <a href="https://www.mediafire.com/file/rb2me4vpzeug1th/LIMPOS_2.0-ARM32-PP-G610.zip" target="_blank" class="bg-gray-900 hover:bg-black text-white font-semibold px-6 py-3 rounded-2xl shadow-lg flex items-center justify-center gap-2 text-xs transition ios-btn">
+                        <i class="fas fa-fire text-amber-400 text-sm"></i> MediaFire
+                    </a>
+                </div>
+            </article>
+            <article class="rom-card ios-glass-card p-6 md:p-8 rounded-[2.2rem] shadow-ios-card scroll-reveal">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200/60">
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Limpo 64</h2>
+                            <span class="px-3 py-1 bg-sky-100 text-sky-700 font-semibold text-xs rounded-full border border-sky-200">v3.1</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-medium mt-1"><i class="far fa-calendar-alt mr-1"></i> Lançamento: 24/01/2023</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs font-semibold">
+                        <span class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-xl"><i class="fas fa-desktop mr-1"></i>OneUI 1.0</span>
+                        <span class="px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-xl"><i class="fab fa-android mr-1"></i>Android 9</span>
+                        <span class="px-3 py-1.5 bg-purple-50 text-purple-600 rounded-xl"><i class="fas fa-bolt mr-1"></i>ARM64</span>
+                    </div>
+                </div>
+                <div class="rom-images flex justify-center gap-3 md:gap-6 my-6">
+                    <div onclick="openModal('pixel/limpo64_home.jpg')" class="screenshot-item rounded-2xl overflow-hidden border-2 border-white shadow-md bg-gray-100 cursor-pointer">
+                        <img src="pixel/limpo64_home.jpg" alt="Home Screen Limpo 64" class="w-24 h-48 md:w-32 md:h-64 object-cover" onerror="this.src='https://placehold.co/320x600/e2e8f0/475569?text=Home+64'">
+                    </div>
+                    <div onclick="openModal('pixel/limpo64_config.jpg')" class="screenshot-item rounded-2xl overflow-hidden border-2 border-white shadow-md bg-gray-100 cursor-pointer">
+                        <img src="pixel/limpo64_config.jpg" alt="Settings Limpo 64" class="w-24 h-48 md:w-32 md:h-64 object-cover" onerror="this.src='https://placehold.co/320x600/e2e8f0/475569?text=Settings+64'">
+                    </div>
+                    <div onclick="openModal('pixel/limpo64_apps.jpg')" class="screenshot-item rounded-2xl overflow-hidden border-2 border-white shadow-md bg-gray-100 cursor-pointer">
+                        <img src="pixel/limpo64_apps.jpg" alt="Apps Limpo 64" class="w-24 h-48 md:w-32 md:h-64 object-cover" onerror="this.src='https://placehold.co/320x600/e2e8f0/475569?text=Apps+64'">
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6 pt-2">
+                    <a href="https://drive.usercontent.google.com/download?id=1vH_yNORCkI1sGDPelL1unc60cdbN-Ihc&export=download" target="_blank" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 text-xs transition ios-btn">
+                        <i class="fab fa-google-drive text-sm"></i> Google Drive
+                    </a>
+                    <a href="https://www.mediafire.com/file/669u91159681fy0/LIMPO-64_v3.1-ARM64-PP-G610.zip" target="_blank" class="bg-gray-900 hover:bg-black text-white font-semibold px-6 py-3 rounded-2xl shadow-lg flex items-center justify-center gap-2 text-xs transition ios-btn">
+                        <i class="fas fa-fire text-amber-400 text-sm"></i> MediaFire
+                    </a>
+                </div>
+            </article>
+            <article class="rom-card ios-glass-card p-6 md:p-8 rounded-[2.2rem] shadow-ios-card scroll-reveal">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200/60">
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Limpo QQ</h2>
+                            <span class="px-3 py-1 bg-amber-100 text-amber-700 font-semibold text-xs rounded-full border border-amber-200">v7.0</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-medium mt-1"><i class="far fa-calendar-alt mr-1"></i> Lançamento: 15/06/2021</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs font-semibold">
+                        <span class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-xl"><i class="fas fa-desktop mr-1"></i>OneUI 2.0</span>
+                        <span class="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-xl"><i class="fab fa-android mr-1"></i>Android 10</span>
+                        <span class="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-xl"><i class="fas fa-microchip mr-1"></i>ARM32</span>
+                    </div>
+                </div>
+                <div class="rom-images flex justify-center gap-3 md:gap-6 my-6">
+                    <div onclick="openModal('pixel/limpoq_home.jpg')" class="screenshot-item rounded-2xl overflow-hidden border-2 border-white shadow-md bg-gray-100 cursor-pointer">
+                        <img src="pixel/limpoq_home.jpg" alt="Home Screen Limpo QQ" class="w-24 h-48 md:w-32 md:h-64 object-cover" onerror="this.src='https://placehold.co/320x600/e2e8f0/475569?text=Home+QQ'">
+                    </div>
+                    <div onclick="openModal('pixel/limpoq_config.jpg')" class="screenshot-item rounded-2xl overflow-hidden border-2 border-white shadow-md bg-gray-100 cursor-pointer">
+                        <img src="pixel/limpoq_config.jpg" alt="Settings Limpo QQ" class="w-24 h-48 md:w-32 md:h-64 object-cover" onerror="this.src='https://placehold.co/320x600/e2e8f0/475569?text=Settings+QQ'">
+                    </div>
+                    <div onclick="openModal('pixel/limpoq_apps.jpg')" class="screenshot-item rounded-2xl overflow-hidden border-2 border-white shadow-md bg-gray-100 cursor-pointer">
+                        <img src="pixel/limpoq_apps.jpg" alt="Apps Limpo QQ" class="w-24 h-48 md:w-32 md:h-64 object-cover" onerror="this.src='https://placehold.co/320x600/e2e8f0/475569?text=Apps+QQ'">
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6 pt-2">
+                    <a href="https://drive.usercontent.google.com/download?id=1x6LvATY5do8r4wAW-QkIE-SdJ3AoaG2R&export=download" target="_blank" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 text-xs transition ios-btn">
+                        <i class="fab fa-google-drive text-sm"></i> Google Drive
+                    </a>
+                    <a href="https://www.mediafire.com/file/apw4ntfbtcufml5/LIMPO-Q_7.0-ARM32-QQ-G610.zip" target="_blank" class="bg-gray-900 hover:bg-black text-white font-semibold px-6 py-3 rounded-2xl shadow-lg flex items-center justify-center gap-2 text-xs transition ios-btn">
+                        <i class="fas fa-fire text-amber-400 text-sm"></i> MediaFire
+                    </a>
+                </div>
+            </article>
+        </main>
+        <footer class="mt-12 text-center text-xs text-gray-500 font-medium">
+            <p>© UKAzXDA Custom ROMs Project</p>
+        </footer>
+    </div>
+    <div id="image-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300">
+        <div class="relative max-w-4xl max-h-[90vh] flex flex-col items-center">
+            <button onclick="closeModal()" class="absolute -top-12 right-0 text-white bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-full w-10 h-10 flex items-center justify-center transition ios-btn">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+            <img id="image-modal-content" src="" alt="ROM Preview" class="rounded-2xl shadow-ios-modal max-h-[80vh] w-auto object-contain border border-white/20">
+        </div>
+    </div>
+    <script>
+        function openModal(src) {
+            const modal = document.getElementById('image-modal');
+            const img = document.getElementById('image-modal-content');
+            img.src = src;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
