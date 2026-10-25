@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Painel CFTV</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/searchcursor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/shell/shell.min.js"></script>
+<style>
+  :root {
+    --ios-bg: #f2f2f7;
+    --ios-surface: rgba(255, 255, 255, 0.82);
+    --ios-card: #ffffff;
+    --ios-text: #1c1c1e;
+    --ios-text-secondary: #8e8e93;
+    --ios-border: rgba(60, 60, 67, 0.12);
+    --ios-blue: #007aff;
+    --ios-blue-light: rgba(0, 122, 255, 0.1);
+    --ios-red: #ff3b30;
+    --ios-red-light: rgba(255, 59, 48, 0.12);
+    --ios-green: #34c759;
+    --ios-yellow: #ffcc00;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-ios: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  }
+  
+  * { 
+    box-sizing: border-box; 
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif; 
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body { 
+    background-color: var(--ios-bg); 
+    color: var(--ios-text);
+    margin: 0;
+    padding: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .icon-svg {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .spin { animation: spin 1s linear infinite; }
+
+  .sys-info {
+    background: var(--ios-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: 10px 14px;
+    border: 1px solid var(--ios-border);
+    box-shadow: var(--shadow-ios);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  
+  .admin-only { display: none !important; }
+  body.admin-mode .admin-only { display: inline-flex !important; }
+  body.admin-mode .admin-only-block { display: block !important; }
+
+  .status-badge { 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+    padding: 0 12px; 
+    border-radius: 999px; 
+    font-weight: 500; 
+    font-size: 0.85rem; 
+    background: var(--ios-card); 
+    border: 1px solid var(--ios-border); 
+    white-space: nowrap; 
+    height: 36px; 
+    color: var(--ios-text);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ios-text-secondary); transition: background 0.3s ease; }
+  
+  .btn {
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 6px; 
+    padding: 0 14px; 
+    border-radius: var(--radius-md); 
+    font-weight: 600; 
+    font-size: 0.85rem; 
+    border: 1px solid var(--ios-border); 
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02); 
+    white-space: nowrap; 
+    height: 36px; 
+    cursor: pointer; 
+    background: var(--ios-card);
+    color: var(--ios-blue); 
+    text-decoration: none;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); 
+    position: relative; 
+    overflow: hidden;
+  }
+  .btn:hover:not(:disabled) { background: #fcfcfd; filter: brightness(0.97); } 
+  .btn:active:not(:disabled) { transform: scale(0.96); opacity: 0.8; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  
+  .btn-danger { background: var(--ios-red-light); color: var(--ios-red) !important; border-color: rgba(255, 59, 48, 0.2); } 
+  .btn-danger:hover:not(:disabled) { background: rgba(255, 59, 48, 0.2); }
+  
+  .btn-accent {
+    background: var(--ios-blue);
+    color: #ffffff !important;
+    border-color: var(--ios-blue);
+  }
+  .btn-accent:hover:not(:disabled) { background: #0066d6; }
+  .btn-success { background: var(--ios-green) !important; color: #fff !important; border-color: var(--ios-green) !important; }
+  .btn-error { background: var(--ios-red) !important; color: #fff !important; border-color: var(--ios-red) !important; }
+
+  .admin-panel { 
+    display: none !important; width: 100%; flex-direction: column-reverse; gap: 12px; 
+    background: var(--ios-card); padding: 14px; border-radius: var(--radius-lg); 
+    border: 1px solid var(--ios-border); box-shadow: var(--shadow-ios);
+    margin-bottom: 16px; animation: fadeIn 0.25s ease;
+  }
+  body.admin-mode .admin-panel { display: flex !important; }
+  
+  .admin-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+    width: 100%;
+  }
+  .admin-actions-grid .btn { width: 100%; justify-content: center; }
+
+  .segment-box {
+    align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+    background: var(--ios-bg); padding: 10px 12px; border-radius: var(--radius-md);
+    border: 1px solid var(--ios-border); margin-top: 2px;
+  }
+  .segment-inputs-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; }
+  .time-input-unit { 
+    flex: 1 1 auto; display: flex; align-items: center; gap: 4px; background: var(--ios-card); 
+    border: 1px solid var(--ios-border); border-radius: var(--radius-sm); padding: 4px 8px; 
+  }
+  .time-input-unit input { 
+    flex: 1 1 auto; width: 40px; border: none; outline: none; text-align: center; 
+    font-size: 0.9rem; font-weight: 600; background: transparent; color: var(--ios-text);
+  }
+  .time-input-unit span { flex: 0 0 auto; font-size: 0.7rem; color: var(--ios-text-secondary); font-weight: 600; text-transform: uppercase; }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .card {
+      background: var(--ios-card);
+      padding: 14px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--ios-border);
+      box-shadow: var(--shadow-ios);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+      animation: fadeSlideUp 0.25s ease forwards;
+      position: relative;
+      width: 100%;
+      min-width: 0;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  
+  .card-video { flex-direction: column; align-items: stretch; padding: 0; }
+
+  .thumb { aspect-ratio: 16/9; position: relative; background: #e5e5ea; cursor: pointer; overflow: hidden; width: 100%; }
+  .thumb:hover { opacity: 0.95; }
+  .video-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
+  
+  .select-box { position: absolute; top: 10px; right: 10px; z-index: 20; width: 20px; height: 20px; cursor: pointer; accent-color: var(--ios-blue); }
+
+  .badge-rec { 
+    position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.65); backdrop-filter: blur(8px); 
+    color: #fff; padding: 4px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; 
+    display: flex; align-items: center; gap: 6px; z-index: 10; letter-spacing: 0.2px; 
+  }
+  .pulse-dot { width: 7px; height: 7px; background: var(--ios-red); border-radius: 50%; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
+
+  .meta { padding: 12px; display: flex; flex-direction: column; flex-grow: 1; min-width: 0; word-break: break-word; } 
+  .card-actions { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; width: 100%; }
+  .card-actions .btn { flex: 1 1 auto; height: 32px; font-size: 0.78rem; min-width: 70px; border-radius: var(--radius-sm); }
+  
+  #navigationHeader { display: none; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--ios-border); flex-wrap: wrap; }
+  
+  #gridVideos { 
+    display: grid; gap: 14px; 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    width: 100%; 
+  }
+
+  .modal-overlay { 
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); 
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
+      display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; 
+      visibility: hidden; opacity: 0; transition: visibility 0.25s, opacity 0.25s; 
+  }
+  .modal-overlay.open { visibility: visible; opacity: 1; } 
+  .modal-box { 
+      background: var(--ios-card); width: 100%; max-width: 900px; max-height: 90vh; 
+      display: flex; flex-direction: column; border-radius: var(--radius-lg); 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15); overflow: hidden; 
+      transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+  }
+  .modal-overlay.open .modal-box { transform: scale(1); }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--ios-border); font-weight: 600; font-size: 1rem; }
+  
+  video { width: 100%; max-height: 70vh; background: #000; display: block; outline: none; }
+  .log-viewer { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.85rem; padding: 20px; overflow-y: auto; white-space: pre-wrap; background: #1c1c1e; color: #f2f2f7; flex: 1; }
+  .file-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--ios-border); transition: background 0.15s; animation: fadeIn 0.25s ease; gap: 10px; flex-wrap: wrap; border-radius: var(--radius-sm); }
+  .file-item:hover { background: var(--ios-bg); }
+  .file-info { display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--ios-text); font-weight: 500; font-size: 0.9rem; min-width: 0; word-break: break-all; }
+  .file-size { color: var(--ios-text-secondary); font-size: 0.8rem; font-weight: 400; }
+
+  .CodeMirror { height: 100% !important; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 13px; }
+  .cm-search-highlight { background-color: rgba(255, 204, 0, 0.4); border-bottom: 1px solid var(--ios-yellow); }
+
+  .termux-modal { background: #000000 !important; border: 1px solid #1c1c1e !important; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  .termux-header { background: #1c1c1e; border-bottom: 1px solid #2c2c2e; color: var(--ios-green); font-size: 0.85rem; }
+  .termux-body { background: #000000; color: #f2f2f7; padding: 16px; font-size: 0.85rem; flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+  .termux-input-container { display: flex; align-items: center; background: #000000; padding: 8px 0; border-top: 1px solid #1c1c1e; margin-top: auto; }
+  .termux-prompt { color: var(--ios-green); font-weight: bold; margin-right: 8px; white-space: nowrap; }
+  .termux-input { flex: 1; background: transparent; border: none; outline: none; color: #ffffff; font-family: inherit; font-size: 0.9rem; caret-color: var(--ios-green); }
+
+  .folder-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--ios-blue-light);
+    color: var(--ios-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+<div id="globalAlert" style="display:none; background: var(--ios-red); color: white; text-align: center; padding: 6px; font-size: 0.8rem; font-weight: 600; margin-bottom: 10px; border-radius: var(--radius-sm);">Servidor Desconectado</div>
+<main>
+  <div class="sys-info">
+    <div class="status-badge"><span id="batIcon"></span> <span id="batText">--%</span></div>
+    <div class="status-badge"><span class="dot" id="conDot"></span> <span id="conText">load</span></div>
+    <button class="btn" onclick="carregarVideos()" title="Atualizar" id="btnRefreshMain"></button>
+    <button class="btn" id="btnAdmin" onclick="toggleAdmin(this)" title="Admin"></button>
+  </div>
+  
+  <div class="admin-panel admin-only" id="adminPanel" style="margin-bottom: 12px;">
+    <div class="admin-actions-grid">
+      <button class="btn" id="btnFalaCam" onclick="toggleFala(this, 'cam')"></button>
+      <button class="btn" id="btnFalaBat" onclick="toggleFala(this, 'bat')"></button>
+      <button class="btn" id="btnLogs" onclick="abrirLogs()"></button>
+      <button class="btn" id="btnFiles" onclick="abrirGerenciador()"></button>
+      <button class="btn" onclick="document.getElementById('fileUpload').click()" id="btnUploadTxt"></button>
+      <button class="btn btn-accent" id="btnTermux" onclick="abrirTermux()"></button>
+      <button class="btn" id="btnReboot" onclick="rebootCelular(this)"></button>
+      <button class="btn btn-danger" id="btnFormat" onclick="formatarDados(this)"></button>
+    </div>
+    <div class="segment-box">
+      <div class="segment-inputs-group">
+        <div class="time-input-unit"><input type="number" id="inpD" placeholder="0" min="0" title="Dias"><span>Dias</span></div>
+        <div class="time-input-unit"><input type="number" id="inpH" placeholder="0" min="0" title="Horas"><span>Horas</span></div>
+        <div class="time-input-unit"><input type="number" id="inpM" placeholder="15" min="0" title="Minutos"><span>Min</span></div>
+        <div class="time-input-unit"><input type="number" id="inpS" placeholder="0" min="0" title="Segundos"><span>Seg</span></div>
+        <button class="btn btn-accent" style="flex: 1 1 auto;" onclick="salvarTempo(this)">Salvar Tempo</button>
+      </div>
+    </div>
+    <input type="file" id="fileUpload" style="display:none" multiple onchange="uploadFile(document.getElementById('btnUploadTxt'))">
+  </div>
+
+  <div style="background: var(--ios-card); border-radius: var(--radius-lg); padding: 16px; border: 1px solid var(--ios-border); box-shadow: var(--shadow-ios);">
+    <div id="navigationHeader">
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <button class="btn" id="btnNavBack" onclick="mostrarPastas()"></button>
+        <h2 id="currentFolderTitle" style="font-size: 1.05rem; font-weight: 600; color: var(--ios-text); margin: 0;"></h2>
+      </div>
+      <div class="admin-only" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <button class="btn" id="btnSelectAll" onclick="toggleSelecionarTudo()"></button>
+        <button class="btn btn-danger" id="btnDeleteSelected" onclick="excluirVideosSelecionados(this)" disabled></button>
+      </div>
+    </div>
+    <div id="gridVideos"></div>
+  </div>
+</main>
+
+<!-- Modal Player -->
+<div class="modal-overlay" id="modalPlayer">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span id="playerTitle">Assistir Vídeo</span>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-danger admin-only" onclick="deletarVideoAberto(this)">Excluir</button>
+        <button class="btn" onclick="fecharPlayer()">Fechar</button>
+      </div>
+    </div>
+    <video class="main" id="videoEl" controls playsinline></video>
+  </div>
+</div>
+
+<!-- Modal Logs -->
+<div class="modal-overlay" id="modalLogs">
+  <div class="modal-box" style="height: 80vh;">
+    <div class="modal-header">
+      <span>Logs do Sistema</span>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn" id="btnClearLogs" onclick="limparLogs(this)"></button>
+        <button class="btn" id="btnCloseLogs" onclick="fecharLogs()"></button>
+      </div>
+    </div>
+    <div class="log-viewer" id="logContent">Carregando...</div>
+  </div>
+</div>
+
+<!-- Modal Gerenciador de Arquivos -->
+<div class="modal-overlay" id="modalFileManager">
+  <div class="modal-box" style="height: 80vh;">
+    <div class="modal-header">
+      <span>Gerenciador de Arquivos</span>
+      <button class="btn" onclick="fecharGerenciador()">Fechar</button>
+    </div>
+    <div style="padding: 10px 16px; background: var(--ios-bg); border-bottom: 1px solid var(--ios-border); display: flex; gap: 10px; align-items: center;">
+      <button class="btn" id="btnManagerBack" onclick="navDir('..')"></button>
+      <span id="currentPathDisplay" style="font-family: monospace; font-size: 0.85rem; color: var(--ios-text); font-weight:600;"></span>
+    </div>
+    <div style="overflow-y: auto; padding: 12px 16px; flex: 1; background: var(--ios-card);" id="fileManagerContent"></div>
+  </div>
+</div>
+
+<!-- Modal Editor de Código -->
+<div class="modal-overlay" id="modalEditor">
+  <div class="modal-box" style="height: 90vh; max-width: 1100px;">
+    <div class="modal-header">
+      <div style="display: flex; gap: 8px;">
+        <button class="btn" id="btnSelectAllEditor" onclick="selecionarTudoEditor(this)"></button>
+        <button class="btn btn-accent" id="btnSalvarCod" onclick="salvarCodigoEditado(this)"></button>
+        <button class="btn" onclick="fecharEditor()">Fechar</button>
+      </div>
+    </div>
+    
+    <div id="editorSearchBar" style="display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #1c1c1e; border-bottom: 1px solid #2c2c2e; flex-wrap: wrap;">
+      <input type="text" id="searchInput" placeholder="Buscar no arquivo..." style="background: #2c2c2e; border: 1px solid #3a3a3c; color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; outline: none; flex: 1; min-width: 150px;" oninput="buscarTexto()" onkeydown="tratarTeclaBusca(event)">
+      <button class="btn" id="btnCaseSensitive" onclick="toggleCaseSensitive()" title="Diferenciar Maiúsculas/Minúsculas" style="height: 32px; padding: 0 10px; background: #3a3a3c; color: #8e8e93; border-color: #48484a;">Aa</button>
+      <button class="btn" onclick="buscarAnterior()" title="Anterior (Shift+Enter)" style="height: 32px; padding: 0 10px;">▲</button>
+      <button class="btn" onclick="buscarProximo()" title="Próximo (Enter)" style="height: 32px; padding: 0 10px;">▼</button>
+      <span id="searchCount" style="color: #8e8e93; font-size: 0.8rem; font-family: monospace; margin-left: 4px;">0/0</span>
+    </div>
+
+    <div style="flex: 1; position: relative; background: #282a36; overflow: hidden;">
+      <textarea id="codeArea"></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Terminal Interativo Termux -->
+<div class="modal-overlay" id="modalTerminal">
+  <div class="modal-box termux-modal" style="height: 85vh; max-width: 1000px;">
+    <div class="modal-header termux-header">
+      <span id="termHeaderTitle" style="display:flex; align-items:center; gap:6px;"></span>
+      <button class="btn btn-danger" style="height:28px; padding: 0 10px; font-size: 0.75rem;" onclick="fecharTerminal()">Sair</button>
+    </div>
+    <div id="termBody" class="termux-body">
+      <div id="termOutput" style="white-space: pre-wrap; word-break: break-all;"></div>
+      <div class="termux-input-container">
+        <span class="termux-prompt" id="termPrompt">~/servidor $</span>
+        <input type="text" id="termInput" class="termux-input" placeholder="" onkeydown="tratarInputTerminal(event)" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Dicionário de ícones SVG minimalistas
+const SVG_ICONS = {
+  battery: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/></svg>`,
+  zap: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  refresh: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.1 12a9 9 0 0 0 15 6.7l4.4-4.7M2.5 22v-6h6M21.9 12a9 9 0 0 0-15-6.7L2.5 10"/></svg>`,
+  lock: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+  unlock: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`,
+  camera: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`,
+  volumeOn: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`,
+  volumeOff: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>`,
+  logs: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  folder: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`,
+  file: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>`,
+  upload: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>`,
+  terminal: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>`,
+  reboot: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>`,
+  trash: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>`,
+  back: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>`,
+  checkSquare: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+  check: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+  edit: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+  save: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>`,
+  x: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+  loader: `<svg class="icon-svg spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>`,
+  shieldAlert: `<svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
+};
+
+let currentVideoUrl = "";
+let adminSenha = sessionStorage.getItem("admin_pwd") || null;
+let estadoFala = { cam: true, bat: true };
+let currentExplorerDir = ".";
+let tempoCarregado = false;
+let todosVideos = [];
+let viewAtual = 'pastas';
+let pastaAberta = '';
+let codeEditor = null;
+let arquivoSendoEditado = "";
+let tudoSelecionado = false;
+
+let caseSensitive = false;
+let searchMatches = [];
+let currentMatchIdx = -1;
+let searchMarkers = [];
+
+let termCwd = "/sdcard/servidor";
+let termHistory = [];
+let termHistoryIdx = -1;
+
+function inicializarBotoesEstaticos() {
+    document.getElementById('batIcon').innerHTML = SVG_ICONS.battery;
+    document.getElementById('btnRefreshMain').innerHTML = SVG_ICONS.refresh;
+    document.getElementById('btnLogs').innerHTML = `${SVG_ICONS.logs} Logs`;
+    document.getElementById('btnFiles').innerHTML = `${SVG_ICONS.folder} Arquivos`;
+    document.getElementById('btnUploadTxt').innerHTML = `${SVG_ICONS.upload} Upload`;
+    document.getElementById('btnTermux').innerHTML = `${SVG_ICONS.terminal} Termux`;
+    document.getElementById('btnReboot').innerHTML = `${SVG_ICONS.reboot} Reboot`;
+    document.getElementById('btnFormat').innerHTML = `${SVG_ICONS.trash} Formatar`;
+    document.getElementById('btnNavBack').innerHTML = `${SVG_ICONS.back} Voltar`;
+    document.getElementById('btnSelectAll').innerHTML = SVG_ICONS.checkSquare;
+    document.getElementById('btnDeleteSelected').innerHTML = `${SVG_ICONS.trash} <span id="selectedCount">0</span>`;
+    document.getElementById('btnClearLogs').innerHTML = `${SVG_ICONS.trash} Limpar`;
+    document.getElementById('btnCloseLogs').innerHTML = `${SVG_ICONS.back} Fechar`;
+    document.getElementById('btnManagerBack').innerHTML = `${SVG_ICONS.back} Voltar`;
+    document.getElementById('btnSelectAllEditor').innerHTML = SVG_ICONS.checkSquare;
+    document.getElementById('btnSalvarCod').innerHTML = `${SVG_ICONS.save} Salvar`;
+    document.getElementById('termHeaderTitle').innerHTML = `${SVG_ICONS.terminal} Termux`;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    inicializarBotoesEstaticos();
+    const area = document.getElementById('codeArea');
+    if (area && typeof CodeMirror !== "undefined") {
+        codeEditor = CodeMirror.fromTextArea(area, {
+            lineNumbers: true,
+            theme: "dracula",
+            mode: "text/plain",
+            indentUnit: 4,
+            tabSize: 4,
+            lineWrapping: true
+        });
+    }
+});
+
+function detectarModoCodeMirror(nomeArquivo) {
+    const ext = nomeArquivo.split('.').pop().toLowerCase();
+    if (ext === 'py') return 'python';
+    if (ext === 'js' || ext === 'json') return 'javascript';
+    if (ext === 'html' || ext === 'htm') return 'htmlmixed';
+    if (ext === 'css') return 'css';
+    if (ext === 'sh' || ext === 'bashrc') return 'shell';
+    return 'text/plain';
+}
+
+function selecionarTudoEditor(btn) {
+    if (codeEditor) {
+        codeEditor.execCommand("selectAll");
+        codeEditor.focus();
+    } else {
+        const area = document.getElementById('codeArea');
+        area.select();
+        area.focus();
+    }
+    const orig = btn.innerHTML;
+    btn.innerHTML = SVG_ICONS.check;
+    setTimeout(() => btn.innerHTML = orig, 1200);
+}
+
+function toggleCaseSensitive() {
+    caseSensitive = !caseSensitive;
+    const btn = document.getElementById('btnCaseSensitive');
+    if (caseSensitive) {
+        btn.style.background = '#007aff';
+        btn.style.color = '#ffffff';
+        btn.style.borderColor = '#007aff';
+    } else {
+        btn.style.background = '#3a3a3c';
+        btn.style.color = '#8e8e93';
+        btn.style.borderColor = '#48484a';
+    }
+    buscarTexto();
+}
+
+function limparMarcacoesBusca() {
+    searchMarkers.forEach(m => m.clear());
+    searchMarkers = [];
+    searchMatches = [];
+    currentMatchIdx = -1;
+    document.getElementById('searchCount').textContent = '0/0';
+}
+
+function buscarTexto() {
+    limparMarcacoesBusca();
+    if (!codeEditor) return;
+
+    const query = document.getElementById('searchInput').value;
+    if (!query) return;
+
+    const cursor = codeEditor.getSearchCursor(query, { line: 0, ch: 0 }, { caseFold: !caseSensitive });
+    while (cursor.findNext()) {
+        const from = cursor.from();
+        const to = cursor.to();
+        searchMatches.push({ from, to });
+        const marker = codeEditor.markText(from, to, { className: 'cm-search-highlight' });
+        searchMarkers.push(marker);
+    }
+
+    if (searchMatches.length > 0) {
+        currentMatchIdx = 0;
+        focarOcorrencia(currentMatchIdx);
+    } else {
+        document.getElementById('searchCount').textContent = '0/0';
+    }
+}
+
+function focarOcorrencia(idx) {
+    if (searchMatches.length === 0 || idx < 0 || idx >= searchMatches.length) return;
+    
+    const match = searchMatches[idx];
+    codeEditor.setSelection(match.from, match.to);
+    codeEditor.scrollIntoView({ from: match.from, to: match.to }, 150);
+    
+    document.getElementById('searchCount').textContent = `${idx + 1}/${searchMatches.length}`;
+}
+
+function buscarProximo() {
+    if (searchMatches.length === 0) return;
+    currentMatchIdx = (currentMatchIdx + 1) % searchMatches.length;
+    focarOcorrencia(currentMatchIdx);
+}
+
+function buscarAnterior() {
+    if (searchMatches.length === 0) return;
+    currentMatchIdx = (currentMatchIdx - 1 + searchMatches.length) % searchMatches.length;
+    focarOcorrencia(currentMatchIdx);
+}
+
+function tratarTeclaBusca(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        if (e.shiftKey) {
+            buscarAnterior();
+        } else {
+            buscarProximo();
+        }
+    }
+}
+
+function resetBtn(btn) {
+    if (btn.dataset.origText) {
+        btn.innerHTML = btn.dataset.origText;
+        btn.className = btn.dataset.origClass;
+        btn.dataset.confirming = "false";
+        btn.disabled = false;
+    }
+}
+
+function askConfirm(btn, confirmText, onConfirm) {
+    if (!btn.dataset.origText) {
+        btn.dataset.origText = btn.innerHTML;
+        btn.dataset.origClass = btn.className;
+    }
+    
+    if (btn.dataset.confirming === "true") {
+        clearTimeout(btn.confirmTimeout);
+        onConfirm(btn);
+    } else {
+        btn.dataset.confirming = "true";
+        btn.innerHTML = confirmText;
+        btn.classList.add("btn-confirm");
+        
+        btn.confirmTimeout = setTimeout(() => {
+            resetBtn(btn);
+        }, 3000); 
+    }
+}
+
+async function runAction(btn, promiseFn, successText = "Sucesso") {
+    if (!btn.dataset.origText) {
+        btn.dataset.origText = btn.innerHTML;
+        btn.dataset.origClass = btn.className;
+    }
+    
+    btn.innerHTML = `${SVG_ICONS.loader} Aguarde...`;
+    btn.disabled = true;
+    
+    try {
+        const res = await promiseFn();
+        if (res) {
+            btn.className = "btn btn-success";
+            btn.innerHTML = `${SVG_ICONS.check} ${successText}`;
+        } else {
+            throw new Error();
+        }
+    } catch (e) {
+        btn.className = "btn btn-error";
+        btn.innerHTML = `${SVG_ICONS.x} Erro`;
+    } finally {
+        setTimeout(() => resetBtn(btn), 2500);
+    }
+}
+
+function formatBytes(bytes) {
+  if (bytes === 0) return '0 B';
+  const k = 1024, sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+async function apiCall(endpoint, payload) {
+  if (!adminSenha) throw new Error("Acesso Negado.");
+  payload.senha = adminSenha;
+  const res = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+  if (!res.ok) throw new Error("Erro"); 
+  return true;
+}
+
+async function checarStatusReal() {
+  try {
+    const res = await fetch("/api/status?t=" + new Date().getTime());
+    const data = await res.json();
+    const alertEl = document.getElementById('globalAlert');
+    
+    if (data.status === "ONLINE") {
+      alertEl.style.display = "none"; 
+      document.getElementById('conText').textContent = "Online";
+      document.getElementById('conDot').style.background = 'var(--ios-green)';
+    } else {
+      alertEl.style.display = "block"; 
+      document.getElementById('conText').textContent = "Offline";
+      document.getElementById('conDot').style.background = 'var(--ios-red)';
+    }
+
+    if(data.bateria) {
+      const isPlugged = data.bateria.plugged !== "UNPLUGGED";
+      document.getElementById('batText').textContent = `${data.bateria.percentage}%`;
+      document.getElementById('batIcon').innerHTML = isPlugged ? SVG_ICONS.zap : SVG_ICONS.battery;
+    }
+
+    estadoFala.cam = data.fala_cam;
+    estadoFala.bat = data.fala_bat;
+    document.getElementById('btnFalaCam').innerHTML = `${SVG_ICONS.camera} Fala Câmera ${estadoFala.cam ? SVG_ICONS.volumeOn : SVG_ICONS.volumeOff}`;
+    document.getElementById('btnFalaBat').innerHTML = `${SVG_ICONS.battery} Fala Bateria ${estadoFala.bat ? SVG_ICONS.volumeOn : SVG_ICONS.volumeOff}`;
+
+    if (!tempoCarregado && data.segment_time) {
+        let t = parseInt(data.segment_time);
+        document.getElementById('inpD').value = Math.floor(t / 86400); t %= 86400;
+        document.getElementById('inpH').value = Math.floor(t / 3600); t %= 3600;
+        document.getElementById('inpM').value = Math.floor(t / 60); t %= 60;
+        document.getElementById('inpS').value = t;
+        tempoCarregado = true;
+    }
+
+  } catch(e) { 
+    document.getElementById('globalAlert').style.display = "block"; 
+    document.getElementById('conDot').style.background = 'var(--ios-red)';
+    document.getElementById('conText').textContent = "Erro";
+  }
+}
+setInterval(checarStatusReal, 3000);
+
+function atualizarEstadoAdmin() {
+  const btn = document.getElementById('btnAdmin');
+  if (adminSenha) {
+    btn.innerHTML = `${SVG_ICONS.unlock} Admin`; 
+    btn.className = "btn btn-accent";
+    document.body.classList.add("admin-mode");
+  } else {
+    btn.innerHTML = `${SVG_ICONS.lock} Login`; 
+    btn.className = "btn";
+    document.body.classList.remove("admin-mode");
+  }
+  
+  btn.dataset.origText = btn.innerHTML;
+  btn.dataset.origClass = btn.className;
+  btn.dataset.confirming = "false";
+  btn.disabled = false;
+}
+
+async function toggleAdmin(btn) {
+  if (adminSenha) {
+    askConfirm(btn, "Sair?", () => {
+      adminSenha = null; 
+      sessionStorage.removeItem("admin_pwd"); 
+      atualizarEstadoAdmin();
+    });
+    return;
+  }
+  let pwd = prompt("Insira a Senha:");
+  if (!pwd) return;
+  
+  if (!btn.dataset.origText) {
+      btn.dataset.origText = btn.innerHTML;
+      btn.dataset.origClass = btn.className;
+  }
+  btn.innerHTML = `${SVG_ICONS.loader} Validando...`;
+  
+  try {
+    const res = await fetch("/api/teste_senha", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ senha: pwd })
+    });
+    if (res.status === 403) {
+      btn.innerHTML = `${SVG_ICONS.shieldAlert} Incorreta!`;
+      btn.className = "btn btn-error";
+      setTimeout(() => resetBtn(btn), 2000);
+      return;
+    }
+    adminSenha = pwd; 
+    sessionStorage.setItem("admin_pwd", pwd); 
+    atualizarEstadoAdmin();
+  } catch(e) { 
+    btn.innerHTML = `${SVG_ICONS.x} Erro!`;
+    btn.className = "btn btn-error";
+    setTimeout(() => resetBtn(btn), 2000);
+  }
+}
+
+function formatTermPath(path) {
+  const home = "/data/data/com.termux/files/home";
+  if (path === home) return "~";
+  if (path.startsWith(home + "/")) return "~" + path.substring(home.length);
+  if (path.startsWith("/sdcard/servidor")) {
+      const rel = path.substring("/sdcard/servidor".length);
+      return "~/servidor" + rel;
+  }
+  return path;
+}
+
+function atualizarPromptTerminal() {
+  const formattedPath = formatTermPath(termCwd);
+  const promptStr = `${formattedPath} $`;
+  document.getElementById('termPrompt').textContent = promptStr;
+}
+
+function ansiToHtml(text) {
+    let escaped = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    
+    const ansiMap = {
+        '0': 'reset',
+        '1': 'font-weight:bold;',
+        '30': 'color:#8e8e93;', 
+        '31': 'color:#ff3b30;', 
+        '32': 'color:#34c759;', 
+        '33': 'color:#ffcc00;', 
+        '34': 'color:#007aff;font-weight:bold;', 
+        '35': 'color:#af52de;', 
+        '36': 'color:#55bef0;', 
+        '37': 'color:#f2f2f7;', 
+        '90': 'color:#8e8e93;', 
+        '91': 'color:#ff453a;', 
+        '92': 'color:#30d158;', 
+        '93': 'color:#ffd60a;', 
+        '94': 'color:#0a84ff;font-weight:bold;', 
+        '95': 'color:#bf5af2;', 
+        '96': 'color:#64d2ff;'  
+    };
+
+    let openSpans = 0;
+    let result = escaped.replace(/\x1b\[([0-9;]*)m/g, (match, codeStr) => {
+        if (!codeStr || codeStr === '0') {
+            let closeTags = '</span>'.repeat(openSpans);
+            openSpans = 0;
+            return closeTags;
+        }
+        let codes = codeStr.split(';');
+        let styles = [];
+        codes.forEach(c => {
+            if (ansiMap[c] && ansiMap[c] !== 'reset') {
+                styles.push(ansiMap[c]);
+            }
+        });
+        if (styles.length > 0) {
+            openSpans++;
+            return `<span style="${styles.join('')}">`;
+        }
+        return '';
+    });
+
+    result += '</span>'.repeat(openSpans);
+    return result;
+}
+
+function abrirTermux() {
+  if (!adminSenha) return;
+  document.getElementById('modalTerminal').classList.add('open');
+  atualizarPromptTerminal();
+  setTimeout(() => document.getElementById('termInput').focus(), 100);
+}
+
+function fecharTerminal() {
+  document.getElementById('modalTerminal').classList.remove('open');
+}
+
+function limparTerminal() {
+  document.getElementById('termOutput').innerHTML = '';
+}
+
+async function tratarInputTerminal(e) {
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (termHistory.length > 0 && termHistoryIdx < termHistory.length - 1) {
+      termHistoryIdx++;
+      document.getElementById('termInput').value = termHistory[termHistory.length - 1 - termHistoryIdx];
+    }
+    return;
+  }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (termHistoryIdx > 0) {
+      termHistoryIdx--;
+      document.getElementById('termInput').value = termHistory[termHistory.length - 1 - termHistoryIdx];
+    } else if (termHistoryIdx === 0) {
+      termHistoryIdx = -1;
+      document.getElementById('termInput').value = '';
+    }
+    return;
+  }
+
+  if (e.key === 'Enter') {
+    const inputEl = document.getElementById('termInput');
+    const cmd = inputEl.value.trim();
+    if (!cmd) return;
+
+    if (cmd === 'exit' || cmd === 'exited') {
+      inputEl.value = '';
+      fecharTerminal();
+      return;
+    }
+
+    termHistory.push(cmd);
+    termHistoryIdx = -1;
+    inputEl.value = '';
+
+    const outputEl = document.getElementById('termOutput');
+    const body = document.getElementById('termBody');
+
+    if (cmd === 'clear') {
+      limparTerminal();
+      return;
+    }
+
+    const pathFormatado = formatTermPath(termCwd);
+    outputEl.innerHTML += `<div><span style="color: var(--ios-green); font-weight: bold;">${pathFormatado} $ </span><span style="color: #ffffff;">${ansiToHtml(cmd)}</span></div>`;
+    body.scrollTop = body.scrollHeight;
+
+    try {
+      const res = await fetch("/api/exec_cmd", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ senha: adminSenha, cmd: cmd, cwd: termCwd })
+      });
+
+      if (!res.ok) {
+        outputEl.innerHTML += `<div style="color: var(--ios-red);">Falha: Acesso negado ou erro no servidor.</div>`;
+        body.scrollTop = body.scrollHeight;
+        return;
+      }
+
+      const data = await res.json();
+      if (data.new_cwd) {
+        termCwd = data.new_cwd;
+        atualizarPromptTerminal();
+      }
+
+      if (data.output) {
+        const parsedOutput = ansiToHtml(data.output);
+        outputEl.innerHTML += `<div style="white-space: pre-wrap; margin-bottom: 6px;">${parsedOutput}</div>`;
+      }
+    } catch(err) {
+      outputEl.innerHTML += `<div style="color: var(--ios-red);">Falha ao comunicar com o Termux.</div>`;
+    }
+
+    body.scrollTop = body.scrollHeight;
+  }
+}
+
+function salvarTempo(btn) {
+  let d = parseInt(document.getElementById('inpD').value) || 0;
+  let h = parseInt(document.getElementById('inpH').value) || 0;
+  let m = parseInt(document.getElementById('inpM').value) || 0;
+  let s = parseInt(document.getElementById('inpS').value) || 0;
+  let totalSegundos = (d * 86400) + (h * 3600) + (m * 60) + s;
+
+  if (totalSegundos < 10) {
+      if (!btn.dataset.origText) { btn.dataset.origText = btn.innerHTML; btn.dataset.origClass = btn.className; }
+      btn.innerHTML = `${SVG_ICONS.x} Mín. 10s`;
+      btn.classList.add("btn-error");
+      setTimeout(() => resetBtn(btn), 2500);
+      return;
+  }
+  
+  askConfirm(btn, "Confirmar?", (b) => {
+      runAction(b, async () => {
+          const result = await apiCall("/api/config_tempo", { tempo: totalSegundos });
+          if(result) setTimeout(carregarVideos, 2000);
+          return result;
+      }, "Salvo!");
+  });
+}
+
+function toggleFala(btn, alvo) {
+  runAction(btn, async () => {
+      const novo = !estadoFala[alvo];
+      const result = await apiCall("/api/toggle_fala", { alvo: alvo, enabled: novo });
+      if(result) checarStatusReal();
+      return result;
+  }, "Alterado");
+}
+
+function formatarDados(btn) {
+  askConfirm(btn, "Apagar Tudo?", (b) => {
+      runAction(b, async () => {
+          const result = await apiCall("/api/formatar_dados", {});
+          if(result) carregarVideos();
+          return result;
+      }, "Formatado");
+  });
+}
+
+function uploadFile(btn) {
+  const fileInput = document.getElementById('fileUpload');
+  if (fileInput.files.length === 0) return;
+  
+  runAction(btn, async () => {
+      let successCount = 0;
+      for (let i = 0; i < fileInput.files.length; i++) {
+        const file = fileInput.files[i];
+        const base64Data = await new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = e => resolve(e.target.result.split(',')[1]);
+          reader.readAsDataURL(file);
+        });
+        if (await apiCall("/api/upload", { nome: file.name, conteudo: base64Data })) successCount++;
+      }
+      if(document.getElementById('modalFileManager').classList.contains('open')) carregarArquivos(currentExplorerDir);
+      fileInput.value = "";
+      return successCount > 0;
+  }, "Concluído");
+}
+
+function rebootCelular(btn) {
+    askConfirm(btn, "Confirmar?", (b) => {
+        runAction(b, () => apiCall("/api/reboot_android", {}), "Reiniciando");
+    });
+}
+
+function parseNome(n) { 
+  const m = n.match(/(\d{4}-\d{2}-\d{2})_(\d{2})-(\d{2})-(\d{2})/); 
+  if (m) {
+    let h = parseInt(m[2]);
+    let ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12; h = h ? h : 12;
+    let ampmTime = `${h.toString().padStart(2, '0')}:${m[3]} ${ampm}`;
+    let dia = m[1].split('-')[2];
+    let mes = m[1].split('-')[1];
+    let ano = m[1].split('-')[0];
+    return { d: `${dia}-${mes}-${ano}`, ampm: ampmTime, rawDate: m[1] };
+  }
+  return { d: n, ampm: "", rawDate: n }; 
+}
+
+async function carregarVideos() {
+  const grid = document.getElementById('gridVideos');
+  try {
+    const resp = await fetch('/api/videos?t=' + new Date().getTime());
+    todosVideos = await resp.json();
+    if (viewAtual === 'pastas') mostrarPastas();
+    else mostrarVideosDaPasta(pastaAberta);
+  } catch (err) { 
+    grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color: var(--ios-red);">Falha ao carregar vídeos.</div>`; 
+  }
+}
+
+function mostrarPastas() {
+    viewAtual = 'pastas';
+    pastaAberta = '';
+    tudoSelecionado = false;
+    document.getElementById('navigationHeader').style.display = 'none';
+    const grid = document.getElementById('gridVideos');
+
+    if (todosVideos.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color: var(--ios-text-secondary);">Nenhum vídeo encontrado.</div>`;
+        return;
+    }
+
+    const pastas = {};
+    todosVideos.forEach(arq => {
+        const p = parseNome(arq.nome);
+        if (!pastas[p.d]) pastas[p.d] = { count: 0, size: 0, files: [] };
+        pastas[p.d].count++;
+        pastas[p.d].size += arq.tamanho_bytes;
+        pastas[p.d].files.push(arq);
+    });
+
+    const datasOrdenadas = Object.keys(pastas).sort((a, b) => {
+        const pA = parseNome(pastas[a].files[0].nome).rawDate;
+        const pB = parseNome(pastas[b].files[0].nome).rawDate;
+        return pB.localeCompare(pA); 
+    });
+
+    grid.innerHTML = datasOrdenadas.map((data) => {
+        const p = pastas[data];
+        return `
+        <div class="card" onclick="mostrarVideosDaPasta('${data}')" style="cursor:pointer;">
+            <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+                <div class="folder-icon-box">${SVG_ICONS.folder}</div>
+                <div class="meta" style="padding: 0;">
+                    <div style="font-size:1rem; font-weight:600; color:var(--ios-text);">${data}</div>
+                    <div style="display:flex; gap:6px; font-size:0.78rem; margin-top:2px; flex-wrap:wrap;">
+                        <span style="color: var(--ios-text-secondary); font-weight:500;">${p.count} vídeos • ${formatBytes(p.size)}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-only" style="margin-left: auto;">
+                <button class="btn btn-danger" onclick="excluirPastaDia('${data}', event)">Excluir</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function excluirPastaDia(data, event) {
+    if (event) event.stopPropagation();
+    const btn = event.currentTarget;
+    askConfirm(btn, "Apagar Pasta?", (b) => {
+        runAction(b, async () => {
+            const result = await apiCall("/api/deletar_pasta", { dia: data });
+            if (result) carregarVideos();
+            return result;
+        }, "Apagado");
+    });
+}
+
+function mostrarVideosDaPasta(data) {
+    viewAtual = 'videos';
+    pastaAberta = data;
+    tudoSelecionado = false;
+    document.getElementById('navigationHeader').style.display = 'flex';
+    document.getElementById('currentFolderTitle').textContent = ` ${data}`;
+    document.getElementById('btnSelectAll').innerHTML = SVG_ICONS.checkSquare;
+    atualizarSelecao();
+
+    const grid = document.getElementById('gridVideos');
+    const videos = todosVideos.filter(arq => parseNome(arq.nome).d === data);
+    if (videos.length === 0) { mostrarPastas(); return; }
+
+    grid.innerHTML = videos.map((arq, idx) => {
+        const isGravando = arq.gravando === true;
+        const p = parseNome(arq.nome);
+        const fullPath = 'dados/videos/' + arq.nome;
+        const pesoStr = formatBytes(arq.tamanho_bytes);
+
+        let checkHtml = `<input type="checkbox" class="select-box video-checkbox admin-only" data-path="${fullPath}" onchange="atualizarSelecao(event)" onclick="event.stopPropagation()">`;
+
+        let badgeHtml = isGravando ? `<div class="badge-rec"><div class="pulse-dot"></div> Gravando...</div>` : '';
+
+        let thumbContent = isGravando 
+          ? `${badgeHtml}<img src="dados/live_thumb.jpg?t=${new Date().getTime()}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" /><div style="display:none; width:100%; height:100%; background:#1c1c1e; color:#8e8e93; align-items:center; justify-content:center; font-size:0.85rem; font-weight:500;">Aguardando...</div>`
+          : `<img src="/api/thumb?v=${encodeURIComponent(arq.nome)}" class="video-thumb" loading="lazy" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%231c1c1e\'><text x=\'50%\' y=\'50%\' fill=\'%238e8e93\' text-anchor=\'middle\' dy=\'.3em\'>Vídeo</text></svg>';" />`;
+
+        let actionButtons = isGravando 
+          ? `<button class="btn btn-accent admin-only-block" onclick="cortarGravacao(this, event)">Parar</button>
+             <button class="btn btn-danger admin-only-block" onclick="deletarVideo(this, '${fullPath}', event)">Excluir</button>`
+          : `<button class="btn btn-danger admin-only-block" onclick="deletarVideo(this, '${fullPath}', event)">Excluir</button>`;
+
+        return `
+        <div class="card card-video" style="animation-delay: ${idx * 0.03}s">
+            ${checkHtml}
+            <div class="thumb" onclick="abrirPlayer('${fullPath}', '${p.ampm}')">${thumbContent}</div>
+            <div class="meta">
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                    <span style="font-size: 0.9rem; font-weight: 600; color: var(--ios-text);">${p.ampm}</span>
+                    <span style="font-size: 0.75rem; background: var(--ios-bg); padding: 2px 8px; border-radius: 6px; color: var(--ios-text-secondary); font-weight:600;">${pesoStr}</span>
+                </div>
+                <div class="card-actions admin-only">${actionButtons}</div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function toggleSelecionarTudo() {
+    const checkboxes = document.querySelectorAll('.video-checkbox');
+    tudoSelecionado = !tudoSelecionado;
+    checkboxes.forEach(cb => cb.checked = tudoSelecionado);
+    document.getElementById('btnSelectAll').innerHTML = tudoSelecionado ? SVG_ICONS.check : SVG_ICONS.checkSquare;
+    atualizarSelecao();
+}
+
+function atualizarSelecao(event) {
+    if (event) event.stopPropagation();
+    const selecionados = document.querySelectorAll('.video-checkbox:checked');
+    const count = selecionados.length;
+    const countEl = document.getElementById('selectedCount');
+    const btnDel = document.getElementById('btnDeleteSelected');
+    if (countEl) countEl.textContent = count;
+    if (btnDel) btnDel.disabled = (count === 0);
+}
+
+async function excluirVideosSelecionados(btn) {
+    const selecionados = Array.from(document.querySelectorAll('.video-checkbox:checked')).map(cb => cb.dataset.path);
+    if (selecionados.length === 0) return;
+
+    askConfirm(btn, `Excluir ${selecionados.length}?`, (b) => {
+        runAction(b, async () => {
+            const result = await apiCall("/api/deletar_multiplos", { arquivos: selecionados });
+            if (result) {
+                tudoSelecionado = false;
+                carregarVideos();
+            }
+            return result;
+        }, "Removidos");
+    });
+}
+
+async function abrirGerenciador() { document.getElementById('modalFileManager').classList.add('open'); await carregarArquivos("."); }
+function fecharGerenciador() { document.getElementById('modalFileManager').classList.remove('open'); }
+
+async function carregarArquivos(dir) {
+  if (!adminSenha) return;
+  try {
+    const res = await fetch(`/api/explorer?dir=${encodeURIComponent(dir)}`);
+    const data = await res.json();
+    currentExplorerDir = data.current_dir;
+    document.getElementById('currentPathDisplay').textContent = currentExplorerDir === "." ? "/" : "/" + currentExplorerDir;
+    
+    const container = document.getElementById('fileManagerContent');
+    if(data.items.length === 0) { container.innerHTML = "<div style='color:var(--ios-text-secondary); text-align:center; margin-top:20px;'>Pasta Vazia</div>"; return; }
+
+    container.innerHTML = data.items.map((item, idx) => {
+      if (item.is_dir) {
+        return `<div class="file-item" style="animation-delay: ${idx * 0.02}s">
+            <div class="file-info" onclick="carregarArquivos('${item.path}')">
+                <span style="color: var(--ios-blue); display:flex;">${SVG_ICONS.folder}</span>
+                <span>${item.name}</span>
+            </div>
+        </div>`;
+      } else {
+        return `<div class="file-item" style="animation-delay: ${idx * 0.02}s">
+            <div class="file-info">
+                <span style="color: var(--ios-text-secondary); display:flex;">${SVG_ICONS.file}</span>
+                <span>${item.name} <span class="file-size">(${formatBytes(item.size)})</span></span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+                <button class="btn" onclick="abrirEditor('${item.path}')">${SVG_ICONS.edit} Editar</button>
+                <a href="/${item.path}" download="${item.name}" class="btn" style="text-decoration:none;">Baixar</a>
+            </div>
+        </div>`;
+      }
+    }).join('');
+  } catch (e) { document.getElementById('fileManagerContent').innerHTML = "<div style='color:var(--ios-red); text-align:center;'>Erro ao carregar diretório.</div>"; }
+}
+
+async function abrirEditor(pathArquivo) {
+    if (!adminSenha) return;
+    arquivoSendoEditado = pathArquivo;
+    
+    document.getElementById('searchInput').value = '';
+    limparMarcacoesBusca();
+
+    try {
+        const res = await fetch(`/api/ler_arquivo?path=${encodeURIComponent(pathArquivo)}`);
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        
+        document.getElementById('modalEditor').classList.add('open');
+        
+        if (codeEditor) {
+            const modo = detectarModoCodeMirror(pathArquivo);
+            codeEditor.setOption("mode", modo);
+            codeEditor.setValue(data.conteudo || "");
+            setTimeout(() => codeEditor.refresh(), 100);
+        } else {
+            document.getElementById('codeArea').value = data.conteudo || "";
+        }
+    } catch(e) {
+        alert("Erro ao ler conteúdo do arquivo!");
+    }
+}
+
+function fecharEditor() {
+    document.getElementById('modalEditor').classList.remove('open');
+    arquivoSendoEditado = "";
+    document.getElementById('searchInput').value = '';
+    limparMarcacoesBusca();
+}
+
+function salvarCodigoEditado(btn) {
+    if (!arquivoSendoEditado) return;
+    const texto = codeEditor ? codeEditor.getValue() : document.getElementById('codeArea').value;
+    
+    runAction(btn, async () => {
+        return await apiCall("/api/salvar_arquivo", {
+            path: arquivoSendoEditado,
+            conteudo: texto
+        });
+    }, "Salvo!");
+}
+
+function navDir(direction) {
+  if (direction === '..' && currentExplorerDir !== '.' && currentExplorerDir !== '') {
+    let parts = currentExplorerDir.split('/'); parts.pop();
+    carregarArquivos(parts.length > 0 ? parts.join('/') : '.');
+  }
+}
+
+function cortarGravacao(btn, event) { 
+    if(event) event.stopPropagation();
+    runAction(btn, async () => {
+        const result = await apiCall("/api/cortar", {});
+        if(result) setTimeout(carregarVideos, 2000);
+        return result;
+    }, "Parado"); 
+}
+
+function deletarVideo(btn, path, event) {
+    if(event) event.stopPropagation();
+    askConfirm(btn, "Excluir?", (b) => {
+        runAction(b, async () => {
+            const result = await apiCall("/api/deletar", { arquivo: path });
+            if(result) carregarVideos();
+            return result;
+        }, "Removido");
+    });
+}
+
+function deletarVideoAberto(btn) {
+    if(!currentVideoUrl) return;
+    askConfirm(btn, "Excluir?", (b) => {
+        runAction(b, async () => {
+            const result = await apiCall("/api/deletar", { arquivo: currentVideoUrl });
+            if(result) { fecharPlayer(); carregarVideos(); }
+            return result;
+        }, "Removido");
+    });
+}
+
+async function abrirLogs() { 
+    const res = await fetch("/api/logs?t="+new Date().getTime()); 
+    document.getElementById('logContent').textContent = await res.text(); 
+    document.getElementById('modalLogs').classList.add('open'); 
+}
+function fecharLogs() { document.getElementById('modalLogs').classList.remove('open'); }
+
+function limparLogs(btn) { 
+    askConfirm(btn, "Limpar Logs?", (b) => {
+        runAction(b, async () => {
+            const result = await apiCall("/api/limpar_logs", {});
+            if(result) fecharLogs();
+            return result;
+        }, "Limpo");
+    });
+}
+
+function abrirPlayer(url, nome) { 
+    const v = document.getElementById('videoEl'); 
+    currentVideoUrl = url; 
+    v.src = url; 
+    document.getElementById('playerTitle').textContent = nome || "Assistir Vídeo";
+    document.getElementById('modalPlayer').classList.add('open'); 
+    v.play().catch(()=>{}); 
+}
+function fecharPlayer() { 
+    const v = document.getElementById('videoEl'); 
+    v.pause(); v.src = ""; 
+    document.getElementById('modalPlayer').classList.remove('open'); 
+}
+
+window.onclick = e => { 
+    if(e.target.id === 'modalPlayer') fecharPlayer(); 
+    if(e.target.id === 'modalLogs') fecharLogs(); 
+    if(e.target.id === 'modalFileManager') fecharGerenciador(); 
+    if(e.target.id === 'modalEditor') fecharEditor(); 
+    if(e.target.id === 'modalTerminal') fecharTerminal(); 
+}
+
+checarStatusReal(); carregarVideos(); atualizarEstadoAdmin();
+</script>
+</body>
+</html>

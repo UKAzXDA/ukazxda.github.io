@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<!--
+~
+~
+~     K-y-u-b-e-y
+~   © 2021 UKΛz-XDΛ
+~
+~
+-->
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UKAzXDA - GIF para Live Photo Converter">
+    <meta name="theme-color" content="#f2f2f7">
+    <title>GIF para Live Photo | UKAzXDA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/omggif@1.0.10/omggif.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                    },
+                    colors: {
+                        ios: {
+                            bg: '#f2f2f7',
+                            card: 'rgba(255, 255, 255, 0.72)',
+                            blue: '#007aff',
+                            'blue-hover': '#0062cc',
+                            text: '#1c1c1e',
+                            secondary: '#8e8e93',
+                            border: 'rgba(255, 255, 255, 0.85)',
+                        }
+                    },
+                    boxShadow: {
+                        'ios-card': '0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset',
+                        'ios-modal': '0 25px 60px -10px rgba(0, 0, 0, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f2f2f7;
+            color: #1c1c1e;
+            overflow-x: hidden;
+        }
+        .ios-glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(25px) saturate(190%);
+            -webkit-backdrop-filter: blur(25px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .ios-glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .ios-glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(255, 255, 255, 1) inset;
+        }
+        .checkerboard {
+            background-color: #e5e5ea;
+            background-image: 
+                linear-gradient(45deg, #d1d1d6 25%, transparent 25%), 
+                linear-gradient(-45deg, #d1d1d6 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #d1d1d6 75%), 
+                linear-gradient(-45deg, transparent 75%, #d1d1d6 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        @keyframes blob-float-1 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(60px, -40px) scale(1.12); }
+        }
+        @keyframes blob-float-2 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(-50px, 50px) scale(0.92); }
+        }
+        .animate-blob-1 { animation: blob-float-1 14s ease-in-out infinite; }
+        .animate-blob-2 { animation: blob-float-2 18s ease-in-out infinite; }
+        .ios-btn {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .ios-btn:active {
+            transform: scale(0.94) !important;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.25); }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen relative flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute -top-32 -left-20 w-[35rem] h-[35rem] bg-blue-200/40 rounded-full blur-3xl animate-blob-1"></div>
+        <div class="absolute top-1/3 -right-20 w-[40rem] h-[40rem] bg-indigo-200/30 rounded-full blur-3xl animate-blob-2"></div>
+        <div class="absolute -bottom-32 left-1/4 w-[38rem] h-[38rem] bg-sky-200/40 rounded-full blur-3xl animate-blob-1"></div>
+    </div>
+    <main class="relative z-10 flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 my-4">
+        <div class="lg:col-span-5 space-y-6 flex flex-col">
+            <div class="ios-glass-card p-6 rounded-[2rem] shadow-ios-card">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-2">
+                        <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center text-[10px] font-extrabold">1</span>
+                        Arquivo GIF
+                    </h2>
+                    <span id="file-size-badge" class="hidden text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 font-medium">0 MB</span>
+                </div>
+                <div id="drop-zone" class="border-2 border-dashed border-gray-300 hover:border-blue-500 transition-all duration-200 rounded-2xl p-6 text-center cursor-pointer bg-white/40 hover:bg-white/80 group relative">
+                    <input type="file" id="gif-input" accept="image/gif" class="hidden">
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="p-3 bg-blue-50 group-hover:bg-blue-500 text-blue-500 group-hover:text-white rounded-full transition-colors shadow-sm">
+                            <i class="fas fa-cloud-arrow-up text-2xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">Arraste seu GIF aqui ou <span class="text-blue-500 underline">busque</span></p>
+                            <p class="text-xs text-gray-500 mt-1">Suporta qualquer arquivo GIF animado</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="gif-info-panel" class="hidden mt-4 pt-4 border-t border-gray-200/60 grid grid-cols-3 gap-2 text-center">
+                    <div class="bg-white/60 p-2.5 rounded-xl border border-white/80 shadow-sm">
+                        <span class="block text-[10px] text-gray-400 uppercase font-bold">Quadros</span>
+                        <span id="info-frames" class="text-sm font-bold text-gray-800">--</span>
+                    </div>
+                    <div class="bg-white/60 p-2.5 rounded-xl border border-white/80 shadow-sm">
+                        <span class="block text-[10px] text-gray-400 uppercase font-bold">Duração</span>
+                        <span id="info-duration" class="text-sm font-bold text-gray-800">--</span>
+                    </div>
+                    <div class="bg-white/60 p-2.5 rounded-xl border border-white/80 shadow-sm">
+                        <span class="block text-[10px] text-gray-400 uppercase font-bold">Resolução</span>
+                        <span id="info-res" class="text-sm font-bold text-gray-800">--</span>
+                    </div>
+                </div>
+            </div>
+            <div id="section-resolution" class="ios-glass-card p-6 rounded-[2rem] shadow-ios-card opacity-60 pointer-events-none transition-all">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-2 mb-4">
+                    <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center text-[10px] font-extrabold">2</span>
+                    Preenchimento & Resolução
+                </h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1.5">Resolução Alvo</label>
+                        <select id="preset-select" class="w-full bg-white/80 border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                            <option value="1080x1920" selected>iPhone Portrait (1080 x 1920 - Live Photo)</option>
+                            <option value="1170x2532">iPhone Pro Max / Plus (1170 x 2532)</option>
+                            <option value="1080x1080">Quadrado Instagram (1080 x 1080)</option>
+                            <option value="3840x2160">4K UHD Landscape (3840 x 2160)</option>
+                            <option value="original">Manter Original do GIF</option>
+                            <option value="custom">Personalizado...</option>
+                        </select>
+                    </div>
+                    <div id="custom-res-container" class="hidden grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-semibold text-gray-500 mb-1">Largura (px)</label>
+                            <input type="number" id="custom-width" value="1080" min="100" max="4096" class="w-full bg-white/80 border border-gray-200 rounded-xl px-3 py-2 text-xs font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-gray-500 mb-1">Altura (px)</label>
+                            <input type="number" id="custom-height" value="1920" min="100" max="4096" class="w-full bg-white/80 border border-gray-200 rounded-xl px-3 py-2 text-xs font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-2">Modo de Preenchimento Inteligente</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" data-fill="pad-blur" class="fill-btn active bg-blue-500/10 border-blue-500 border-2 rounded-2xl p-2.5 text-center transition-all ios-btn">
+                                <i class="fas fa-clone text-blue-500 text-base mb-1 block"></i>
+                                <span class="block text-xs font-bold text-gray-800">Desfocado</span>
+                                <span class="block text-[10px] text-gray-500">Com bordas</span>
+                            </button>
+                            <button type="button" data-fill="crop" class="fill-btn bg-white/60 border-gray-200/80 border-2 rounded-2xl p-2.5 text-center transition-all ios-btn">
+                                <i class="fas fa-crop-simple text-gray-400 text-base mb-1 block"></i>
+                                <span class="block text-xs font-bold text-gray-800">Corte</span>
+                                <span class="block text-[10px] text-gray-500">Preenche tela</span>
+                            </button>
+                            <button type="button" data-fill="fit" class="fill-btn bg-white/60 border-gray-200/80 border-2 rounded-2xl p-2.5 text-center transition-all ios-btn">
+                                <i class="fas fa-expand text-gray-400 text-base mb-1 block"></i>
+                                <span class="block text-xs font-bold text-gray-800">Ajuste</span>
+                                <span class="block text-[10px] text-gray-500">Sem cortar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="section-time" class="ios-glass-card p-6 rounded-[2rem] shadow-ios-card opacity-60 pointer-events-none transition-all">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-2 mb-4">
+                    <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center text-[10px] font-extrabold">3</span>
+                    Tempo & Velocidade da Live Photo
+                </h2>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between items-center mb-1.5">
+                            <label class="text-xs font-semibold text-gray-600">Duração Máxima da Live Photo</label>
+                            <span id="target-duration-val" class="text-xs font-extrabold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">3.0s</span>
+                        </div>
+                        <input type="range" id="target-duration" min="1.0" max="5.0" step="0.1" value="3.0" class="w-full accent-blue-500 bg-gray-200 h-2 rounded-lg cursor-pointer">
+                        <div class="flex justify-between text-[10px] text-gray-400 font-semibold mt-1">
+                            <span>1.0s (Curto)</span>
+                            <span>3.0s (Padrão iOS)</span>
+                            <span>5.0s (Longo)</span>
+                        </div>
+                    </div>
+                    <div id="speed-status-box" class="p-3.5 bg-blue-50/80 border border-blue-100 rounded-2xl flex items-start gap-3">
+                        <i class="fas fa-bolt text-blue-500 mt-0.5 text-sm"></i>
+                        <div class="text-xs">
+                            <p class="font-bold text-gray-800" id="speed-title">Aceleração Automática Ativa</p>
+                            <p class="text-gray-600 mt-0.5" id="speed-desc">O GIF tem duração original de 0s. A velocidade será ajustada em <span id="speed-factor" class="font-bold text-blue-600">1.0x</span> para conter todos os quadros.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="text-xs font-semibold text-gray-600">Modo de ajuste:</span>
+                        <div class="inline-flex rounded-xl bg-gray-200/80 p-1 border border-white">
+                            <button id="mode-speedup-btn" class="px-3 py-1 text-xs rounded-lg bg-blue-500 text-white font-bold transition-all shadow-sm">Acelerar GIF</button>
+                            <button id="mode-trim-btn" class="px-3 py-1 text-xs rounded-lg text-gray-600 font-semibold hover:text-gray-900 transition-all">Cortar Excesso</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="section-export" class="pt-1 opacity-60 pointer-events-none transition-all">
+                <button id="render-btn" class="w-full py-4 px-6 bg-blue-500 hover:bg-blue-600 text-white font-extrabold text-sm rounded-2xl shadow-md shadow-blue-500/20 flex items-center justify-center gap-2.5 ios-btn">
+                    <i class="fas fa-play text-xs"></i>
+                    <span>Gerar Vídeo para Live Photo</span>
+                </button>
+            </div>
+        </div>
+        <div class="lg:col-span-7 flex flex-col space-y-4">
+            <div class="ios-glass-card p-5 rounded-[2rem] shadow-ios-card flex-1 flex flex-col min-h-[450px] relative">
+                <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-200/60">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="text-xs font-bold text-gray-800">Pré-visualização em Tempo Real</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-gray-500">
+                        <span id="preview-resolution-badge" class="bg-white/80 px-2.5 py-1 rounded-full border border-gray-200 font-semibold shadow-sm">1080x1920</span>
+                        <button id="play-pause-btn" class="w-7 h-7 rounded-full bg-white hover:bg-gray-100 text-gray-700 flex items-center justify-center transition shadow-sm ios-btn">
+                            <i class="fas fa-pause text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-1 flex items-center justify-center relative rounded-2xl overflow-hidden checkerboard min-h-[350px] p-2 border border-white/80 shadow-inner">
+                    <canvas id="preview-canvas" class="max-h-[480px] max-w-full rounded-xl shadow-lg object-contain transition-all"></canvas>
+                    <div id="preview-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-gray-400 p-6 text-center bg-white/70 backdrop-blur-md">
+                        <div class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 mb-3 shadow-inner">
+                            <i class="fas fa-image text-2xl"></i>
+                        </div>
+                        <p class="text-sm font-bold text-gray-700">Nenhum GIF Carregado</p>
+                        <p class="text-xs text-gray-500 max-w-xs mt-1">Selecione um arquivo GIF para visualizar a prévia com preenchimento inteligente.</p>
+                    </div>
+                    <div id="processing-overlay" class="hidden absolute inset-0 bg-white/90 backdrop-blur-md flex flex-col items-center justify-center text-center p-6 z-20">
+                        <div class="relative mb-4">
+                            <div class="w-16 h-16 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
+                            <i class="fas fa-wand-magic-sparkles text-blue-500 absolute inset-0 m-auto flex items-center justify-center text-lg"></i>
+                        </div>
+                        <h3 id="process-title" class="text-base font-bold text-gray-900">Processando Renderização...</h3>
+                        <p id="process-desc" class="text-xs text-gray-500 mt-1">Sintetizando quadros com preenchimento de pixel...</p>
+                        <div class="w-64 bg-gray-200 rounded-full h-2 mt-4 overflow-hidden border border-white">
+                            <div id="process-progress-bar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-full w-0 transition-all duration-100"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="timeline-controls" class="mt-4 pt-3 border-t border-gray-200/60 flex items-center gap-3 opacity-50 pointer-events-none">
+                    <span id="time-current" class="text-xs font-bold text-gray-500 font-mono">0.0s</span>
+                    <input type="range" id="frame-scrubber" min="0" value="0" step="1" class="flex-1 accent-blue-500 bg-gray-200 h-1.5 rounded-lg cursor-pointer">
+                    <span id="time-total" class="text-xs font-bold text-gray-500 font-mono">3.0s</span>
+                </div>
+            </div>
+            <div id="output-card" class="hidden ios-glass-card p-6 rounded-[2rem] shadow-ios-card border-2 border-emerald-400/40 bg-emerald-50/50 transition-all">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2 text-emerald-600">
+                        <i class="fas fa-circle-check text-lg"></i>
+                        <h3 class="font-extrabold text-sm text-gray-900">Vídeo Renderizado com Sucesso!</h3>
+                    </div>
+                    <span id="output-format-tag" class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">MP4 / WebM</span>
+                </div>
+                <p class="text-xs text-gray-600 mb-4">
+                    Seu vídeo foi otimizado para a duração exata da Live Photo. Transfira para o seu iPhone e use o aplicativo <b>Atalhos (Shortcuts)</b> ou apps como <i>intoLive</i> para transformar diretamente em Live Photo!
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a id="download-video-btn" download="live_photo_export.webm" class="flex-1 py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 transition cursor-pointer text-xs ios-btn">
+                        <i class="fas fa-download"></i>
+                        <span>Baixar Vídeo Otimizado</span>
+                    </a>
+                    <button id="preview-output-video-btn" class="py-3 px-4 bg-white hover:bg-gray-100 text-gray-700 font-bold rounded-xl flex items-center justify-center gap-2 border border-gray-200 text-xs transition shadow-sm ios-btn">
+                        <i class="fas fa-play"></i>
+                        <span>Testar Reprodução</span>
+                    </button>
+                </div>
+                <video id="final-video-player" controls class="hidden w-full mt-4 rounded-xl border border-gray-200 max-h-64 object-contain bg-black shadow-md"></video>
+            </div>
+        </div>
+    </main>
+    <footer class="relative z-10 py-6 text-center text-xs font-semibold text-gray-500 ios-glass border-t border-white/80 mt-8">
+        <div>© UKAzXDA &bull; Processamento 100% Local no Navegador (Privacidade Garantida)</div>
+    </footer>
+    <script>
+        const state = {
+            gifParsed: null,
+            rawFrames: [],
+            gifWidth: 0,
+            gifHeight: 0,
+            totalGifDurationSec: 0,
+            
+            targetWidth: 1080,
+            targetHeight: 1920,
+            fillMode: 'pad-blur',
+            
+            targetDurationSec: 3.0,
+            timeMode: 'speedup',
+            calculatedSpeedup: 1.0,
+            
+            isPlaying: true,
+            currentFrameIndex: 0,
+            animTimer: null,
+            
+            renderedBlob: null
+        };
+        const dropZone = document.getElementById('drop-zone');
+        const gifInput = document.getElementById('gif-input');
+        const gifInfoPanel = document.getElementById('gif-info-panel');
+        const fileSizeBadge = document.getElementById('file-size-badge');
+        const infoFrames = document.getElementById('info-frames');
+        const infoDuration = document.getElementById('info-duration');
+        const infoRes = document.getElementById('info-res');
+        const sectionRes = document.getElementById('section-resolution');
+        const sectionTime = document.getElementById('section-time');
+        const sectionExport = document.getElementById('section-export');
+        const presetSelect = document.getElementById('preset-select');
+        const customResContainer = document.getElementById('custom-res-container');
+        const customWidth = document.getElementById('custom-width');
+        const customHeight = document.getElementById('custom-height');
+        const fillButtons = document.querySelectorAll('.fill-btn');
+        const targetDurationInput = document.getElementById('target-duration');
+        const targetDurationVal = document.getElementById('target-duration-val');
+        const speedStatusBox = document.getElementById('speed-status-box');
+        const speedTitle = document.getElementById('speed-title');
+        const speedDesc = document.getElementById('speed-desc');
+        const speedFactorSpan = document.getElementById('speed-factor');
+        const modeSpeedupBtn = document.getElementById('mode-speedup-btn');
+        const modeTrimBtn = document.getElementById('mode-trim-btn');
+        const previewCanvas = document.getElementById('preview-canvas');
+        const previewCtx = previewCanvas.getContext('2d');
+        const previewPlaceholder = document.getElementById('preview-placeholder');
+        const previewResBadge = document.getElementById('preview-resolution-badge');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const processingOverlay = document.getElementById('processing-overlay');
+        const processTitle = document.getElementById('process-title');
+        const processDesc = document.getElementById('process-desc');
+        const processProgressBar = document.getElementById('process-progress-bar');
+        const frameScrubber = document.getElementById('frame-scrubber');
+        const timeCurrent = document.getElementById('time-current');
+        const timeTotal = document.getElementById('time-total');
+        const timelineControls = document.getElementById('timeline-controls');
+        const renderBtn = document.getElementById('render-btn');
+        const outputCard = document.getElementById('output-card');
+        const downloadVideoBtn = document.getElementById('download-video-btn');
+        const previewOutputVideoBtn = document.getElementById('preview-output-video-btn');
+        const finalVideoPlayer = document.getElementById('final-video-player');
+        function initEvents() {
+            dropZone.addEventListener('click', () => gifInput.click());
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-blue-500', 'bg-blue-500/10');
+            });
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('border-blue-500', 'bg-blue-500/10');
+            });
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-blue-500', 'bg-blue-500/10');
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    handleFileSelect(e.dataTransfer.files[0]);
+                }
+            });
+            gifInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    handleFileSelect(e.target.files[0]);
+                }
+            });
+            presetSelect.addEventListener('change', () => {
+                const val = presetSelect.value;
+                if (val === 'custom') {
+                    customResContainer.classList.remove('hidden');
+                    state.targetWidth = parseInt(customWidth.value) || 1080;
+                    state.targetHeight = parseInt(customHeight.value) || 1920;
+                } else if (val === 'original') {
+                    customResContainer.classList.add('hidden');
+                    state.targetWidth = state.gifWidth || 1080;
+                    state.targetHeight = state.gifHeight || 1920;
+                } else {
+                    customResContainer.classList.add('hidden');
+                    const [w, h] = val.split('x').map(Number);
+                    state.targetWidth = w;
+                    state.targetHeight = h;
+                }
+                updateResolutionUI();
+            });
+            customWidth.addEventListener('input', () => {
+                state.targetWidth = parseInt(customWidth.value) || 1080;
+                updateResolutionUI();
+            });
+            customHeight.addEventListener('input', () => {
+                state.targetHeight = parseInt(customHeight.value) || 1920;
+                updateResolutionUI();
+            });
+            fillButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    fillButtons.forEach(b => {
+                        b.classList.remove('active', 'bg-blue-500/10', 'border-blue-500');
+                        b.classList.add('bg-white/60', 'border-gray-200/80');
+                        b.querySelector('i')?.classList.remove('text-blue-500');
+                        b.querySelector('i')?.classList.add('text-gray-400');
+                    });
+                    btn.classList.add('active', 'bg-blue-500/10', 'border-blue-500');
+                    btn.classList.remove('bg-white/60', 'border-gray-200/80');
+                    btn.querySelector('i')?.classList.add('text-blue-500');
+                    btn.querySelector('i')?.classList.remove('text-gray-400');
+
+                    state.fillMode = btn.dataset.fill;
+                    renderCurrentPreviewFrame();
+                });
+            });
+            targetDurationInput.addEventListener('input', (e) => {
+                state.targetDurationSec = parseFloat(e.target.value);
+                targetDurationVal.textContent = state.targetDurationSec.toFixed(1) + 's';
+                timeTotal.textContent = state.targetDurationSec.toFixed(1) + 's';
+                recalculateTiming();
+            });
+            modeSpeedupBtn.addEventListener('click', () => {
+                state.timeMode = 'speedup';
+                modeSpeedupBtn.className = "px-3 py-1 text-xs rounded-lg bg-blue-500 text-white font-bold transition-all shadow-sm";
+                modeTrimBtn.className = "px-3 py-1 text-xs rounded-lg text-gray-600 font-semibold hover:text-gray-900 transition-all";
+                recalculateTiming();
+            });
+            modeTrimBtn.addEventListener('click', () => {
+                state.timeMode = 'trim';
+                modeTrimBtn.className = "px-3 py-1 text-xs rounded-lg bg-blue-500 text-white font-bold transition-all shadow-sm";
+                modeSpeedupBtn.className = "px-3 py-1 text-xs rounded-lg text-gray-600 font-semibold hover:text-gray-900 transition-all";
+                recalculateTiming();
+            });
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            frameScrubber.addEventListener('input', (e) => {
+                state.currentFrameIndex = parseInt(e.target.value);
+                renderCurrentPreviewFrame();
+            });
+            renderBtn.addEventListener('click', renderVideoExport);
+            previewOutputVideoBtn.addEventListener('click', () => {
+                finalVideoPlayer.classList.toggle('hidden');
+                if (!finalVideoPlayer.classList.contains('hidden')) {
+                    finalVideoPlayer.play();
+                }
+            });
+        }
+        function handleFileSelect(file) {
+            if (!file || !file.type.includes('gif')) {
+                alert('Por favor, selecione um arquivo GIF animado válido.');
+                return;
+            }
+            const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            fileSizeBadge.textContent = `${sizeMB} MB`;
+            fileSizeBadge.classList.remove('hidden');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const buffer = new Uint8Array(e.target.result);
+                try {
+                    parseGifBuffer(buffer);
+                } catch(err) {
+                    console.error("Erro ao ler GIF:", err);
+                    alert("Ocorreu um erro ao processar os quadros do GIF. Tente outro arquivo.");
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+        function parseGifBuffer(buffer) {
+            const gifReader = new Omggif.GifReader(buffer);
+            state.gifParsed = gifReader;
+            state.gifWidth = gifReader.width;
+            state.gifHeight = gifReader.height;
+            const frameCount = gifReader.numFrames();
+            state.rawFrames = [];
+            let totalDurationMs = 0;
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = state.gifWidth;
+            tempCanvas.height = state.gifHeight;
+            const tempCtx = tempCanvas.getContext('2d');
+            for (let i = 0; i < frameCount; i++) {
+                const frameInfo = gifReader.frameInfo(i);
+                const delayMs = (frameInfo.delay || 10) * 10;
+                totalDurationMs += delayMs;
+                const framePixels = new Uint8ClampedArray(state.gifWidth * state.gifHeight * 4);
+                gifReader.decodeAndBlitFrameRGBA(i, framePixels);
+                const imgData = new ImageData(framePixels, state.gifWidth, state.gifHeight);
+                const fCanvas = document.createElement('canvas');
+                fCanvas.width = state.gifWidth;
+                fCanvas.height = state.gifHeight;
+                const fCtx = fCanvas.getContext('2d');
+                if (i > 0 && frameInfo.disposal !== 2) {
+                    fCtx.drawImage(tempCanvas, 0, 0);
+                }
+                const patchCanvas = document.createElement('canvas');
+                patchCanvas.width = state.gifWidth;
+                patchCanvas.height = state.gifHeight;
+                patchCanvas.getContext('2d').putImageData(imgData, 0, 0);
+                fCtx.drawImage(patchCanvas, 0, 0);
+                tempCtx.clearRect(0, 0, state.gifWidth, state.gifHeight);
+                tempCtx.drawImage(fCanvas, 0, 0);
+                state.rawFrames.push({
+                    canvas: fCanvas,
+                    delayMs: delayMs
+                });
+            }
+            state.totalGifDurationSec = totalDurationMs / 1000;
+            infoFrames.textContent = frameCount;
+            infoDuration.textContent = state.totalGifDurationSec.toFixed(1) + 's';
+            infoRes.textContent = `${state.gifWidth}x${state.gifHeight}`;
+            gifInfoPanel.classList.remove('hidden');
+            sectionRes.classList.remove('opacity-60', 'pointer-events-none');
+            sectionTime.classList.remove('opacity-60', 'pointer-events-none');
+            sectionExport.classList.remove('opacity-60', 'pointer-events-none');
+            timelineControls.classList.remove('opacity-50', 'pointer-events-none');
+            previewPlaceholder.classList.add('hidden');
+            if (presetSelect.value === 'original') {
+                state.targetWidth = state.gifWidth;
+                state.targetHeight = state.gifHeight;
+            }
+            frameScrubber.max = frameCount - 1;
+            frameScrubber.value = 0;
+            state.currentFrameIndex = 0;
+            updateResolutionUI();
+            recalculateTiming();
+            startPlaybackLoop();
+        }
+        function recalculateTiming() {
+            if (!state.rawFrames.length) return;
+            const targetDur = state.targetDurationSec;
+            const originalDur = state.totalGifDurationSec;
+            if (originalDur > targetDur) {
+                state.calculatedSpeedup = originalDur / targetDur;
+                speedStatusBox.className = "p-3.5 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3 text-amber-800";
+                speedTitle.textContent = state.timeMode === 'speedup' ? "Aceleração Automática Ativa" : "Corte Parcial do GIF";
+                if (state.timeMode === 'speedup') {
+                    speedDesc.innerHTML = `O GIF original tem <b>${originalDur.toFixed(1)}s</b>. A velocidade foi multiplicada por <span id="speed-factor" class="font-bold text-amber-600">${state.calculatedSpeedup.toFixed(2)}x</span> para que todos os quadros caibam em <b>${targetDur.toFixed(1)}s</b>.`;
+                } else {
+                    speedDesc.innerHTML = `O GIF será reproduzido na velocidade original (1.0x) e cortado exatamente ao atingir <b>${targetDur.toFixed(1)}s</b>.`;
+                }
+            } else {
+                state.calculatedSpeedup = 1.0;
+                speedStatusBox.className = "p-3.5 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-start gap-3 text-emerald-800";
+                speedTitle.textContent = "Duração Ideal";
+                speedDesc.innerHTML = `O GIF tem <b>${originalDur.toFixed(1)}s</b>, o que cabe perfeitamente na limitação de <b>${targetDur.toFixed(1)}s</b> sem necessidade de acelerar.`;
+            }
+        }
+        function updateResolutionUI() {
+            previewResBadge.textContent = `${state.targetWidth} x ${state.targetHeight}`;
+            previewCanvas.width = state.targetWidth;
+            previewCanvas.height = state.targetHeight;
+            renderCurrentPreviewFrame();
+        }
+        function drawSmartFillFrame(ctx, sourceCanvas, width, height, mode) {
+            ctx.clearRect(0, 0, width, height);
+            const srcW = sourceCanvas.width;
+            const srcH = sourceCanvas.height;
+            if (mode === 'pad-blur') {
+                ctx.save();
+                ctx.filter = 'blur(30px) brightness(0.85)';
+                const scaleCover = Math.max(width / srcW, height / srcH);
+                const bgW = srcW * scaleCover;
+                const bgH = srcH * scaleCover;
+                const bgX = (width - bgW) / 2;
+                const bgY = (height - bgH) / 2;
+                ctx.drawImage(sourceCanvas, bgX, bgY, bgW, bgH);
+                ctx.restore();
+                const scaleFit = Math.min(width / srcW, height / srcH);
+                const fgW = srcW * scaleFit;
+                const fgH = srcH * scaleFit;
+                const fgX = (width - fgW) / 2;
+                const fgY = (height - fgH) / 2;
+                ctx.save();
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+                ctx.shadowBlur = 20;
+                ctx.drawImage(sourceCanvas, fgX, fgY, fgW, fgH);
+                ctx.restore();
+            } else if (mode === 'crop') {
+                const scale = Math.max(width / srcW, height / srcH);
+                const fgW = srcW * scale;
+                const fgH = srcH * scale;
+                const fgX = (width - fgW) / 2;
+                const fgY = (height - fgH) / 2;
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(sourceCanvas, fgX, fgY, fgW, fgH);
+            } else if (mode === 'fit') {
+                ctx.fillStyle = '#1c1c1e';
+                ctx.fillRect(0, 0, width, height);
+                const scale = Math.min(width / srcW, height / srcH);
+                const fgW = srcW * scale;
+                const fgH = srcH * scale;
+                const fgX = (width - fgW) / 2;
+                const fgY = (height - fgH) / 2;
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(sourceCanvas, fgX, fgY, fgW, fgH);
+            }
+        }
+        function renderCurrentPreviewFrame() {
+            if (!state.rawFrames.length) return;
+            const frame = state.rawFrames[state.currentFrameIndex];
+            if (frame) {
+                drawSmartFillFrame(previewCtx, frame.canvas, state.targetWidth, state.targetHeight, state.fillMode);
+                frameScrubber.value = state.currentFrameIndex;
+                let accumulatedMs = 0;
+                for (let i = 0; i <= state.currentFrameIndex; i++) {
+                    accumulatedMs += state.rawFrames[i].delayMs;
+                }
+                let curSec = accumulatedMs / 1000;
+                if (state.timeMode === 'speedup' && state.calculatedSpeedup > 1.0) {
+                    curSec = curSec / state.calculatedSpeedup;
+                }
+                timeCurrent.textContent = curSec.toFixed(1) + 's';
+            }
+        }
+        function startPlaybackLoop() {
+            if (state.animTimer) clearTimeout(state.animTimer);
+            function step() {
+                if (!state.isPlaying || !state.rawFrames.length) return;
+                renderCurrentPreviewFrame();
+                const currentFrame = state.rawFrames[state.currentFrameIndex];
+                let delay = currentFrame ? currentFrame.delayMs : 100;
+                if (state.timeMode === 'speedup' && state.calculatedSpeedup > 1.0) {
+                    delay = delay / state.calculatedSpeedup;
+                }
+                state.currentFrameIndex++;
+                if (state.timeMode === 'trim') {
+                    let totalMsSoFar = 0;
+                    for (let i = 0; i < state.currentFrameIndex; i++) {
+                        totalMsSoFar += state.rawFrames[i].delayMs;
+                    }
+                    if (totalMsSoFar >= state.targetDurationSec * 1000) {
+                        state.currentFrameIndex = 0;
+                    }
+                }
+                if (state.currentFrameIndex >= state.rawFrames.length) {
+                    state.currentFrameIndex = 0;
+                }
+                state.animTimer = setTimeout(step, Math.max(16, delay));
+            }
+            step();
+        }
+        function togglePlayPause() {
+            state.isPlaying = !state.isPlaying;
+            if (state.isPlaying) {
+                playPauseBtn.innerHTML = '<i class="fas fa-pause text-xs"></i>';
+                startPlaybackLoop();
+            } else {
+                playPauseBtn.innerHTML = '<i class="fas fa-play text-xs"></i>';
+                if (state.animTimer) clearTimeout(state.animTimer);
+            }
+        }
+        async function renderVideoExport() {
+            if (!state.rawFrames.length) return;
+            state.isPlaying = false;
+            if (state.animTimer) clearTimeout(state.animTimer);
+            processingOverlay.classList.remove('hidden');
+            processTitle.textContent = "Gerando Vídeo para Live Photo...";
+            processProgressBar.style.width = '0%';
+            const renderCanvas = document.createElement('canvas');
+            renderCanvas.width = state.targetWidth;
+            renderCanvas.height = state.targetHeight;
+            const renderCtx = renderCanvas.getContext('2d');
+            const fps = 30;
+            const stream = renderCanvas.captureStream(fps);
+            let mimeType = 'video/webm;codecs=vp9';
+            if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
+            if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/mp4';
+            let mediaRecorder;
+            try {
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: mimeType,
+                    videoBitsPerSecond: 8000000
+                });
+            } catch (e) {
+                mediaRecorder = new MediaRecorder(stream);
+            }
+            const recordedChunks = [];
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) recordedChunks.push(e.data);
+            };
+            mediaRecorder.start();
+            const totalTargetDurationMs = state.targetDurationSec * 1000;
+            const frameStepMs = 1000 / fps;
+            let currentVideoTimeMs = 0;
+            let sourceGifTimeMs = 0;
+            const gifDelays = state.rawFrames.map(f => f.delayMs);
+            const totalGifDurationMs = state.totalGifDurationSec * 1000;
+            while (currentVideoTimeMs < totalTargetDurationMs) {
+                if (state.timeMode === 'speedup') {
+                    sourceGifTimeMs = (currentVideoTimeMs * state.calculatedSpeedup) % totalGifDurationMs;
+                } else {
+                    sourceGifTimeMs = currentVideoTimeMs % totalGifDurationMs;
+                }
+                let accumMs = 0;
+                let frameIndexToDraw = 0;
+                for (let i = 0; i < gifDelays.length; i++) {
+                    accumMs += gifDelays[i];
+                    if (sourceGifTimeMs <= accumMs) {
+                        frameIndexToDraw = i;
+                        break;
+                    }
+                }
+                const targetFrame = state.rawFrames[frameIndexToDraw];
+                if (targetFrame) {
+                    drawSmartFillFrame(renderCtx, targetFrame.canvas, state.targetWidth, state.targetHeight, state.fillMode);
+                }
+                const progressPct = Math.min(100, Math.round((currentVideoTimeMs / totalTargetDurationMs) * 100));
+                processProgressBar.style.width = `${progressPct}%`;
+                processDesc.textContent = `Sintetizando frame ${(currentVideoTimeMs / frameStepMs).toFixed(0)} (${progressPct}%)`;
+                await new Promise(r => setTimeout(r, 10));
+                currentVideoTimeMs += frameStepMs;
+            }
+            mediaRecorder.stop();
+            await new Promise(resolve => {
+                mediaRecorder.onstop = resolve;
+            });
+            const videoBlob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'video/webm' });
+            state.renderedBlob = videoBlob;
+            const videoUrl = URL.createObjectURL(videoBlob);
+            downloadVideoBtn.href = videoUrl;
+            downloadVideoBtn.download = `live_photo_${state.targetWidth}x${state.targetHeight}.mp4`;
+            finalVideoPlayer.src = videoUrl;
+            processingOverlay.classList.add('hidden');
+            outputCard.classList.remove('hidden');
+            outputCard.scrollIntoView({ behavior: 'smooth' });
+            state.isPlaying = true;
+            startPlaybackLoop();
+        }
+        window.addEventListener('DOMContentLoaded', initEvents);
+    </script>
+</body>
+</html>
