@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<!--
+~
+~
+~     K-y-u-b-e-y
+~   © 2021 UKΛz-XDΛ
+~
+~
+-->
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UKAzXDA">
+    <meta name="theme-color" content="#f2f2f7">
+    <title>UKAzXDA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                    },
+                    colors: {
+                        ios: {
+                            bg: '#f2f2f7',
+                            card: 'rgba(255, 255, 255, 0.72)',
+                            blue: '#007aff',
+                            'blue-hover': '#0062cc',
+                            text: '#1c1c1e',
+                            secondary: '#8e8e93',
+                            border: 'rgba(255, 255, 255, 0.85)',
+                        }
+                    },
+                    boxShadow: {
+                        'ios-card': '0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset',
+                        'ios-modal': '0 25px 60px -10px rgba(0, 0, 0, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f2f2f7;
+            color: #1c1c1e;
+            overflow-x: hidden;
+        }
+        .ios-glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(25px) saturate(190%);
+            -webkit-backdrop-filter: blur(25px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .ios-glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .ios-glass-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(255, 255, 255, 1) inset;
+        }
+        @keyframes blob-float-1 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(60px, -40px) scale(1.12); }
+        }
+        @keyframes blob-float-2 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(-50px, 50px) scale(0.92); }
+        }
+        .animate-blob-1 { animation: blob-float-1 14s ease-in-out infinite; }
+        .animate-blob-2 { animation: blob-float-2 18s ease-in-out infinite; }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(28px) scale(0.98);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .ios-btn {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .ios-btn:active {
+            transform: scale(0.94) !important;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.25); }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen relative flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute -top-32 -left-20 w-[35rem] h-[35rem] bg-blue-200/40 rounded-full blur-3xl animate-blob-1"></div>
+        <div class="absolute top-1/3 -right-20 w-[40rem] h-[40rem] bg-indigo-200/30 rounded-full blur-3xl animate-blob-2"></div>
+        <div class="absolute -bottom-32 left-1/4 w-[38rem] h-[38rem] bg-sky-200/40 rounded-full blur-3xl animate-blob-1"></div>
+    </div>
+    <div class="relative z-10 my-10">
+        <main class="container mx-auto px-4 max-w-4xl space-y-10">
+            <section class="profile text-center scroll-reveal visible">
+                <div class="ios-glass-card p-8 md:p-10 rounded-[2.5rem] shadow-ios-card relative overflow-hidden">
+                    <div class="relative inline-block mb-4">
+                        <div class="p-1 rounded-full bg-gradient-to-tr from-blue-500 via-sky-400 to-indigo-500 shadow-xl">
+                            <img 
+                                src="pixel/perfil.png" 
+                                alt="UKAzXDA Profile" 
+                                class="w-32 h-32 md:w-36 md:h-36 rounded-full object-cover border-4 border-white shadow-inner transition duration-500 transform hover:scale-105"
+                                onerror="this.src='https://ui-avatars.com/api/?name=UKAzXDA&background=007aff&color=fff&size=256'"
+                            >
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center border-2 border-white text-xs shadow-md" title="Desenvolvedor Verificado">
+                            <i class="fas fa-check"></i>
+                        </span>
+                    </div>
+                    <h1 class="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight">UKAzXDA</h1>
+                    <div class="social-links mt-6 flex justify-center items-center gap-3">
+                        <a href="https://github.com/ukazxda" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-900 hover:bg-black text-white text-xs font-semibold shadow-md transition-all ios-btn">
+                            <i class="fab fa-github text-base"></i>
+                            <span>GitHub Repos</span>
+                        </a>
+                        <a href="https://t.me/LimpoROMgrupo" target="_blank" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold shadow-md shadow-blue-500/20 transition-all ios-btn">
+                            <i class="fab fa-telegram text-base"></i>
+                            <span>Comunidade</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <section id="dev-projects" class="scroll-reveal">
+                <div class="flex items-center justify-between mb-6 px-2">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
+						<i class="fas fa-terminal text-blue-500 text-xl"></i>Projetos Publicados</h2>
+                    </div>
+                    <button onclick="loadProjects()" class="text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-full transition ios-btn"><i class="fas fa-sync-alt mr-1"></i>Atualizar</button>
+                </div>
+                <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="ios-glass-card p-6 rounded-3xl animate-pulse flex flex-col gap-3">
+                        <div class="h-5 bg-gray-200/80 rounded-lg w-1/2"></div>
+                        <div class="h-4 bg-gray-200/60 rounded-lg w-3/4"></div>
+                        <div class="h-20 bg-gray-200/40 rounded-xl w-full mt-2"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-6 bg-black/40 backdrop-blur-2xl opacity-0 pointer-events-none transition-all duration-300">
+        <div class="relative w-full max-w-5xl h-[90vh] bg-white/90 backdrop-blur-3xl rounded-[2.5rem] shadow-ios-modal flex flex-col overflow-hidden border border-white/60">
+            <div class="flex items-center justify-between px-6 py-4 bg-white/50 border-b border-gray-200/60">
+                <div class="flex items-center gap-3">
+                    <div class="flex gap-1.5">
+                        <button onclick="closeProjectModal()" class="w-3.5 h-3.5 rounded-full bg-red-500 hover:bg-red-600 transition"></button>
+                        <span class="w-3.5 h-3.5 rounded-full bg-yellow-400"></span>
+                        <span class="w-3.5 h-3.5 rounded-full bg-green-500"></span>
+                    </div>
+                    <span id="modal-title" class="font-bold text-sm text-gray-900 tracking-tight ml-2">Visualizador de Projeto</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a id="modal-external-link" href="#" target="_blank" class="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold transition ios-btn">
+                        <i class="fas fa-external-link-alt mr-1"></i> Abrir em Nova Aba
+                    </a>
+                    <button onclick="closeProjectModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition ios-btn">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 w-full bg-white relative">
+                <iframe id="project-iframe" class="w-full h-full border-none" src=""></iframe>
+            </div>
+        </div>
+    </div>
+    <footer class="relative z-10 py-8 text-center text-xs font-semibold text-gray-500 ios-glass border-t border-white/80 mt-12">
+        <div>© UKAzXDA</div>
+    </footer>
+    <script>
+        const devProjects = [
+            "dev/on7xelte/Custom ROMs/Limpo ROMs J7 Prime.html"
+        ];
+        async function loadProjects() {
+            const container = document.getElementById("projects-container");
+            container.innerHTML = "";
+            if (devProjects.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full ios-glass-card p-8 rounded-3xl text-center text-gray-500 text-xs">
+                        <i class="fas fa-folder-open text-2xl mb-2 text-gray-400"></i>
+                        <p>Nenhum projeto cadastrado na lista!</p>
+                    </div>
+                `;
+                return;
+            }
+            for (const path of devProjects) {
+                const fileName = path.split('/').pop();
+                const meta = await extractHtmlMeta(path, fileName);
+                renderProjectCard(container, meta, path);
+            }
+        }
+        async function extractHtmlMeta(filePath, fileName) {
+            try {
+                const res = await fetch(filePath);
+                if (!res.ok) throw new Error();
+                const text = await res.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const title = doc.querySelector('title')?.innerText || fileName.replace('.html', '');
+                const tagsMeta = doc.querySelector('meta[name="keywords"]')?.content;
+                return { title};
+            } catch {
+                return {
+                    title: fileName.replace('.html', ''),
+                };
+            }
+        }
+        function renderProjectCard(container, project, path) {
+            const card = document.createElement("div");
+            card.className = "ios-glass-card p-6 rounded-3xl shadow-ios-card flex flex-col justify-between border border-white/80 group";
+            card.innerHTML = `
+                <div>
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <div class="flex gap-1">
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors tracking-tight">${project.title}</h3>
+                </div>
+                <div class="flex items-center gap-2 mt-6 pt-3 border-t border-gray-200/50">
+                    <button onclick="openProjectModal('${path}', '${project.title}')" class="flex-1 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-semibold shadow-md shadow-blue-500/20 transition ios-btn flex items-center justify-center gap-1.5">
+                        <i class="fas fa-play text-[10px]"></i> Entrar
+                    </button>
+                    <a href="${path}" target="_blank" class="px-3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition ios-btn" title="Abrir arquivo">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            `;
+            container.appendChild(card);
+        }
+        function openProjectModal(url, title) {
+            const modal = document.getElementById('project-modal');
+            const iframe = document.getElementById('project-iframe');
+            const modalTitle = document.getElementById('modal-title');
+            const extLink = document.getElementById('modal-external-link');
+            iframe.src = url;
+            modalTitle.innerText = title;
+            extLink.href = url;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            const iframe = document.getElementById('project-iframe');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            iframe.src = '';
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeProjectModal();
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+            loadProjects();
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
+
+
