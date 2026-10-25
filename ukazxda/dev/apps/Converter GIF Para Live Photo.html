@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="UKAzXDA - GIF para Live Photo Converter">
     <meta name="theme-color" content="#f2f2f7">
-    <title>GIF para Live Photo UKAzXDA v1.0</title>
+    <title>GIF para Live Photo UKAzXDA v3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -110,7 +110,7 @@
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-2">
                         <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center text-[10px] font-extrabold">1</span>
-                        Arquivo GIF
+                        Ficheiro GIF
                     </h2>
                     <span id="file-size-badge" class="hidden text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 font-medium">0 MB</span>
                 </div>
@@ -121,8 +121,8 @@
                             <i class="fas fa-cloud-arrow-up text-2xl"></i>
                         </div>
                         <div>
-                            <p class="text-sm font-semibold text-gray-800">Arraste seu GIF aqui ou <span class="text-blue-500 underline">busque</span></p>
-                            <p class="text-xs text-gray-500 mt-1">Suporta qualquer arquivo GIF animado</p>
+                            <p class="text-sm font-semibold text-gray-800">Arraste o seu GIF aqui ou <span class="text-blue-500 underline">procure</span></p>
+                            <p class="text-xs text-gray-500 mt-1">Suporta qualquer ficheiro GIF animado</p>
                         </div>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
                             <button type="button" data-fill="crop" class="fill-btn bg-white/60 border-gray-200/80 border-2 rounded-2xl p-2.5 text-center transition-all ios-btn">
                                 <i class="fas fa-crop-simple text-gray-400 text-base mb-1 block"></i>
                                 <span class="block text-xs font-bold text-gray-800">Corte</span>
-                                <span class="block text-[10px] text-gray-500">Preenche tela</span>
+                                <span class="block text-[10px] text-gray-500">Preenche ecrã</span>
                             </button>
                             <button type="button" data-fill="fit" class="fill-btn bg-white/60 border-gray-200/80 border-2 rounded-2xl p-2.5 text-center transition-all ios-btn">
                                 <i class="fas fa-expand text-gray-400 text-base mb-1 block"></i>
@@ -252,15 +252,15 @@
                             <i class="fas fa-image text-2xl"></i>
                         </div>
                         <p class="text-sm font-bold text-gray-700">Nenhum GIF Carregado</p>
-                        <p class="text-xs text-gray-500 max-w-xs mt-1">Selecione um arquivo GIF para visualizar a prévia com preenchimento inteligente.</p>
+                        <p class="text-xs text-gray-500 max-w-xs mt-1">Selecione um ficheiro GIF para visualizar a prévia com preenchimento inteligente.</p>
                     </div>
                     <div id="processing-overlay" class="hidden absolute inset-0 bg-white/90 backdrop-blur-md flex flex-col items-center justify-center text-center p-6 z-20">
                         <div class="relative mb-4">
                             <div class="w-16 h-16 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
                             <i class="fas fa-wand-magic-sparkles text-blue-500 absolute inset-0 m-auto flex items-center justify-center text-lg"></i>
                         </div>
-                        <h3 id="process-title" class="text-base font-bold text-gray-900">Processando Renderização...</h3>
-                        <p id="process-desc" class="text-xs text-gray-500 mt-1">Sintetizando quadros com preenchimento de pixel...</p>
+                        <h3 id="process-title" class="text-base font-bold text-gray-900">A processar Renderização...</h3>
+                        <p id="process-desc" class="text-xs text-gray-500 mt-1">A sintetizar quadros com preenchimento de píxeis...</p>
                         <div class="w-64 bg-gray-200 rounded-full h-2 mt-4 overflow-hidden border border-white">
                             <div id="process-progress-bar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-full w-0 transition-all duration-100"></div>
                         </div>
@@ -281,12 +281,12 @@
                     <span id="output-format-tag" class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">MP4 / WebM</span>
                 </div>
                 <p class="text-xs text-gray-600 mb-4">
-                    Seu vídeo foi otimizado para a duração exata da Live Photo. Transfira para o seu iPhone e use o aplicativo <b>Atalhos (Shortcuts)</b> ou apps como <i>intoLive</i> para transformar diretamente em Live Photo!
+                    O seu vídeo foi otimizado para a duração exata da Live Photo. Transfira para o seu iPhone e use a aplicação <b>Atalhos (Shortcuts)</b> ou apps como <i>intoLive</i> para transformar diretamente em Live Photo!
                 </p>
                 <div class="flex flex-col sm:flex-row gap-3">
                     <a id="download-video-btn" download="live_photo_export.webm" class="flex-1 py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 transition cursor-pointer text-xs ios-btn">
                         <i class="fas fa-download"></i>
-                        <span>Baixar Vídeo Otimizado</span>
+                        <span>Descarregar Vídeo Otimizado</span>
                     </a>
                     <button id="preview-output-video-btn" class="py-3 px-4 bg-white hover:bg-gray-100 text-gray-700 font-bold rounded-xl flex items-center justify-center gap-2 border border-gray-200 text-xs transition shadow-sm ios-btn">
                         <i class="fas fa-play"></i>
@@ -462,7 +462,7 @@
 
         function handleFileSelect(file) {
             if (!file || (!file.type.includes('gif') && !file.name.toLowerCase().endsWith('.gif'))) {
-                alert('Por favor, selecione um arquivo GIF animado válido.');
+                alert('Por favor, selecione um ficheiro GIF animado válido.');
                 return;
             }
             const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
@@ -471,28 +471,38 @@
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                const buffer = new Uint8Array(e.target.result);
+                let buffer = new Uint8Array(e.target.result);
                 try {
+                    buffer = cleanGifBuffer(buffer);
                     parseGifBuffer(buffer);
                 } catch(err) {
                     console.error("Erro ao ler GIF:", err);
-                    alert("Ocorreu um erro ao processar os quadros do GIF. O arquivo pode estar corrompido ou em formato incompatível. Tente outro arquivo.");
+                    alert("Ocorreu um erro ao processar os quadros do GIF. O ficheiro pode estar corrompido ou em formato incompatível. Tente outro ficheiro.");
                 }
             };
             reader.onerror = function() {
-                alert("Erro ao ler o arquivo selecionado.");
+                alert("Erro ao ler o ficheiro selecionado.");
             };
             reader.readAsArrayBuffer(file);
         }
 
+        function cleanGifBuffer(buffer) {
+            for (let i = buffer.length - 1; i >= 0; i--) {
+                if (buffer[i] === 0x3B) {
+                    return buffer.slice(0, i + 1);
+                }
+            }
+            return buffer;
+        }
+
         function parseGifBuffer(buffer) {
-            if (typeof Omggif === 'undefined' || !Omggif.GifReader) {
-                throw new Error("Biblioteca Omggif não carregada.");
+            if (typeof GifReader === 'undefined') {
+                throw new Error("Biblioteca GifReader não carregada.");
             }
 
             let gifReader;
             try {
-                gifReader = new Omggif.GifReader(buffer);
+                gifReader = new GifReader(buffer);
             } catch (err) {
                 throw new Error("Cabeçalho GIF inválido ou corrompido.");
             }
@@ -558,7 +568,7 @@
             }
 
             if (state.rawFrames.length === 0) {
-                throw new Error("Nenhum quadro pudo ser decodificado.");
+                throw new Error("Nenhum quadro pôde ser decodificado.");
             }
 
             state.totalGifDurationSec = totalDurationMs / 1000;
@@ -726,7 +736,7 @@
             state.isPlaying = false;
             if (state.animTimer) clearTimeout(state.animTimer);
             processingOverlay.classList.remove('hidden');
-            processTitle.textContent = "Gerando Vídeo para Live Photo...";
+            processTitle.textContent = "A gerar Vídeo para Live Photo...";
             processProgressBar.style.width = '0%';
 
             const renderCanvas = document.createElement('canvas');
@@ -750,7 +760,7 @@
                 try {
                     mediaRecorder = new MediaRecorder(stream);
                 } catch (err) {
-                    alert("Seu navegador não suporta gravação de vídeo nesta página.");
+                    alert("O seu navegador não suporta gravação de vídeo nesta página.");
                     processingOverlay.classList.add('hidden');
                     return;
                 }
@@ -790,7 +800,7 @@
                 }
                 const progressPct = Math.min(100, Math.round((currentVideoTimeMs / totalTargetDurationMs) * 100));
                 processProgressBar.style.width = `${progressPct}%`;
-                processDesc.textContent = `Sintetizando frame ${(currentVideoTimeMs / frameStepMs).toFixed(0)} (${progressPct}%)`;
+                processDesc.textContent = `A sintetizar quadro ${(currentVideoTimeMs / frameStepMs).toFixed(0)} (${progressPct}%)`;
                 await new Promise(r => setTimeout(r, 10));
                 currentVideoTimeMs += frameStepMs;
             }
