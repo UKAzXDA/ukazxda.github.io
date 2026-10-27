@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://ukazxda.github.io/sitemap.xml

@@ -17,8 +17,8 @@ def find_paths():
         return dev_in_current, site_in_current
 
     # Cenário B: Executando na raiz do repositório
-    site_in_sub = os.path.join(BASE_DIR, "ukazxda", "site.html")
-    dev_in_sub = os.path.join(BASE_DIR, "ukazxda", "dev")
+    site_in_sub = os.path.join(BASE_DIR, "site.html")
+    dev_in_sub = os.path.join(BASE_DIR, "dev")
     
     if os.path.exists(site_in_sub):
         return dev_in_sub, site_in_sub
