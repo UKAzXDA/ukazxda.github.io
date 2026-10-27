@@ -1,0 +1,692 @@
+<!-- ... existing code ... -->
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full overflow-hidden select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PS4 DualShock 4 Precision Calibration</title>
+  <meta name="description" content="Utilitário de calibração minimalista de alta precisão para DualShock 4 por UKAzXDA.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            iosBg: '#F2F2F7',
+            iosCard: '#FFFFFF',
+            iosBlue: '#007AFF',
+            iosGreen: '#34C759',
+            iosRed: '#FF3B30',
+            iosOrange: '#FF9500',
+            iosGray: '#8E8E93',
+            iosLightGray: '#E5E5EA',
+            iosBorder: '#E0E0E5',
+            iosText: '#1C1C1E'
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F2F2F7;
+      color: #1C1C1E;
+      -webkit-font-smoothing: antialiased;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 14px;
+      width: 14px;
+      border-radius: 50%;
+      background: #007AFF;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .btn-action {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-action:active {
+      transform: scale(0.96);
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between p-3 gap-3 overflow-hidden text-iosText font-sans text-xs">
+
+  <!-- CABEÇALHO COMPACTO E MINIMALISTA -->
+  <header class="flex items-center justify-between px-4 py-2.5 bg-iosCard rounded-2xl border border-iosBorder/80 shadow-sm flex-shrink-0">
+    <div class="flex items-center space-x-3">
+      <div class="w-2.5 h-2.5 rounded-full bg-iosRed transition-colors duration-300" id="statusDot"></div>
+      <div>
+        <h1 class="text-xs font-bold tracking-tight text-iosText flex items-center gap-2">
+          <span>DS4 Calibration Engine</span>
+          <span class="text-[9px] px-2 py-0.5 bg-iosBlue/10 text-iosBlue font-mono rounded-full font-medium">by UKAzXDA</span>
+        </h1>
+        <p id="statusText" class="text-[10px] text-iosGray font-medium">Aguardando conexão via USB ou Bluetooth...</p>
+      </div>
+    </div>
+
+    <!-- AÇÕES DE SISTEMA -->
+    <div class="flex items-center space-x-2">
+      <div id="saveToast" class="hidden px-2.5 py-1 text-[10px] font-semibold bg-iosGreen/10 text-iosGreen border border-iosGreen/20 rounded-xl transition-all">
+        ✓ Salvo no EEPROM
+      </div>
+
+      <!-- BOTÃO DOAÇÃO PIX -->
+      <button id="btnDonate" onclick="copyPixKey()" class="btn-action px-3 py-1.5 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-xl flex items-center gap-1.5">
+        <span>❤️</span>
+        <span>Apoiar (PIX): <strong class="font-mono">ukazxda@gmail.com</strong></span>
+      </button>
+
+      <button id="btnFactoryReset" class="btn-action px-3 py-1.5 text-[10px] font-medium bg-iosBg hover:bg-iosLightGray text-iosRed border border-iosBorder rounded-xl">
+        Restaurar
+      </button>
+      <button id="btnSaveEeprom" class="btn-action px-3 py-1.5 text-[10px] font-semibold bg-iosBlue hover:bg-iosBlue/90 text-white shadow-sm rounded-xl">
+        Salvar EEPROM
+      </button>
+    </div>
+  </header>
+
+  <!-- ANALÓGICOS (GRID 2 COLUNAS) -->
+  <main class="grid grid-cols-2 gap-3 flex-1 min-h-0">
+
+    <!-- ANALÓGICO ESQUERDO -->
+    <section class="bg-iosCard rounded-2xl p-3 border border-iosBorder/80 shadow-sm flex flex-col justify-between min-h-0 relative">
+      <!-- HEADER L -->
+      <div class="flex items-center justify-between flex-shrink-0 pb-2 border-b border-iosBorder/50">
+        <div>
+          <span class="text-[10px] font-bold tracking-wider text-iosGray uppercase">Analógico Esquerdo (LX / LY)</span>
+          <div class="flex items-center gap-2 mt-0.5 font-mono">
+            <span id="lsCoordClean" class="text-xs font-semibold text-iosText">X: 0.00 | Y: 0.00</span>
+            <span id="lsMag" class="text-xs text-iosGray">Raio: 0.00</span>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-1.5">
+          <button id="btnZeroL" class="btn-action px-2.5 py-1 text-[10px] font-medium bg-iosBg hover:bg-iosLightGray border border-iosBorder rounded-lg">Zerar Centro</button>
+          <button id="btnCalib360L" class="btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-lg">Calibração 360°</button>
+        </div>
+      </div>
+
+      <!-- PAINEL COMPACTO DE CONTROLES L -->
+      <div class="flex items-center justify-between gap-2 p-2 bg-iosBg rounded-xl border border-iosBorder/60 my-2 text-[10px] flex-shrink-0">
+        <button id="btnAutoNoiseL" class="btn-action px-2 py-1 font-medium bg-iosCard text-iosText border border-iosBorder rounded-lg hover:bg-white flex-shrink-0">
+          ⚡ Auto Ruído (10s)
+        </button>
+
+        <div class="flex items-center gap-2 flex-1 px-2 py-0.5 bg-iosCard rounded-lg border border-iosBorder/60">
+          <span class="font-medium text-[9px] text-iosGray uppercase">Zona Morta:</span>
+          <input id="sliderDeadzoneL" type="range" min="0.000" max="0.150" step="0.001" value="0.030" class="w-full accent-iosBlue h-1 bg-iosLightGray rounded-lg cursor-pointer">
+          <span id="valDeadzoneL" class="font-mono font-semibold text-iosBlue text-[10px] w-9 text-right">0.030</span>
+        </div>
+
+        <button id="btnClearTraceL" class="btn-action px-2 py-1 font-medium text-iosGray hover:text-iosText">Limpar</button>
+        <button id="btnResetCalibL" class="btn-action px-2 py-1 font-medium text-iosRed hover:bg-iosRed/10 rounded-lg">Reset</button>
+      </div>
+
+      <!-- RADAR CANVAS ESQUERDO -->
+      <div class="flex-1 min-h-0 flex items-center justify-center relative">
+        <div class="relative aspect-square h-full max-h-full flex items-center justify-center">
+          <canvas id="canvasL" class="w-full h-full block rounded-xl"></canvas>
+        </div>
+      </div>
+
+      <!-- RODAPÉ L -->
+      <div class="flex items-center justify-between pt-2 border-t border-iosBorder/50 flex-shrink-0 text-[10px]">
+        <div class="flex items-center space-x-2">
+          <span class="text-iosGray font-medium">Mapeamento 360°:</span>
+          <div class="w-16 bg-iosLightGray h-1.5 rounded-full overflow-hidden">
+            <div id="progL" class="bg-iosBlue h-full w-0 transition-all duration-300"></div>
+          </div>
+          <span id="progTextL" class="font-mono font-semibold text-iosBlue">0%</span>
+        </div>
+        <div id="statusBadgeL" class="font-mono font-semibold text-[9px] px-2 py-0.5 rounded-md bg-iosBlue/10 text-iosBlue uppercase">Centro</div>
+      </div>
+    </section>
+
+    <!-- ANALÓGICO DIREITO -->
+    <section class="bg-iosCard rounded-2xl p-3 border border-iosBorder/80 shadow-sm flex flex-col justify-between min-h-0 relative">
+      <!-- HEADER R -->
+      <div class="flex items-center justify-between flex-shrink-0 pb-2 border-b border-iosBorder/50">
+        <div>
+          <span class="text-[10px] font-bold tracking-wider text-iosGray uppercase">Analógico Direito (RX / RY)</span>
+          <div class="flex items-center gap-2 mt-0.5 font-mono">
+            <span id="rsCoordClean" class="text-xs font-semibold text-iosText">X: 0.00 | Y: 0.00</span>
+            <span id="rsMag" class="text-xs text-iosGray">Raio: 0.00</span>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-1.5">
+          <button id="btnZeroR" class="btn-action px-2.5 py-1 text-[10px] font-medium bg-iosBg hover:bg-iosLightGray border border-iosBorder rounded-lg">Zerar Centro</button>
+          <button id="btnCalib360R" class="btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-lg">Calibração 360°</button>
+        </div>
+      </div>
+
+      <!-- PAINEL COMPACTO DE CONTROLES R -->
+      <div class="flex items-center justify-between gap-2 p-2 bg-iosBg rounded-xl border border-iosBorder/60 my-2 text-[10px] flex-shrink-0">
+        <button id="btnAutoNoiseR" class="btn-action px-2 py-1 font-medium bg-iosCard text-iosText border border-iosBorder rounded-lg hover:bg-white flex-shrink-0">
+          ⚡ Auto Ruído (10s)
+        </button>
+
+        <div class="flex items-center gap-2 flex-1 px-2 py-0.5 bg-iosCard rounded-lg border border-iosBorder/60">
+          <span class="font-medium text-[9px] text-iosGray uppercase">Zona Morta:</span>
+          <input id="sliderDeadzoneR" type="range" min="0.000" max="0.150" step="0.001" value="0.030" class="w-full accent-iosBlue h-1 bg-iosLightGray rounded-lg cursor-pointer">
+          <span id="valDeadzoneR" class="font-mono font-semibold text-iosBlue text-[10px] w-9 text-right">0.030</span>
+        </div>
+
+        <button id="btnClearTraceR" class="btn-action px-2 py-1 font-medium text-iosGray hover:text-iosText">Limpar</button>
+        <button id="btnResetCalibR" class="btn-action px-2 py-1 font-medium text-iosRed hover:bg-iosRed/10 rounded-lg">Reset</button>
+      </div>
+
+      <!-- RADAR CANVAS DIREITO -->
+      <div class="flex-1 min-h-0 flex items-center justify-center relative">
+        <div class="relative aspect-square h-full max-h-full flex items-center justify-center">
+          <canvas id="canvasR" class="w-full h-full block rounded-xl"></canvas>
+        </div>
+      </div>
+
+      <!-- RODAPÉ R -->
+      <div class="flex items-center justify-between pt-2 border-t border-iosBorder/50 flex-shrink-0 text-[10px]">
+        <div class="flex items-center space-x-2">
+          <span class="text-iosGray font-medium">Mapeamento 360°:</span>
+          <div class="w-16 bg-iosLightGray h-1.5 rounded-full overflow-hidden">
+            <div id="progR" class="bg-iosBlue h-full w-0 transition-all duration-300"></div>
+          </div>
+          <span id="progTextR" class="font-mono font-semibold text-iosBlue">0%</span>
+        </div>
+        <div id="statusBadgeR" class="font-mono font-semibold text-[9px] px-2 py-0.5 rounded-md bg-iosBlue/10 text-iosBlue uppercase">Centro</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ENGINE MATEMÁTICO E SISTEMA -->
+  <script>
+    const NUM_SECTORS = 128; // Bins otimizados para alta precisão leve
+
+    // Função para copiar chave PIX facilmente
+    function copyPixKey() {
+      const pixKey = "ukazxda@gmail.com";
+      const tempInput = document.createElement("input");
+      tempInput.value = pixKey;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+      showToast("✓ Chave PIX (ukazxda@gmail.com) copiada!");
+    }
+
+    // Filtro de Interpolação Suave Exponential Moving Average
+    class SmoothFilter {
+      constructor(smoothing = 0.25) {
+        this.smoothing = smoothing;
+        this.value = 0;
+        this.initialized = false;
+      }
+      update(target) {
+        if (!this.initialized) {
+          this.value = target;
+          this.initialized = true;
+          return target;
+        }
+        this.value += (target - this.value) * this.smoothing;
+        return this.value;
+      }
+      reset(val = 0) {
+        this.value = val;
+        this.initialized = false;
+      }
+    }
+
+    const state = {
+      gamepadIndex: null,
+      deadzoneL: 0.030,
+      deadzoneR: 0.030,
+      centerL: { x: 0, y: 0 },
+      centerR: { x: 0, y: 0 },
+      gainsL: new Float32Array(NUM_SECTORS).fill(1.0),
+      gainsR: new Float32Array(NUM_SECTORS).fill(1.0),
+      peaksL: new Float32Array(NUM_SECTORS).fill(0.0),
+      peaksR: new Float32Array(NUM_SECTORS).fill(0.0),
+      filterLX: new SmoothFilter(0.35), filterLY: new SmoothFilter(0.35),
+      filterRX: new SmoothFilter(0.35), filterRY: new SmoothFilter(0.35),
+      // Posição para animação LERP contínua dos cursores
+      smoothPosL: { x: 0, y: 0 },
+      smoothPosR: { x: 0, y: 0 },
+      calib360L: false, calib360R: false,
+      trailL: [], trailR: [],
+      maxTrail: 120
+    };
+
+    const canvasL = document.getElementById('canvasL');
+    const canvasR = document.getElementById('canvasR');
+    const ctxL = canvasL.getContext('2d');
+    const ctxR = canvasR.getContext('2d');
+
+    function resizeCanvas(canvas) {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      return { w: rect.width, h: rect.height };
+    }
+
+    let dimL = { w: 300, h: 300 };
+    let dimR = { w: 300, h: 300 };
+
+    function fitCanvases() {
+      dimL = resizeCanvas(canvasL);
+      dimR = resizeCanvas(canvasR);
+    }
+
+    window.addEventListener('resize', fitCanvases);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fitCanvases();
+      loadEepromConfig();
+
+      document.getElementById('btnFactoryReset').addEventListener('click', factoryResetAll);
+      document.getElementById('btnSaveEeprom').addEventListener('click', saveEepromConfig);
+
+      const sliderL = document.getElementById('sliderDeadzoneL');
+      const sliderR = document.getElementById('sliderDeadzoneR');
+
+      sliderL.addEventListener('input', (e) => {
+        state.deadzoneL = parseFloat(e.target.value);
+        document.getElementById('valDeadzoneL').textContent = state.deadzoneL.toFixed(3);
+      });
+
+      sliderR.addEventListener('input', (e) => {
+        state.deadzoneR = parseFloat(e.target.value);
+        document.getElementById('valDeadzoneR').textContent = state.deadzoneR.toFixed(3);
+      });
+
+      document.getElementById('btnZeroL').addEventListener('click', () => zeroCenter('L'));
+      document.getElementById('btnCalib360L').addEventListener('click', () => toggleCalib360('L'));
+      document.getElementById('btnAutoNoiseL').addEventListener('click', () => runNoiseDetectionStick('L'));
+      document.getElementById('btnClearTraceL').addEventListener('click', () => state.trailL = []);
+      document.getElementById('btnResetCalibL').addEventListener('click', () => resetStickCalibration('L'));
+
+      document.getElementById('btnZeroR').addEventListener('click', () => zeroCenter('R'));
+      document.getElementById('btnCalib360R').addEventListener('click', () => toggleCalib360('R'));
+      document.getElementById('btnAutoNoiseR').addEventListener('click', () => runNoiseDetectionStick('R'));
+      document.getElementById('btnClearTraceR').addEventListener('click', () => state.trailR = []);
+      document.getElementById('btnResetCalibR').addEventListener('click', () => resetStickCalibration('R'));
+
+      window.addEventListener("gamepadconnected", (e) => {
+        state.gamepadIndex = e.gamepad.index;
+        updateConnectionStatus(true, e.gamepad.id);
+      });
+
+      window.addEventListener("gamepaddisconnected", () => {
+        state.gamepadIndex = null;
+        updateConnectionStatus(false, "Desconectado");
+      });
+
+      requestAnimationFrame(renderLoop);
+    });
+
+    function updateConnectionStatus(connected, text) {
+      const dot = document.getElementById('statusDot');
+      const statusText = document.getElementById('statusText');
+
+      if (connected) {
+        dot.className = "w-2.5 h-2.5 rounded-full bg-iosGreen";
+        statusText.textContent = "Conectado: " + text.split('(')[0].trim();
+      } else {
+        dot.className = "w-2.5 h-2.5 rounded-full bg-iosRed animate-pulse";
+        statusText.textContent = "Aguardando conexão via USB ou Bluetooth...";
+      }
+    }
+
+    function zeroCenter(stick) {
+      const gp = getGamepad();
+      if (!gp) return;
+      if (stick === 'L') {
+        state.centerL.x = gp.axes[0] || 0;
+        state.centerL.y = gp.axes[1] || 0;
+        state.filterLX.reset(0); state.filterLY.reset(0);
+      } else {
+        state.centerR.x = gp.axes[2] !== undefined ? gp.axes[2] : (gp.axes[3] || 0);
+        state.centerR.y = gp.axes[3] !== undefined && gp.axes[2] !== undefined ? gp.axes[3] : (gp.axes[4] || 0);
+        state.filterRX.reset(0); state.filterRY.reset(0);
+      }
+      showToast(`✓ Centro do analógico ${stick === 'L' ? 'Esquerdo' : 'Direito'} ajustado!`);
+    }
+
+    function toggleCalib360(stick) {
+      const isL = stick === 'L';
+      const activeKey = isL ? 'calib360L' : 'calib360R';
+      const btnId = isL ? 'btnCalib360L' : 'btnCalib360R';
+      const peaksArray = isL ? state.peaksL : state.peaksR;
+
+      state[activeKey] = !state[activeKey];
+      const btn = document.getElementById(btnId);
+
+      if (state[activeKey]) {
+        peaksArray.fill(0);
+        btn.className = "btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosGreen text-white rounded-lg transition animate-pulse";
+        btn.textContent = "Mapeando 360°...";
+      } else {
+        btn.className = "btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-lg";
+        btn.textContent = "Calibração 360°";
+      }
+    }
+
+    function resetStickCalibration(stick) {
+      if (stick === 'L') {
+        state.gainsL.fill(1.0); state.peaksL.fill(0);
+        state.calib360L = false; state.centerL = { x: 0, y: 0 }; state.trailL = [];
+        state.deadzoneL = 0.030;
+        document.getElementById('sliderDeadzoneL').value = 0.030;
+        document.getElementById('valDeadzoneL').textContent = "0.030";
+        document.getElementById('btnCalib360L').className = "btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-lg";
+        document.getElementById('btnCalib360L').textContent = "Calibração 360°";
+      } else {
+        state.gainsR.fill(1.0); state.peaksR.fill(0);
+        state.calib360R = false; state.centerR = { x: 0, y: 0 }; state.trailR = [];
+        state.deadzoneR = 0.030;
+        document.getElementById('sliderDeadzoneR').value = 0.030;
+        document.getElementById('valDeadzoneR').textContent = "0.030";
+        document.getElementById('btnCalib360R').className = "btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-lg";
+        document.getElementById('btnCalib360R').textContent = "Calibração 360°";
+      }
+      showToast(`✓ Reset efetuado no analógico ${stick === 'L' ? 'Esquerdo' : 'Direito'}`);
+    }
+
+    function factoryResetAll() {
+      resetStickCalibration('L');
+      resetStickCalibration('R');
+      localStorage.removeItem('ds4_eeprom_data');
+      showToast("✓ Configuração original restaurada!");
+    }
+
+    function saveEepromConfig() {
+      const eepromPayload = {
+        centerL: state.centerL, centerR: state.centerR,
+        deadzoneL: state.deadzoneL, deadzoneR: state.deadzoneR,
+        gainsL: Array.from(state.gainsL), gainsR: Array.from(state.gainsR),
+        peaksL: Array.from(state.peaksL), peaksR: Array.from(state.peaksR)
+      };
+
+      try {
+        localStorage.setItem('ds4_eeprom_data', JSON.stringify(eepromPayload));
+        showToast("✓ Dados salvos na EEPROM!");
+      } catch (e) {
+        console.error("Falha ao salvar no localStorage", e);
+      }
+    }
+
+    function loadEepromConfig() {
+      const raw = localStorage.getItem('ds4_eeprom_data');
+      if (!raw) return;
+
+      try {
+        const data = JSON.parse(raw);
+        if (data.centerL) state.centerL = data.centerL;
+        if (data.centerR) state.centerR = data.centerR;
+        if (data.deadzoneL !== undefined) {
+          state.deadzoneL = data.deadzoneL;
+          document.getElementById('sliderDeadzoneL').value = data.deadzoneL;
+          document.getElementById('valDeadzoneL').textContent = data.deadzoneL.toFixed(3);
+        }
+        if (data.deadzoneR !== undefined) {
+          state.deadzoneR = data.deadzoneR;
+          document.getElementById('sliderDeadzoneR').value = data.deadzoneR;
+          document.getElementById('valDeadzoneR').textContent = data.deadzoneR.toFixed(3);
+        }
+        if (data.gainsL) state.gainsL = new Float32Array(data.gainsL);
+        if (data.gainsR) state.gainsR = new Float32Array(data.gainsR);
+        if (data.peaksL) state.peaksL = new Float32Array(data.peaksL);
+        if (data.peaksR) state.peaksR = new Float32Array(data.peaksR);
+
+        showToast("✓ EEPROM Carregado com sucesso!");
+      } catch (e) {
+        console.error("Erro ao carregar EEPROM", e);
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('saveToast');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => { toast.classList.add('hidden'); }, 3000);
+    }
+
+    function runNoiseDetectionStick(stick) {
+      const btn = stick === 'L' ? document.getElementById('btnAutoNoiseL') : document.getElementById('btnAutoNoiseR');
+      const origText = btn.textContent;
+      let timeLeft = 10;
+      
+      btn.disabled = true;
+      btn.className = "btn-action px-2 py-1 font-semibold bg-iosOrange text-white rounded-lg animate-pulse flex-shrink-0";
+
+      let maxNoise = 0;
+      const interval = setInterval(() => {
+        const gp = getGamepad();
+        if (gp) {
+          let cx = stick === 'L' ? (gp.axes[0] || 0) - state.centerL.x : (gp.axes[2] || 0) - state.centerR.x;
+          let cy = stick === 'L' ? (gp.axes[1] || 0) - state.centerL.y : (gp.axes[3] || 0) - state.centerR.y;
+          let r = Math.sqrt(cx * cx + cy * cy);
+          if (r > maxNoise) maxNoise = r;
+        }
+
+        timeLeft--;
+        btn.textContent = `⏳ ${timeLeft}s`;
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          btn.disabled = false;
+          btn.className = "btn-action px-2 py-1 font-medium bg-iosCard text-iosText border border-iosBorder rounded-lg hover:bg-white flex-shrink-0";
+          btn.textContent = origText;
+
+          let newDeadzone = Math.min(Math.max(maxNoise * 1.2, 0.010), 0.150);
+          if (stick === 'L') {
+            state.deadzoneL = newDeadzone;
+            document.getElementById('sliderDeadzoneL').value = newDeadzone.toFixed(3);
+            document.getElementById('valDeadzoneL').textContent = newDeadzone.toFixed(3);
+          } else {
+            state.deadzoneR = newDeadzone;
+            document.getElementById('sliderDeadzoneR').value = newDeadzone.toFixed(3);
+            document.getElementById('valDeadzoneR').textContent = newDeadzone.toFixed(3);
+          }
+
+          showToast(`✓ Ruído ${stick} detectado: ${newDeadzone.toFixed(3)}`);
+        }
+      }, 1000);
+    }
+
+    function getGamepad() {
+      if (state.gamepadIndex === null) return null;
+      const gps = navigator.getGamepads ? navigator.getGamepads() : [];
+      return gps[state.gamepadIndex] || null;
+    }
+
+    function processAnalogSignal(rawX, rawY, centerOffset, gainArray, peakArray, isCalibrating, filterX, filterY, deadzone) {
+      let cx = rawX - centerOffset.x;
+      let cy = rawY - centerOffset.y;
+      let fx = filterX.update(cx);
+      let fy = filterY.update(cy);
+      let filtDev = Math.sqrt(fx * fx + fy * fy);
+      let angle = Math.atan2(fy, fx);
+
+      if (filtDev < deadzone) {
+        return {
+          rawX: rawX, rawY: rawY,
+          cleanX: 0, cleanY: 0, cleanR: 0, filtDev: filtDev,
+          color: '#007AFF',
+          statusTag: 'DENTRO DA ZONA MORTA',
+          statusClass: 'bg-iosBlue/10 text-iosBlue'
+        };
+      }
+
+      if (isCalibrating && filtDev > 0.30 && filtDev < 1.40) {
+        let normAngle = (angle % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+        let binIdx = Math.floor((normAngle / (2 * Math.PI)) * NUM_SECTORS) % NUM_SECTORS;
+        if (peakArray[binIdx] === 0 || filtDev > peakArray[binIdx]) {
+          peakArray[binIdx] = filtDev;
+          gainArray[binIdx] = 1.0 / Math.max(filtDev, 0.85);
+        }
+      }
+
+      let normR = (filtDev - deadzone) / (1.0 - deadzone);
+      let normAngle = (angle % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+      let sectorIdx = Math.floor((normAngle / (2 * Math.PI)) * NUM_SECTORS) % NUM_SECTORS;
+      let gain = gainArray[sectorIdx] || 1.0;
+      normR *= gain;
+
+      let cleanX = Math.cos(angle) * normR;
+      let cleanY = Math.sin(angle) * normR;
+      let cleanR = Math.sqrt(cleanX * cleanX + cleanY * cleanY);
+
+      let color = '#34C759'; // Verde
+      let statusTag = 'FAIXA IDEAL';
+      let statusClass = 'bg-iosGreen/10 text-iosGreen';
+
+      if (cleanR < 0.95 || cleanR > 1.05) {
+        color = '#FF3B30'; // Vermelho
+        statusTag = 'DESVIO / LIMITAÇÃO';
+        statusClass = 'bg-iosRed/10 text-iosRed';
+      }
+
+      return {
+        rawX: rawX, rawY: rawY,
+        cleanX: cleanX, cleanY: cleanY, cleanR: cleanR, filtDev: filtDev,
+        color: color, statusTag: statusTag, statusClass: statusClass
+      };
+    }
+
+    function renderLoop() {
+      const gp = getGamepad();
+      let lx = 0, ly = 0, rx = 0, ry = 0;
+      if (gp) {
+        lx = gp.axes[0] || 0; ly = gp.axes[1] || 0;
+        rx = gp.axes[2] !== undefined ? gp.axes[2] : (gp.axes[3] || 0);
+        ry = gp.axes[3] !== undefined && gp.axes[2] !== undefined ? gp.axes[3] : (gp.axes[4] || 0);
+      }
+
+      const procL = processAnalogSignal(lx, ly, state.centerL, state.gainsL, state.peaksL, state.calib360L, state.filterLX, state.filterLY, state.deadzoneL);
+      const procR = processAnalogSignal(rx, ry, state.centerR, state.gainsR, state.peaksR, state.calib360R, state.filterRX, state.filterRY, state.deadzoneR);
+
+      // Animação por interpolação LERP
+      state.smoothPosL.x += (procL.cleanX - state.smoothPosL.x) * 0.4;
+      state.smoothPosL.y += (procL.cleanY - state.smoothPosL.y) * 0.4;
+      state.smoothPosR.x += (procR.cleanX - state.smoothPosR.x) * 0.4;
+      state.smoothPosR.y += (procR.cleanY - state.smoothPosR.y) * 0.4;
+
+      // Adição de Rastro
+      state.trailL.push({ x: state.smoothPosL.x, y: state.smoothPosL.y, color: procL.color });
+      if (state.trailL.length > state.maxTrail) state.trailL.shift();
+
+      state.trailR.push({ x: state.smoothPosR.x, y: state.smoothPosR.y, color: procR.color });
+      if (state.trailR.length > state.maxTrail) state.trailR.shift();
+
+      drawRadarCanvas(ctxL, dimL, state.smoothPosL, procL, state.trailL, state.deadzoneL);
+      drawRadarCanvas(ctxR, dimR, state.smoothPosR, procR, state.trailR, state.deadzoneR);
+      updateUI(procL, procR);
+
+      requestAnimationFrame(renderLoop);
+    }
+
+    function drawRadarCanvas(ctx, dim, smoothPos, proc, trailArray, deadzone) {
+      const w = dim.w, h = dim.h, cx = w / 2, cy = h / 2, radius = (w / 2) * 0.82;
+      ctx.clearRect(0, 0, w, h);
+
+      // Guia Circular suave
+      ctx.strokeStyle = "rgba(0,0,0,0.05)";
+      ctx.lineWidth = 1;
+      [0.25, 0.50, 0.75].forEach(r => {
+        ctx.beginPath(); ctx.arc(cx, cy, radius * r, 0, Math.PI * 2); ctx.stroke();
+      });
+
+      // ZONA MORTA INTERNA (AZUL)
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * deadzone, 0, Math.PI * 2);
+      ctx.strokeStyle = '#007AFF';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([3, 3]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // BORDA DA ÁREA ÚTIL (VERDE)
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.strokeStyle = '#34C759'; 
+      ctx.lineWidth = 2; 
+      ctx.stroke();
+
+      // RASTRO (TRAILS SUAVES)
+      if (trailArray.length > 0) {
+        for (let i = 0; i < trailArray.length; i++) {
+          const pt = trailArray[i];
+          const tx = cx + pt.x * radius;
+          const ty = cy + pt.y * radius;
+          const alpha = (i + 1) / trailArray.length;
+
+          ctx.beginPath();
+          ctx.arc(tx, ty, 2, 0, Math.PI * 2);
+          ctx.fillStyle = pt.color;
+          ctx.globalAlpha = alpha * 0.35;
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1.0;
+      }
+
+      // CURSOR E VETOR DE MOVIMENTO
+      const px = cx + smoothPos.x * radius;
+      const py = cy + smoothPos.y * radius;
+
+      ctx.beginPath(); 
+      ctx.moveTo(cx, cy); 
+      ctx.lineTo(px, py); 
+      ctx.strokeStyle = proc.color; 
+      ctx.lineWidth = 2; 
+      ctx.stroke();
+
+      ctx.beginPath(); 
+      ctx.arc(px, py, 6, 0, Math.PI * 2); 
+      ctx.fillStyle = proc.color; 
+      ctx.fill();
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    function updateUI(procL, procR) {
+      // Atualização Esquerda
+      document.getElementById('lsCoordClean').textContent = `X: ${procL.cleanX.toFixed(2)} | Y: ${procL.cleanY.toFixed(2)}`;
+      document.getElementById('lsMag').textContent = `Raio: ${procL.cleanR.toFixed(2)}`;
+
+      const bL = document.getElementById('statusBadgeL');
+      bL.textContent = procL.statusTag;
+      bL.className = `font-mono font-semibold text-[9px] px-2 py-0.5 rounded-md uppercase ${procL.statusClass}`;
+
+      // Atualização Direita
+      document.getElementById('rsCoordClean').textContent = `X: ${procR.cleanX.toFixed(2)} | Y: ${procR.cleanY.toFixed(2)}`;
+      document.getElementById('rsMag').textContent = `Raio: ${procR.cleanR.toFixed(2)}`;
+
+      const bR = document.getElementById('statusBadgeR');
+      bR.textContent = procR.statusTag;
+      bR.className = `font-mono font-semibold text-[9px] px-2 py-0.5 rounded-md uppercase ${procR.statusClass}`;
+
+      // Progresso 360°
+      let countL = state.peaksL.filter(v => v > 0).length;
+      let countR = state.peaksR.filter(v => v > 0).length;
+
+      let pctL = Math.round((countL / NUM_SECTORS) * 100);
+      let pctR = Math.round((countR / NUM_SECTORS) * 100);
+
+      document.getElementById('progL').style.width = pctL + '%';
+      document.getElementById('progTextL').textContent = pctL + '%';
+      document.getElementById('progR').style.width = pctR + '%';
+      document.getElementById('progTextR').textContent = pctR + '%';
+    }
+  </script>
+</body>
+</html>
