@@ -1,17 +1,32 @@
 import os
 import re
+import json
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-# Determina o diretório base
+# Determina o diretório base de forma inteligente (procura onde está o site.html)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-if os.path.basename(BASE_DIR) == "ukazxda":
-    DEV_DIR = os.path.join(BASE_DIR, "dev")
-    SITE_HTML_FILE = os.path.join(BASE_DIR, "site.html")
-else:
-    DEV_DIR = os.path.join(BASE_DIR, "ukazxda", "dev")
-    SITE_HTML_FILE = os.path.join(BASE_DIR, "ukazxda", "site.html")
+def find_paths():
+    """Identifica corretamente os caminhos independentemente de onde o script seja executado."""
+    # Cenário A: Executando dentro da pasta 'ukazxda'
+    site_in_current = os.path.join(BASE_DIR, "site.html")
+    dev_in_current = os.path.join(BASE_DIR, "dev")
+    
+    if os.path.exists(site_in_current):
+        return dev_in_current, site_in_current
+
+    # Cenário B: Executando na raiz do repositório
+    site_in_sub = os.path.join(BASE_DIR, "ukazxda", "site.html")
+    dev_in_sub = os.path.join(BASE_DIR, "ukazxda", "dev")
+    
+    if os.path.exists(site_in_sub):
+        return dev_in_sub, site_in_sub
+        
+    # Fallback padrão caso não ache (cria apontando para subpasta)
+    return dev_in_sub, site_in_sub
+
+DEV_DIR, SITE_HTML_FILE = find_paths()
 
 def extract_title(file_path):
     """Extrai o título da tag <title> ou usa o nome do arquivo."""
@@ -43,11 +58,29 @@ def scan_dev_folder():
                 projects.append({"path": rel_path, "title": title})
     return projects
 
+def get_existing_active_paths():
+    """Lê o site.html atual para manter marcados os projetos que já estão ativos."""
+    active_paths = set()
+    if not os.path.exists(SITE_HTML_FILE):
+        return active_paths
+    try:
+        with open(SITE_HTML_FILE, "r", encoding="utf-8") as f:
+            content = f.read()
+            match = re.search(r'// PROJETOS_START\s*const devProjects = (\[.*?\]);\s*// PROJETOS_END', content, re.DOTALL)
+            if match:
+                data = json.loads(match.group(1))
+                for item in data:
+                    if "path" in item:
+                        active_paths.add(item["path"])
+    except Exception:
+        pass
+    return active_paths
+
 class App:
     def __init__(self, root):
         self.root = root
         self.root.title("Gerenciador de Projetos - UKAzXDA")
-        self.root.geometry("680x480")
+        self.root.geometry("720x480")
         self.root.minsize(550, 350)
 
         style = ttk.Style()
@@ -58,14 +91,14 @@ class App:
 
         title_label = ttk.Label(
             header_frame, 
-            text="Projetos Encontrados no Diretório 'dev/'", 
+            text=f"Projetos em: {os.path.relpath(DEV_DIR, BASE_DIR)}", 
             font=("Segoe UI", 12, "bold")
         )
         title_label.pack(anchor=tk.W)
 
         subtitle_label = ttk.Label(
             header_frame, 
-            text="Marque os HTMLs que deseja aplicar diretamente no site.html.", 
+            text="Marque os HTMLs que deseja exibir no site.html.", 
             font=("Segoe UI", 9)
         )
         subtitle_label.pack(anchor=tk.W, pady=(2, 0))
@@ -79,8 +112,8 @@ class App:
         self.tree.heading("path", text="Caminho do Arquivo")
 
         self.tree.column("status", width=70, anchor=tk.CENTER)
-        self.tree.column("title", width=220, anchor=tk.W)
-        self.tree.column("path", width=330, anchor=tk.W)
+        self.tree.column("title", width=240, anchor=tk.W)
+        self.tree.column("path", width=360, anchor=tk.W)
 
         scrollbar = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL, command=self.tree.yview)
         self.tree.configure(yscroll=scrollbar.set)
@@ -107,12 +140,16 @@ class App:
 
     def load_projects(self):
         scanned = scan_dev_folder()
+        active_paths = get_existing_active_paths()
+        
         self.projects_data = []
         for item in scanned:
+            # Se for a primeira execução ou o arquivo já estava ativo no site, marca como True por padrão
+            is_active = item["path"] in active_paths if active_paths else True
             self.projects_data.append({
                 "path": item["path"],
                 "title": item["title"],
-                "active": True
+                "active": is_active
             })
         self.refresh_tree()
 
@@ -154,8 +191,6 @@ class App:
             for item in self.projects_data if item["active"]
         ]
 
-        # Formata os dados no formato JS de array de objetos
-        import json
         js_data = json.dumps(active_projects, ensure_ascii=False, indent=4)
         new_script_content = f"// PROJETOS_START\nconst devProjects = {js_data};\n// PROJETOS_END"
 
@@ -163,7 +198,6 @@ class App:
             with open(SITE_HTML_FILE, "r", encoding="utf-8") as f:
                 html_content = f.read()
 
-            # Substitui o trecho demarcado pelas tags no site.html
             pattern = r'// PROJETOS_START[\s\S]*?// PROJETOS_END'
             if re.search(pattern, html_content):
                 updated_html = re.sub(pattern, new_script_content, html_content)
