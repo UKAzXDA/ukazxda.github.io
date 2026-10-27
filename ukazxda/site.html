@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>UKAzXDA</title>
+    <!-- Meta Tags Principais -->
+    <meta name="title" content="UKAzXDA - Portfolio & Tech Stack">
+    <meta name="description" content="Portfolio e projetos de UKAzXDA: Desenvolvedor, Custom ROMs (Limpo ROMs), Eletrônica, Lógica Booleana e Inteligência Artificial.">
+    <meta name="author" content="UKAzXDA">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#f2f2f7">
+    <!-- Open Graph / Redes Sociais -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ukazxda.github.io/ukazxda/site.html">
+    <meta property="og:title" content="UKAzXDA - Portfolio & Tech Stack">
+    <meta property="og:description" content="Portfolio de UKAzXDA. Especializado em Desenvolvimento, ROMs Customizadas, Eletrônica e Lógica Booleana.">
+    <meta property="og:image" content="https://ukazxda.github.io/ukazxda/pixel/perfil.png">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "UKAzXDA",
+      "alternateName": "UKΛz-XDΛ",
+      "url": "https://ukazxda.github.io/",
+      "image": "https://ukazxda.github.io/ukazxda/pixel/perfil.png",
+      "jobTitle": "Developer",
+      "sameAs": [
+        "https://github.com/ukazxda",
+        "https://t.me/LimpoROMgrupo"
+      ],
+      "knowsAbout": [
+        "Custom ROMs",
+        "Eletrônica",
+        "Programação",
+        "Lógica Booleana",
+        "Inteligência Artificial"
+      ]
+    }
+    </script>
+    <!-- Tailwind, Fonts e Ícones -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        ios: {
+                            bg: '#f2f2f7',
+                            card: 'rgba(255, 255, 255, 0.72)',
+                            blue: '#007aff',
+                            'blue-hover': '#0062cc',
+                            text: '#1c1c1e',
+                            secondary: '#8e8e93',
+                            border: 'rgba(255, 255, 255, 0.85)',
+                        }
+                    },
+                    boxShadow: {
+                        'ios-card': '0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset',
+                        'ios-modal': '0 25px 60px -10px rgba(0, 0, 0, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f2f2f7;
+            color: #1c1c1e;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+        .ios-glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(25px) saturate(190%);
+            -webkit-backdrop-filter: blur(25px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .ios-glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .ios-glass-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(255, 255, 255, 1) inset;
+        }
+        @keyframes blob-float-1 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(60px, -40px) scale(1.12); }
+        }
+        @keyframes blob-float-2 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(-50px, 50px) scale(0.92); }
+        }
+        .animate-blob-1 { animation: blob-float-1 14s ease-in-out infinite; }
+        .animate-blob-2 { animation: blob-float-2 18s ease-in-out infinite; }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .ios-btn {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .ios-btn:active {
+            transform: scale(0.94) !important;
+        }
+
+        /* Comportamento do Modal Adaptável para Mobile */
+        #project-modal {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease-in-out;
+        }
+        #project-modal.modal-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #project-modal .modal-content {
+            transform: scale(0.96) translateY(10px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #project-modal.modal-active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Header Responsivo com Blur no Modal */
+        @keyframes profileHeaderEnter {
+            0% { opacity: 0; filter: blur(10px); transform: translateY(-8px) scale(0.96); }
+            100% { opacity: 1; filter: blur(0px); transform: translateY(0) scale(1); }
+        }
+        .modal-header-anim {
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(-8px) scale(0.96);
+        }
+        .modal-active .modal-header-anim {
+            animation: profileHeaderEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.05s;
+        }
+
+        #modal-content-box {
+            width: 100%;
+            height: 100%;
+            max-width: 100vw;
+            max-height: 100dvh; /* dvh suporta a barra de endereços dinamicamente em celulares */
+            border-radius: 0;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Iframe responsivo para evitar quebras em telas pequenas */
+        .iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.2); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.35); }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen relative flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+    <!-- Background Blobs -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute -top-32 -left-20 w-[20rem] sm:w-[35rem] h-[20rem] sm:h-[35rem] bg-blue-200/40 rounded-full blur-3xl animate-blob-1"></div>
+        <div class="absolute top-1/3 -right-20 w-[22rem] sm:w-[40rem] h-[22rem] sm:h-[40rem] bg-indigo-200/30 rounded-full blur-3xl animate-blob-2"></div>
+        <div class="absolute -bottom-32 left-1/4 w-[20rem] sm:w-[38rem] h-[20rem] sm:h-[38rem] bg-sky-200/40 rounded-full blur-3xl animate-blob-1"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="relative z-10 my-4 sm:my-8 md:my-12">
+        <main class="container mx-auto px-4 max-w-4xl space-y-6 sm:space-y-8">
+            <!-- Profile Section -->
+            <section class="profile text-center scroll-reveal visible">
+                <div class="ios-glass-card p-5 sm:p-8 md:p-10 rounded-[2rem] sm:rounded-[2.5rem] shadow-ios-card relative overflow-hidden">
+                    <div class="relative inline-block mb-3">
+                        <div class="p-1 rounded-full bg-gradient-to-tr from-blue-500 via-sky-400 to-indigo-500 shadow-xl">
+                            <img 
+                                src="pixel/perfil.png" 
+                                alt="UKAzXDA Profile" 
+                                class="w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 rounded-full object-cover border-4 border-white shadow-inner transition duration-500 transform hover:scale-105"
+                                onerror="this.src='https://ui-avatars.com/api/?name=UKAzXDA&background=007aff&color=fff&size=256'"
+                            >
+                        </div>
+                        <span class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-full w-7 h-7 flex items-center justify-center border-2 border-white text-xs shadow-md" title="Orgulho TEA / Neurodivergente">
+                            <i class="fas fa-puzzle-piece text-[11px]"></i>
+                        </span>
+                    </div>
+                    <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">UKAzXDA</h1>
+                    <div class="mt-4 flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono max-w-2xl mx-auto">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-teal-500/10 text-teal-700 border border-teal-500/20 shadow-sm">
+                            <i class="fas fa-puzzle-piece text-[10px]"></i> Neurodivergente
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-700 border border-blue-500/20 shadow-sm">
+                            <i class="fas fa-toggle-on text-[10px]"></i> Lógica Booleana
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-700 border border-blue-500/20 shadow-sm">
+                            <i class="fas fa-microchip text-[10px]"></i> Eletrônica
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-700 border border-indigo-500/20 shadow-sm">
+                            <i class="fas fa-code text-[10px]"></i> Programação
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-700 border border-cyan-500/20 shadow-sm">
+                            <i class="fas fa-atom text-[10px]"></i> Física
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-teal-500/10 text-teal-700 border border-teal-500/20 shadow-sm">
+                            <i class="fas fa-flask text-[10px]"></i> Química
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-700 border border-purple-500/20 shadow-sm">
+                            <i class="fas fa-brain text-[10px]"></i> IA
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 shadow-sm">
+                            <i class="fas fa-diagram-project text-[10px]"></i> Algoritmos
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/20 shadow-sm">
+                            <i class="fas fa-gears text-[10px]"></i> Engenharia
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-700 border border-rose-500/20 shadow-sm">
+                            <i class="fas fa-calculator text-[10px]"></i> Matemática
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-500/10 text-sky-700 border border-sky-500/20 shadow-sm">
+                            <i class="fas fa-cube text-[10px]"></i> Modelagem 3D
+                        </span>
+                    </div>
+                    <!-- Links Sociais -->
+                    <div class="social-links mt-6 flex justify-center items-center gap-2.5 sm:gap-3">
+                        <a href="https://github.com/ukazxda" target="_blank" class="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gray-900 hover:bg-black text-white text-xs font-semibold shadow-md transition-all ios-btn">
+                            <i class="fab fa-github text-sm sm:text-base"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://t.me/LimpoROMgrupo" target="_blank" class="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold shadow-md shadow-blue-500/20 transition-all ios-btn">
+                            <i class="fab fa-telegram text-sm sm:text-base"></i>
+                            <span>Comunidade</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <!-- Projects Grid Section -->
+            <section id="dev-projects" class="scroll-reveal">
+                <div id="projects-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Fixed Project Modal Container -->
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md">
+        <div id="modal-content-box" class="modal-content relative bg-white flex flex-col overflow-hidden">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 bg-white/90 backdrop-blur-md border-b border-gray-200/80 select-none shrink-0 z-10">
+                <div class="flex items-center gap-2 sm:gap-3 modal-header-anim overflow-hidden">
+                    <img src="pixel/perfil.png" alt="UKAzXDA" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-gray-200 shadow-sm shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=UKAzXDA&background=007aff&color=fff&size=64'">
+                    <div class="flex items-center gap-1.5 sm:gap-2 overflow-hidden">
+                        <span class="font-bold text-xs sm:text-sm text-gray-900 tracking-tight shrink-0">UKAzXDA</span>
+                        <span class="text-gray-400 text-xs shrink-0">/</span>
+                        <span id="modal-title" class="text-xs sm:text-sm font-semibold text-gray-600 truncate max-w-[130px] min-[380px]:max-w-[180px] sm:max-w-md">Projeto</span>
+                    </div>
+                </div>
+                <div class="flex items-center modal-header-anim shrink-0 ml-2">
+                    <button onclick="closeProjectModal()" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition ios-btn flex items-center gap-1.5 shadow-sm" title="Sair do Projeto">
+                        <i class="fas fa-times text-xs"></i>
+                        <span>Sair</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Modal Frame -->
+            <div class="flex-1 w-full bg-white relative iframe-wrapper">
+                <iframe id="project-iframe" class="w-full h-full border-none" src="" allow="fullscreen; autoplay; accelerometer; gyroscope"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-5 text-center text-xs font-semibold text-gray-500 ios-glass border-t border-white/80 mt-8">
+        <div>© UKAzXDA</div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        // PROJETOS_START
+const devProjects = [
+    {
+        "path": "dev/on7xelte/Custom ROMs/Limpo ROMs J7 Prime.html",
+        "title": "Limpo ROMs J7 Prime"
+    },
+    {
+        "path": "dev/ukaz/cafe.html",
+        "title": "Apoie ❤️"
+    },
+    {
+        "path": "dev/apps/Ps4 Gamepad Calibration Utility.html",
+        "title": "PS4 DualShock 4 Precision Calibration Engine"
+    }
+];
+// PROJETOS_END
+
+        function loadProjects() {
+            const container = document.getElementById("projects-container");
+            container.innerHTML = "";
+            
+            if (!devProjects || devProjects.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full ios-glass-card p-8 rounded-3xl text-center text-gray-500 text-xs">
+                        <i class="fas fa-folder-open text-2xl mb-2 text-gray-400"></i>
+                        <p>Nenhum projeto ativo encontrado!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            for (const proj of devProjects) {
+                renderProjectCard(container, proj);
+            }
+        }
+
+        function renderProjectCard(container, proj) {
+            const card = document.createElement("div");
+            card.className = "ios-glass-card p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-ios-card flex flex-col justify-between border border-white/80 group";
+            
+            card.innerHTML = `
+                <div>
+                    <h3 class="text-sm sm:text-base md:text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors tracking-tight"></h3>
+                </div>
+                <div class="flex items-center gap-2 mt-4 sm:mt-6 pt-3 border-t border-gray-200/50">
+                    <button type="button" class="btn-open w-full py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-semibold shadow-md shadow-blue-500/20 transition ios-btn flex items-center justify-center gap-1.5">
+                        <i class="fas fa-play text-[10px]"></i> Abrir Projeto
+                    </button>
+                </div>
+            `;
+
+            card.querySelector('h3').textContent = proj.title;
+            
+            card.querySelector('.btn-open').addEventListener('click', () => {
+                openProjectModal(proj.path, proj.title);
+            });
+
+            container.appendChild(card);
+        }
+
+        function openProjectModal(url, title) {
+            const modal = document.getElementById('project-modal');
+            const iframe = document.getElementById('project-iframe');
+            const modalTitle = document.getElementById('modal-title');
+            
+            modalTitle.innerText = title;
+            modal.classList.add('modal-active');
+            document.body.style.overflow = 'hidden';
+
+            setTimeout(() => {
+                iframe.src = url;
+            }, 50);
+        }
+
+        function closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            const iframe = document.getElementById('project-iframe');
+            
+            modal.classList.remove('modal-active');
+            
+            setTimeout(() => {
+                iframe.src = '';
+            }, 250);
+            
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeProjectModal();
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadProjects();
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

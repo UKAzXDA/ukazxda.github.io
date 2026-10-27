@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full overflow-hidden select-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PS4 DualShock 4 Precision Calibration Engine</title>
+  <meta name="description" content="Utilitário de calibração minimalista de alta precisão para DualShock 4 por UKAzXDA.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            iosBg: '#F2F2F7',
+            iosCard: '#FFFFFF',
+            iosBlue: '#007AFF',
+            iosGreen: '#34C759',
+            iosRed: '#FF3B30',
+            iosOrange: '#FF9500',
+            iosGray: '#8E8E93',
+            iosLightGray: '#E5E5EA',
+            iosBorder: '#E0E0E5',
+            iosText: '#1C1C1E'
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F2F2F7;
+      color: #1C1C1E;
+      -webkit-font-smoothing: antialiased;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 14px;
+      width: 14px;
+      border-radius: 50%;
+      background: #007AFF;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .btn-action {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-action:active {
+      transform: scale(0.96);
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between p-3 gap-3 overflow-hidden text-iosText font-sans text-xs">
+
+  <!-- CABEÇALHO COMPACTO E MINIMALISTA -->
+  <header class="flex items-center justify-between px-4 py-2.5 bg-iosCard rounded-2xl border border-iosBorder/80 shadow-sm flex-shrink-0">
+    <div class="flex items-center space-x-3">
+      <div class="w-2.5 h-2.5 rounded-full bg-iosRed transition-colors duration-300" id="statusDot"></div>
+      <div>
+        <h1 class="text-xs font-bold tracking-tight text-iosText flex items-center gap-2">
+          <span>DS4 Precision Calibration Engine (Magnetic Tuned)</span>
+          <span class="text-[9px] px-2 py-0.5 bg-iosBlue/10 text-iosBlue font-mono rounded-full font-medium">by UKAzXDA</span>
+        </h1>
+        <p id="statusText" class="text-[10px] text-iosGray font-medium">Aguardando conexão via USB ou Bluetooth...</p>
+      </div>
+    </div>
+
+    <!-- AÇÕES DE SISTEMA -->
+    <div class="flex items-center space-x-2">
+      <div id="saveToast" class="hidden px-2.5 py-1 text-[10px] font-semibold bg-iosGreen/10 text-iosGreen border border-iosGreen/20 rounded-xl transition-all">
+        ✓ Salvo no EEPROM
+      </div>
+
+      <!-- BOTÃO TESTE DE VIBRAÇÃO -->
+      <button id="btnTestVibration" class="btn-action px-3 py-1.5 text-[10px] font-semibold bg-iosOrange/10 hover:bg-iosOrange/20 text-iosOrange border border-iosOrange/20 rounded-xl flex items-center gap-1">
+        <span>📳</span>
+        <span>Testar Vibração</span>
+      </button>
+
+      <!-- BOTÃO DOAÇÃO PIX -->
+      <button id="btnDonate" onclick="copyPixKey()" class="btn-action px-3 py-1.5 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-xl flex items-center gap-1.5">
+        <span>❤️</span>
+        <span>Apoiar (PIX): <strong class="font-mono">ukazxda@gmail.com</strong></span>
+      </button>
+
+      <button id="btnFactoryReset" class="btn-action px-3 py-1.5 text-[10px] font-medium bg-iosBg hover:bg-iosLightGray text-iosRed border border-iosBorder rounded-xl">
+        Restaurar
+      </button>
+      <button id="btnSaveEeprom" class="btn-action px-3 py-1.5 text-[10px] font-semibold bg-iosBlue hover:bg-iosBlue/90 text-white shadow-sm rounded-xl">
+        Salvar EEPROM
+      </button>
+    </div>
+  </header>
+
+  <!-- ANALÓGICOS (GRID 2 COLUNAS) -->
+  <main class="grid grid-cols-2 gap-3 flex-1 min-h-0">
+
+    <!-- ANALÓGICO ESQUERDO -->
+    <section class="bg-iosCard rounded-2xl p-3 border border-iosBorder/80 shadow-sm flex flex-col justify-between min-h-0 relative">
+      <!-- HEADER L -->
+      <div class="flex items-center justify-between flex-shrink-0 pb-2 border-b border-iosBorder/50">
+        <div>
+          <span class="text-[10px] font-bold tracking-wider text-iosGray uppercase">Analógico Esquerdo (Magnético / Hall)</span>
+          <div class="flex items-center gap-2 mt-0.5 font-mono">
+            <span id="lsCoordClean" class="text-xs font-semibold text-iosText">X: 0.00 | Y: 0.00</span>
+            <span id="lsMag" class="text-xs text-iosGray">Raio: 0.00</span>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-1.5">
+          <button id="btnZeroL" class="btn-action px-2.5 py-1 text-[10px] font-medium bg-iosBg hover:bg-iosLightGray border border-iosBorder rounded-lg">Zerar Centro</button>
+          <button id="btnCalib360L" class="btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-lg">Calibração 360°</button>
+        </div>
+      </div>
+
+      <!-- PAINEL COMPACTO DE CONTROLES L -->
+      <div class="flex items-center justify-between gap-2 p-2 bg-iosBg rounded-xl border border-iosBorder/60 my-2 text-[10px] flex-shrink-0">
+        
+        <div class="flex items-center bg-iosCard border border-iosBorder rounded-lg overflow-hidden p-0.5 flex-shrink-0">
+          <select id="selectVibeL" class="bg-transparent text-[9px] font-medium px-1 py-0.5 text-iosGray focus:outline-none cursor-pointer border-r border-iosBorder">
+            <option value="yes">Vibração Ativa</option>
+            <option value="no">Sem Vibração</option>
+          </select>
+          <button id="btnAutoNoiseL" class="btn-action px-2 py-1 font-medium text-iosText hover:bg-iosBg flex-shrink-0 rounded-md">
+            ⚡ Auto Ruído (10s)
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2 flex-1 px-2 py-0.5 bg-iosCard rounded-lg border border-iosBorder/60">
+          <span class="font-medium text-[9px] text-iosGray uppercase">Zona Morta:</span>
+          <input id="sliderDeadzoneL" type="range" min="0.000" max="0.150" step="0.001" value="0.020" class="w-full accent-iosBlue h-1 bg-iosLightGray rounded-lg cursor-pointer">
+          <span id="valDeadzoneL" class="font-mono font-semibold text-iosBlue text-[10px] w-9 text-right">0.020</span>
+        </div>
+
+        <button id="btnClearTraceL" class="btn-action px-2 py-1 font-medium text-iosGray hover:text-iosText">Limpar</button>
+        <button id="btnResetCalibL" class="btn-action px-2 py-1 font-medium text-iosRed hover:bg-iosRed/10 rounded-lg">Reset</button>
+      </div>
+
+      <!-- RADAR CANVAS ESQUERDO -->
+      <div class="flex-1 min-h-0 flex items-center justify-center relative">
+        <div class="relative aspect-square h-full max-h-full flex items-center justify-center">
+          <canvas id="canvasL" class="w-full h-full block rounded-xl"></canvas>
+        </div>
+      </div>
+
+      <!-- RODAPÉ L -->
+      <div class="flex items-center justify-between pt-2 border-t border-iosBorder/50 flex-shrink-0 text-[10px]">
+        <div class="flex items-center space-x-2">
+          <span class="text-iosGray font-medium">Mapeamento 360°:</span>
+          <div class="w-16 bg-iosLightGray h-1.5 rounded-full overflow-hidden">
+            <div id="progL" class="bg-iosBlue h-full w-0 transition-all duration-300"></div>
+          </div>
+          <span id="progTextL" class="font-mono font-semibold text-iosBlue">0%</span>
+        </div>
+        <div id="statusBadgeL" class="font-mono font-semibold text-[9px] px-2 py-0.5 rounded-md bg-iosBlue/10 text-iosBlue uppercase">Centro</div>
+      </div>
+    </section>
+
+    <!-- ANALÓGICO DIREITO -->
+    <section class="bg-iosCard rounded-2xl p-3 border border-iosBorder/80 shadow-sm flex flex-col justify-between min-h-0 relative">
+      <!-- HEADER R -->
+      <div class="flex items-center justify-between flex-shrink-0 pb-2 border-b border-iosBorder/50">
+        <div>
+          <span class="text-[10px] font-bold tracking-wider text-iosGray uppercase">Analógico Direito (Magnético / Hall)</span>
+          <div class="flex items-center gap-2 mt-0.5 font-mono">
+            <span id="rsCoordClean" class="text-xs font-semibold text-iosText">X: 0.00 | Y: 0.00</span>
+            <span id="rsMag" class="text-xs text-iosGray">Raio: 0.00</span>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-1.5">
+          <button id="btnZeroR" class="btn-action px-2.5 py-1 text-[10px] font-medium bg-iosBg hover:bg-iosLightGray border border-iosBorder rounded-lg">Zerar Centro</button>
+          <button id="btnCalib360R" class="btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-lg">Calibração 360°</button>
+        </div>
+      </div>
+
+      <!-- PAINEL COMPACTO DE CONTROLES R -->
+      <div class="flex items-center justify-between gap-2 p-2 bg-iosBg rounded-xl border border-iosBorder/60 my-2 text-[10px] flex-shrink-0">
+        
+        <div class="flex items-center bg-iosCard border border-iosBorder rounded-lg overflow-hidden p-0.5 flex-shrink-0">
+          <select id="selectVibeR" class="bg-transparent text-[9px] font-medium px-1 py-0.5 text-iosGray focus:outline-none cursor-pointer border-r border-iosBorder">
+            <option value="yes">Vibração Ativa</option>
+            <option value="no">Sem Vibração</option>
+          </select>
+          <button id="btnAutoNoiseR" class="btn-action px-2 py-1 font-medium text-iosText hover:bg-iosBg flex-shrink-0 rounded-md">
+            ⚡ Auto Ruído (10s)
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2 flex-1 px-2 py-0.5 bg-iosCard rounded-lg border border-iosBorder/60">
+          <span class="font-medium text-[9px] text-iosGray uppercase">Zona Morta:</span>
+          <input id="sliderDeadzoneR" type="range" min="0.000" max="0.150" step="0.001" value="0.020" class="w-full accent-iosBlue h-1 bg-iosLightGray rounded-lg cursor-pointer">
+          <span id="valDeadzoneR" class="font-mono font-semibold text-iosBlue text-[10px] w-9 text-right">0.020</span>
+        </div>
+
+        <button id="btnClearTraceR" class="btn-action px-2 py-1 font-medium text-iosGray hover:text-iosText">Limpar</button>
+        <button id="btnResetCalibR" class="btn-action px-2 py-1 font-medium text-iosRed hover:bg-iosRed/10 rounded-lg">Reset</button>
+      </div>
+
+      <!-- RADAR CANVAS DIREITO -->
+      <div class="flex-1 min-h-0 flex items-center justify-center relative">
+        <div class="relative aspect-square h-full max-h-full flex items-center justify-center">
+          <canvas id="canvasR" class="w-full h-full block rounded-xl"></canvas>
+        </div>
+      </div>
+
+      <!-- RODAPÉ R -->
+      <div class="flex items-center justify-between pt-2 border-t border-iosBorder/50 flex-shrink-0 text-[10px]">
+        <div class="flex items-center space-x-2">
+          <span class="text-iosGray font-medium">Mapeamento 360°:</span>
+          <div class="w-16 bg-iosLightGray h-1.5 rounded-full overflow-hidden">
+            <div id="progR" class="bg-iosBlue h-full w-0 transition-all duration-300"></div>
+          </div>
+          <span id="progTextR" class="font-mono font-semibold text-iosBlue">0%</span>
+        </div>
+        <div id="statusBadgeR" class="font-mono font-semibold text-[9px] px-2 py-0.5 rounded-md bg-iosBlue/10 text-iosBlue uppercase">Centro</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ENGINE MATEMÁTICO E SISTEMA -->
+  <script>
+    const NUM_SECTORS = 128;
+    const TARGET_RADIUS_MAX = 1.50;
+    const TARGET_RADIUS_IDEAL = 1.40;
+
+    function copyPixKey() {
+      const pixKey = "ukazxda@gmail.com";
+      const tempInput = document.createElement("input");
+      tempInput.value = pixKey;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+      showToast("✓ Chave PIX (ukazxda@gmail.com) copiada!");
+    }
+
+    class SmoothFilter {
+      constructor(smoothing = 0.25) {
+        this.smoothing = smoothing;
+        this.value = 0;
+        this.initialized = false;
+      }
+      update(target) {
+        if (!this.initialized) {
+          this.value = target;
+          this.initialized = true;
+          return target;
+        }
+        this.value += (target - this.value) * this.smoothing;
+        return this.value;
+      }
+      reset(val = 0) {
+        this.value = val;
+        this.initialized = false;
+      }
+    }
+
+    const state = {
+      gamepadIndex: null,
+      deadzoneL: 0.020,
+      deadzoneR: 0.020,
+      centerL: { x: 0, y: 0 },
+      centerR: { x: 0, y: 0 },
+      peaksL: new Float32Array(NUM_SECTORS).fill(1.40),
+      peaksR: new Float32Array(NUM_SECTORS).fill(1.40),
+      calibTrackedL: new Uint8Array(NUM_SECTORS).fill(0),
+      calibTrackedR: new Uint8Array(NUM_SECTORS).fill(0),
+      filterLX: new SmoothFilter(0.30), filterLY: new SmoothFilter(0.30),
+      filterRX: new SmoothFilter(0.30), filterRY: new SmoothFilter(0.30),
+      smoothPosL: { x: 0, y: 0 },
+      smoothPosR: { x: 0, y: 0 },
+      calib360L: false, calib360R: false,
+      trailL: [], trailR: [],
+      maxTrail: 100
+    };
+
+    const canvasL = document.getElementById('canvasL');
+    const canvasR = document.getElementById('canvasR');
+    const ctxL = canvasL.getContext('2d');
+    const ctxR = canvasR.getContext('2d');
+
+    function resizeCanvas(canvas) {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      return { w: rect.width, h: rect.height };
+    }
+
+    let dimL = { w: 300, h: 300 };
+    let dimR = { w: 300, h: 300 };
+
+    function fitCanvases() {
+      dimL = resizeCanvas(canvasL);
+      dimR = resizeCanvas(canvasR);
+    }
+
+    window.addEventListener('resize', fitCanvases);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fitCanvases();
+      loadEepromConfig();
+
+      document.getElementById('btnFactoryReset').addEventListener('click', factoryResetAll);
+      document.getElementById('btnSaveEeprom').addEventListener('click', saveEepromConfig);
+      document.getElementById('btnTestVibration').addEventListener('click', () => {
+        const gp = getGamepad();
+        if (gp) {
+          triggerVibration(gp, 1500);
+          showToast("📳 Testando motores de vibração...");
+        } else {
+          showToast("⚠️ Conecte o controle primeiro!");
+        }
+      });
+
+      const sliderL = document.getElementById('sliderDeadzoneL');
+      const sliderR = document.getElementById('sliderDeadzoneR');
+
+      sliderL.addEventListener('input', (e) => {
+        state.deadzoneL = parseFloat(e.target.value);
+        document.getElementById('valDeadzoneL').textContent = state.deadzoneL.toFixed(3);
+      });
+
+      sliderR.addEventListener('input', (e) => {
+        state.deadzoneR = parseFloat(e.target.value);
+        document.getElementById('valDeadzoneR').textContent = state.deadzoneR.toFixed(3);
+      });
+
+      document.getElementById('btnZeroL').addEventListener('click', () => zeroCenter('L'));
+      document.getElementById('btnCalib360L').addEventListener('click', () => toggleCalib360('L'));
+      document.getElementById('btnAutoNoiseL').addEventListener('click', () => runNoiseDetectionStick('L'));
+      document.getElementById('btnClearTraceL').addEventListener('click', () => state.trailL = []);
+      document.getElementById('btnResetCalibL').addEventListener('click', () => resetStickCalibration('L'));
+
+      document.getElementById('btnZeroR').addEventListener('click', () => zeroCenter('R'));
+      document.getElementById('btnCalib360R').addEventListener('click', () => toggleCalib360('R'));
+      document.getElementById('btnAutoNoiseR').addEventListener('click', () => runNoiseDetectionStick('R'));
+      document.getElementById('btnClearTraceR').addEventListener('click', () => state.trailR = []);
+      document.getElementById('btnResetCalibR').addEventListener('click', () => resetStickCalibration('R'));
+
+      window.addEventListener("gamepadconnected", (e) => {
+        state.gamepadIndex = e.gamepad.index;
+        updateConnectionStatus(true, e.gamepad.id);
+      });
+
+      window.addEventListener("gamepaddisconnected", () => {
+        state.gamepadIndex = null;
+        updateConnectionStatus(false, "Desconectado");
+      });
+
+      requestAnimationFrame(renderLoop);
+    });
+
+    function updateConnectionStatus(connected, text) {
+      const dot = document.getElementById('statusDot');
+      const statusText = document.getElementById('statusText');
+
+      if (connected) {
+        dot.className = "w-2.5 h-2.5 rounded-full bg-iosGreen";
+        statusText.textContent = "Conectado: " + text.split('(')[0].trim();
+      } else {
+        dot.className = "w-2.5 h-2.5 rounded-full bg-iosRed animate-pulse";
+        statusText.textContent = "Aguardando conexão via USB ou Bluetooth...";
+      }
+    }
+
+    function zeroCenter(stick) {
+      const gp = getGamepad();
+      if (!gp) {
+        showToast("⚠️ Nenhum controle conectado!");
+        return;
+      }
+      if (stick === 'L') {
+        state.centerL.x = gp.axes[0] || 0;
+        state.centerL.y = gp.axes[1] || 0;
+        state.filterLX.reset(0); state.filterLY.reset(0);
+      } else {
+        state.centerR.x = gp.axes[2] !== undefined ? gp.axes[2] : (gp.axes[3] || 0);
+        state.centerR.y = gp.axes[3] !== undefined && gp.axes[2] !== undefined ? gp.axes[3] : (gp.axes[4] || 0);
+        state.filterRX.reset(0); state.filterRY.reset(0);
+      }
+      showToast(`✓ Centro do analógico magnético ${stick === 'L' ? 'Esquerdo' : 'Direito'} zerado!`);
+    }
+
+    function toggleCalib360(stick) {
+      const isL = stick === 'L';
+      const activeKey = isL ? 'calib360L' : 'calib360R';
+      const btnId = isL ? 'btnCalib360L' : 'btnCalib360R';
+
+      state[activeKey] = !state[activeKey];
+      const btn = document.getElementById(btnId);
+
+      if (state[activeKey]) {
+        btn.className = "btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosGreen text-white rounded-lg transition animate-pulse";
+        btn.textContent = "Gire 360° nas bordas...";
+        showToast(`Gire o analógico ${stick} em círculos completos nas bordas!`);
+      } else {
+        btn.className = "btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-lg";
+        btn.textContent = "Calibração 360°";
+        showToast(`✓ Regulagem 360° do analógico ${stick} aplicada!`);
+      }
+    }
+
+    function resetStickCalibration(stick) {
+      if (stick === 'L') {
+        state.peaksL.fill(1.40);
+        state.calibTrackedL.fill(0);
+        state.calib360L = false; state.centerL = { x: 0, y: 0 }; state.trailL = [];
+        state.deadzoneL = 0.020;
+        document.getElementById('sliderDeadzoneL').value = 0.020;
+        document.getElementById('valDeadzoneL').textContent = "0.020";
+        document.getElementById('btnCalib360L').className = "btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-lg";
+        document.getElementById('btnCalib360L').textContent = "Calibração 360°";
+      } else {
+        state.peaksR.fill(1.40);
+        state.calibTrackedR.fill(0);
+        state.calib360R = false; state.centerR = { x: 0, y: 0 }; state.trailR = [];
+        state.deadzoneR = 0.020;
+        document.getElementById('sliderDeadzoneR').value = 0.020;
+        document.getElementById('valDeadzoneR').textContent = "0.020";
+        document.getElementById('btnCalib360R').className = "btn-action px-2.5 py-1 text-[10px] font-semibold bg-iosBlue/10 hover:bg-iosBlue/20 text-iosBlue border border-iosBlue/20 rounded-lg";
+        document.getElementById('btnCalib360R').textContent = "Calibração 360°";
+      }
+      showToast(`✓ Reset efetuado no analógico ${stick}`);
+    }
+
+    function factoryResetAll() {
+      resetStickCalibration('L');
+      resetStickCalibration('R');
+      localStorage.removeItem('ds4_eeprom_data');
+      showToast("✓ Configuração restaurada!");
+    }
+
+    function saveEepromConfig() {
+      const eepromPayload = {
+        centerL: state.centerL, centerR: state.centerR,
+        deadzoneL: state.deadzoneL, deadzoneR: state.deadzoneR,
+        peaksL: Array.from(state.peaksL), peaksR: Array.from(state.peaksR),
+        calibTrackedL: Array.from(state.calibTrackedL), calibTrackedR: Array.from(state.calibTrackedR)
+      };
+
+      try {
+        localStorage.setItem('ds4_eeprom_data', JSON.stringify(eepromPayload));
+        showToast("✓ Dados salvos na EEPROM!");
+      } catch (e) {
+        console.error("Falha ao salvar no localStorage", e);
+      }
+    }
+
+    function loadEepromConfig() {
+      const raw = localStorage.getItem('ds4_eeprom_data');
+      if (!raw) return;
+
+      try {
+        const data = JSON.parse(raw);
+        if (data.centerL) state.centerL = data.centerL;
+        if (data.centerR) state.centerR = data.centerR;
+        if (data.deadzoneL !== undefined) {
+          state.deadzoneL = data.deadzoneL;
+          document.getElementById('sliderDeadzoneL').value = data.deadzoneL;
+          document.getElementById('valDeadzoneL').textContent = data.deadzoneL.toFixed(3);
+        }
+        if (data.deadzoneR !== undefined) {
+          state.deadzoneR = data.deadzoneR;
+          document.getElementById('sliderDeadzoneR').value = data.deadzoneR;
+          document.getElementById('valDeadzoneR').textContent = data.deadzoneR.toFixed(3);
+        }
+        if (data.peaksL) state.peaksL = new Float32Array(data.peaksL);
+        if (data.peaksR) state.peaksR = new Float32Array(data.peaksR);
+        if (data.calibTrackedL) state.calibTrackedL = new Uint8Array(data.calibTrackedL);
+        if (data.calibTrackedR) state.calibTrackedR = new Uint8Array(data.calibTrackedR);
+
+        showToast("✓ EEPROM Carregado com sucesso!");
+      } catch (e) {
+        console.error("Erro ao carregar EEPROM", e);
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('saveToast');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => { toast.classList.add('hidden'); }, 3000);
+    }
+
+    function triggerVibration(gp, durationMs = 1500) {
+      if (!gp) return;
+      try {
+        if (gp.vibrationActuator && typeof gp.vibrationActuator.playEffect === 'function') {
+          gp.vibrationActuator.playEffect("dual-rumble", {
+            startDelay: 0,
+            duration: durationMs,
+            weakMagnitude: 0.8,
+            strongMagnitude: 0.8
+          }).catch(err => console.warn("Erro no atuador de vibração:", err));
+        } else if (gp.hapticActuators && gp.hapticActuators.length > 0) {
+          gp.hapticActuators[0].pulse(0.8, durationMs).catch(() => {});
+        }
+      } catch (e) {
+        console.warn("Vibração não suportada pelo navegador.", e);
+      }
+    }
+
+    function stopVibration(gp) {
+      if (!gp) return;
+      try {
+        if (gp.vibrationActuator && typeof gp.vibrationActuator.reset === 'function') {
+          gp.vibrationActuator.reset().catch(() => {});
+        }
+      } catch (e) {}
+    }
+
+    function runNoiseDetectionStick(stick) {
+      const gp = getGamepad();
+      const selectElem = stick === 'L' ? document.getElementById('selectVibeL') : document.getElementById('selectVibeR');
+      const wantVibration = selectElem.value === 'yes';
+
+      const btn = stick === 'L' ? document.getElementById('btnAutoNoiseL') : document.getElementById('btnAutoNoiseR');
+      const origText = btn.textContent;
+      let timeLeft = 10;
+      
+      btn.disabled = true;
+      btn.className = "btn-action px-2 py-1 font-semibold bg-iosOrange text-white rounded-md animate-pulse flex-shrink-0";
+
+      let vibeInterval = null;
+      if (wantVibration && gp) {
+        triggerVibration(gp, 1000);
+        vibeInterval = setInterval(() => {
+          const currentGp = getGamepad();
+          if (currentGp) triggerVibration(currentGp, 1000);
+        }, 800);
+      }
+
+      let maxNoise = 0;
+      const interval = setInterval(() => {
+        const currentGp = getGamepad();
+        if (currentGp) {
+          let cx = stick === 'L' ? (currentGp.axes[0] || 0) - state.centerL.x : (currentGp.axes[2] || 0) - state.centerR.x;
+          let cy = stick === 'L' ? (currentGp.axes[1] || 0) - state.centerL.y : (currentGp.axes[3] || 0) - state.centerR.y;
+          let r = Math.sqrt(cx * cx + cy * cy);
+          if (r > maxNoise) maxNoise = r;
+        }
+
+        timeLeft--;
+        btn.textContent = `⏳ ${timeLeft}s`;
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          if (vibeInterval) clearInterval(vibeInterval);
+
+          if (currentGp) {
+            stopVibration(currentGp);
+          }
+
+          btn.disabled = false;
+          btn.className = "btn-action px-2 py-1 font-medium text-iosText hover:bg-iosBg flex-shrink-0 rounded-md";
+          btn.textContent = origText;
+
+          let newDeadzone = Math.min(Math.max(maxNoise * 1.2, 0.005), 0.150);
+          if (stick === 'L') {
+            state.deadzoneL = newDeadzone;
+            document.getElementById('sliderDeadzoneL').value = newDeadzone.toFixed(3);
+            document.getElementById('valDeadzoneL').textContent = newDeadzone.toFixed(3);
+          } else {
+            state.deadzoneR = newDeadzone;
+            document.getElementById('sliderDeadzoneR').value = newDeadzone.toFixed(3);
+            document.getElementById('valDeadzoneR').textContent = newDeadzone.toFixed(3);
+          }
+
+          showToast(`✓ Ruído ${stick} detectado: ${newDeadzone.toFixed(3)}`);
+        }
+      }, 1000);
+    }
+
+    function getGamepad() {
+      if (state.gamepadIndex === null) return null;
+      const gps = navigator.getGamepads ? navigator.getGamepads() : [];
+      return gps[state.gamepadIndex] || null;
+    }
+
+    /**
+     * ENGINE MAGNÉTICO AJUSTADO PARA FAIXA VERDE E SUPERIOR (SEM LINHA OURO)
+     */
+    function processAnalogSignal(rawX, rawY, centerOffset, peakArray, calibTrackedArray, isCalibrating, filterX, filterY, deadzone) {
+      let dx = rawX - centerOffset.x;
+      let dy = rawY - centerOffset.y;
+
+      let fx = filterX.update(dx);
+      let fy = filterY.update(dy);
+      let rawDist = Math.sqrt(fx * fx + fy * fy);
+      let angle = Math.atan2(fy, fx);
+
+      if (rawDist < deadzone) {
+        return {
+          rawX, rawY,
+          cleanX: 0, cleanY: 0, cleanR: 0, rawDist,
+          color: '#007AFF',
+          statusTag: 'ZONA MORTA',
+          statusClass: 'bg-iosBlue/10 text-iosBlue'
+        };
+      }
+
+      let normAngle = (angle % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+      let binIdx = Math.floor((normAngle / (2 * Math.PI)) * NUM_SECTORS) % NUM_SECTORS;
+
+      // Se em teste de rotação 360°, registra o pico máximo no setor
+      if (isCalibrating && rawDist > 0.15) {
+        if (rawDist > peakArray[binIdx]) {
+          peakArray[binIdx] = rawDist;
+        }
+        calibTrackedArray[binIdx] = 1;
+      }
+
+      let prevBin = (binIdx - 1 + NUM_SECTORS) % NUM_SECTORS;
+      let nextBin = (binIdx + 1) % NUM_SECTORS;
+      let measuredPeak = (peakArray[prevBin] + peakArray[binIdx] * 2 + peakArray[nextBin]) / 4.0;
+      measuredPeak = Math.max(measuredPeak, 0.20);
+
+      let scaleFactor = TARGET_RADIUS_IDEAL / measuredPeak;
+      
+      let cleanX = fx * scaleFactor;
+      let cleanY = fy * scaleFactor;
+      let cleanR = Math.sqrt(cleanX * cleanX + cleanY * cleanY);
+
+      let color = '#34C759';
+      let statusTag = 'PERFEITO';
+      let statusClass = 'bg-iosGreen/10 text-iosGreen';
+
+      if (cleanR > TARGET_RADIUS_MAX) {
+        color = '#FF3B30';
+        statusTag = 'SATURAÇÃO (>1.5)';
+        statusClass = 'bg-iosRed/10 text-iosRed';
+      }
+
+      return {
+        rawX, rawY,
+        cleanX, cleanY, cleanR, rawDist,
+        color, statusTag, statusClass
+      };
+    }
+
+    function renderLoop() {
+      const gp = getGamepad();
+      let lx = 0, ly = 0, rx = 0, ry = 0;
+      if (gp) {
+        lx = gp.axes[0] || 0; ly = gp.axes[1] || 0;
+        rx = gp.axes[2] !== undefined ? gp.axes[2] : (gp.axes[3] || 0);
+        ry = gp.axes[3] !== undefined && gp.axes[2] !== undefined ? gp.axes[3] : (gp.axes[4] || 0);
+      }
+
+      const procL = processAnalogSignal(lx, ly, state.centerL, state.peaksL, state.calibTrackedL, state.calib360L, state.filterLX, state.filterLY, state.deadzoneL);
+      const procR = processAnalogSignal(rx, ry, state.centerR, state.peaksR, state.calibTrackedR, state.calib360R, state.filterRX, state.filterRY, state.deadzoneR);
+
+      state.smoothPosL.x += (procL.cleanX - state.smoothPosL.x) * 0.50;
+      state.smoothPosL.y += (procL.cleanY - state.smoothPosL.y) * 0.50;
+      state.smoothPosR.x += (procR.cleanX - state.smoothPosR.x) * 0.50;
+      state.smoothPosR.y += (procR.cleanY - state.smoothPosR.y) * 0.50;
+
+      state.trailL.push({ x: state.smoothPosL.x, y: state.smoothPosL.y, color: procL.color });
+      if (state.trailL.length > state.maxTrail) state.trailL.shift();
+
+      state.trailR.push({ x: state.smoothPosR.x, y: state.smoothPosR.y, color: procR.color });
+      if (state.trailR.length > state.maxTrail) state.trailR.shift();
+
+      drawRadarCanvas(ctxL, dimL, state.smoothPosL, procL, state.trailL, state.deadzoneL);
+      drawRadarCanvas(ctxR, dimR, state.smoothPosR, procR, state.trailR, state.deadzoneR);
+      updateUI(procL, procR);
+
+      requestAnimationFrame(renderLoop);
+    }
+
+    function drawRadarCanvas(ctx, dim, smoothPos, proc, trailArray, deadzone) {
+      const w = dim.w, h = dim.h, cx = w / 2, cy = h / 2;
+      const radius = (w / 2) * 0.70; 
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.strokeStyle = "rgba(0,0,0,0.05)";
+      ctx.lineWidth = 1;
+      [0.25, 0.50, 0.75].forEach(r => {
+        ctx.beginPath(); ctx.arc(cx, cy, radius * r, 0, Math.PI * 2); ctx.stroke();
+      });
+
+      // ZONA MORTA
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * deadzone, 0, Math.PI * 2);
+      ctx.strokeStyle = '#007AFF';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([3, 3]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // BORDA MÁXIMA (1.50 - Vermelho)
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * (TARGET_RADIUS_MAX / TARGET_RADIUS_IDEAL), 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255, 59, 48, 0.4)'; 
+      ctx.lineWidth = 1; 
+      ctx.stroke();
+
+      // BORDA TARGET IDEAL (1.40 - Verde)
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.strokeStyle = '#34C759'; 
+      ctx.lineWidth = 2; 
+      ctx.stroke();
+
+      if (trailArray.length > 0) {
+        for (let i = 0; i < trailArray.length; i++) {
+          const pt = trailArray[i];
+          const tx = cx + (pt.x / TARGET_RADIUS_IDEAL) * radius;
+          const ty = cy + (pt.y / TARGET_RADIUS_IDEAL) * radius;
+          const alpha = (i + 1) / trailArray.length;
+
+          ctx.beginPath();
+          ctx.arc(tx, ty, 2, 0, Math.PI * 2);
+          ctx.fillStyle = pt.color;
+          ctx.globalAlpha = alpha * 0.35;
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1.0;
+      }
+
+      const px = cx + (smoothPos.x / TARGET_RADIUS_IDEAL) * radius;
+      const py = cy + (smoothPos.y / TARGET_RADIUS_IDEAL) * radius;
+
+      ctx.beginPath(); 
+      ctx.moveTo(cx, cy); 
+      ctx.lineTo(px, py); 
+      ctx.strokeStyle = proc.color; 
+      ctx.lineWidth = 2; 
+      ctx.stroke();
+
+      ctx.beginPath(); 
+      ctx.arc(px, py, 6, 0, Math.PI * 2); 
+      ctx.fillStyle = proc.color; 
+      ctx.fill();
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    function updateUI(procL, procR) {
+      document.getElementById('lsCoordClean').textContent = `X: ${procL.cleanX.toFixed(2)} | Y: ${procL.cleanY.toFixed(2)}`;
+      document.getElementById('lsMag').textContent = `Raio: ${procL.cleanR.toFixed(2)}`;
+
+      const bL = document.getElementById('statusBadgeL');
+      bL.textContent = procL.statusTag;
+      bL.className = `font-mono font-semibold text-[9px] px-2 py-0.5 rounded-md uppercase ${procL.statusClass}`;
+
+      document.getElementById('rsCoordClean').textContent = `X: ${procR.cleanX.toFixed(2)} | Y: ${procR.cleanY.toFixed(2)}`;
+      document.getElementById('rsMag').textContent = `Raio: ${procR.cleanR.toFixed(2)}`;
+
+      const bR = document.getElementById('statusBadgeR');
+      bR.textContent = procR.statusTag;
+      bR.className = `font-mono font-semibold text-[9px] px-2 py-0.5 rounded-md uppercase ${procR.statusClass}`;
+
+      let countL = state.calibTrackedL.reduce((a, b) => a + b, 0);
+      let countR = state.calibTrackedR.reduce((a, b) => a + b, 0);
+
+      let pctL = Math.round((countL / NUM_SECTORS) * 100);
+      let pctR = Math.round((countR / NUM_SECTORS) * 100);
+
+      document.getElementById('progL').style.width = pctL + '%';
+      document.getElementById('progTextL').textContent = pctL + '%';
+      document.getElementById('progR').style.width = pctR + '%';
+      document.getElementById('progTextR').textContent = pctR + '%';
+    }
+  </script>
+</body>
+</html>

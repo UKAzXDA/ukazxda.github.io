@@ -1,0 +1,5 @@
+Motor De Passo Nema 17 4,2 Kgf.cm 12v 17hs4401 3d - Fortek (3 unidade)
+Driver Motor De Passo Drv8825 Cnc Ramps (4 unidade)
+Placa Mega2560 R3 Compativel Com Arduino Ch340 (1 unidade)
+Ramps 1.4 Shield Placa De Controle Impressora 3d Cnc Reprap (1 unidade)
+Extrusora Mk8 Completa, Montada (1 unidade)

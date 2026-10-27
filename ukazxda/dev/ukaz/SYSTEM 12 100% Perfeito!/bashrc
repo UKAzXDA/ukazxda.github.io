@@ -1,0 +1,233 @@
+#!/bin/bash
+# === INICIO DO SISTEMA CFTV LOCAL (AUTOSTART INDEPENDENTE DA TELA) ===
+# Exynos7870 j7 prime android 9 arm32 termux e root magisk
+
+# ------------------------------------------------------------------
+# CONFIGURAÇÃO DE LOGS E DIRETÓRIOS
+# ------------------------------------------------------------------
+LOG_DIR="/sdcard/servidor/dados"
+LOG_FILE="$LOG_DIR/bashrclog.txt"
+
+# Garante diretório e permissões para evitar bloqueio de escrita
+mkdir -p "$LOG_DIR" 2>/dev/null
+chmod -R 777 "$LOG_DIR" 2>/dev/null
+
+# Função para registrar mensagens na tela e no arquivo de log com timestamp
+log() {
+    local TIMESTAMP
+    TIMESTAMP="$(date +'%Y-%m-%d %H:%M:%S')"
+    echo "[$TIMESTAMP] $1" | tee -a "$LOG_FILE"
+}
+
+log "=========================================="
+log "=== INICIANDO SCRIPT CFTV E DIAGNÓSTICO =="
+log "=========================================="
+log "Usuário atual: $(whoami 2>/dev/null)"
+log "Diretório de execução: $(pwd)"
+
+# ------------------------------------------------------------------
+# CONFIGURAÇÃO AUTOMÁTICA DE AUTO-INÍCIO NO REBOOT (MAGISK & SYSTEM)
+# ------------------------------------------------------------------
+MAGISK_BOOT_SCRIPT="/data/adb/service.d/00_autostart_termux.sh"
+SYSTEM_BOOT_SCRIPT="/system/bin/autostart_termux.sh"
+SYSTEM_RC_SERVICE="/system/etc/init/autostart_termux.rc"
+CURRENT_SCRIPT_PATH="$(realpath "$0")"
+
+log "Configurando inicialização automática via Magisk em '$MAGISK_BOOT_SCRIPT'..."
+
+# 1. Configuração de serviço no Magisk (root)
+su -c "cat > '$MAGISK_BOOT_SCRIPT'" << 'EOF' 2>> "$LOG_FILE"
+#!/system/bin/sh
+# 1. Aguarda boot do Android e montagem do /sdcard
+while [ "$(getprop sys.boot_completed)" != "1" ]; do
+    sleep 2
+done
+
+while [ ! -d "/sdcard/servidor" ]; do
+    sleep 2
+done
+
+sleep 5
+
+# 2. Descobre o UID do Termux automaticamente (ex: 10122)
+TERMUX_UID=$(stat -c "%u" /data/data/com.termux 2>/dev/null || echo "10122")
+
+# 3. EXECUTA O SCRIPT EM SEGUNDO PLANO COMO USUÁRIO TERMUX (INICIA O TMUX SEM PRECISAR DA TELA)
+su $TERMUX_UID -c "
+    export PATH=/data/data/com.termux/files/usr/bin:\$PATH
+    export HOME=/data/data/com.termux/files/home
+    export TMPDIR=/data/data/com.termux/files/usr/tmp
+    export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib
+    export PYTHONIOENCODING=utf-8
+    /data/data/com.termux/files/usr/bin/bash /sdcard/servidor/bashrc
+"
+
+# 4. Liga a tela com WAKEUP (224 - não desliga caso já esteja ligada) e abre o aplicativo
+input keyevent 224 2>/dev/null
+input keyevent 82 2>/dev/null
+wm dismiss-keyguard 2>/dev/null
+
+USER_ID=$(am get-current-user 2>/dev/null || echo "0")
+am start --user $USER_ID -a android.intent.action.MAIN -n com.termux/com.termux.app.TermuxActivity --activity-brought-to-front 2>/dev/null || am start -n com.termux/.app.TermuxActivity 2>/dev/null
+EOF
+
+if [ $? -eq 0 ]; then
+    log "[OK] Script do Magisk criado com sucesso."
+    su -c "chmod 755 '$MAGISK_BOOT_SCRIPT'" 2>> "$LOG_FILE" && log "[OK] Permissões 755 aplicadas no Magisk."
+else
+    log "[ERRO] Falha ao criar script do Magisk."
+fi
+
+# 2. FUNÇÃO: Injeção direta na partição /system (Fallback)
+injetar_auto_inicio_system() {
+    log "Iniciando injeção do auto-início na partição /system..."
+    su -c "
+        mount -o remount,rw /system 2>/dev/null || mount -o remount,rw /
+
+        cat > '$SYSTEM_BOOT_SCRIPT' << 'SYS_EOF'
+#!/system/bin/sh
+while [ \"\$(getprop sys.boot_completed)\" != \"1\" ]; do
+    sleep 2
+done
+while [ ! -d \"/sdcard/servidor\" ]; do
+    sleep 2
+done
+sleep 5
+
+TERMUX_UID=\$(stat -c \"%u\" /data/data/com.termux 2>/dev/null || echo \"10122\")
+
+su \$TERMUX_UID -c \"
+    export PATH=/data/data/com.termux/files/usr/bin:\\\$PATH
+    export HOME=/data/data/com.termux/files/home
+    export TMPDIR=/data/data/com.termux/files/usr/tmp
+    export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib
+    export PYTHONIOENCODING=utf-8
+    /data/data/com.termux/files/usr/bin/bash /sdcard/servidor/bashrc
+\"
+
+input keyevent 224 2>/dev/null
+input keyevent 82 2>/dev/null
+wm dismiss-keyguard 2>/dev/null
+
+USER_ID=\$(am get-current-user 2>/dev/null || echo \"0\")
+am start --user \$USER_ID -a android.intent.action.MAIN -n com.termux/com.termux.app.TermuxActivity --activity-brought-to-front 2>/dev/null || am start -n com.termux/.app.TermuxActivity 2>/dev/null
+SYS_EOF
+        chmod 755 '$SYSTEM_BOOT_SCRIPT'
+
+        cat > '$SYSTEM_RC_SERVICE' << 'RC_EOF'
+service autostart_termux /system/bin/autostart_termux.sh
+    class main
+    user root
+    group root
+    oneshot
+
+on property:sys.boot_completed=1
+    start autostart_termux
+RC_EOF
+        chmod 644 '$SYSTEM_RC_SERVICE'
+
+        if [ -f /system/etc/install-recovery.sh ]; then
+            if ! grep -q '$SYSTEM_BOOT_SCRIPT' /system/etc/install-recovery.sh 2>/dev/null; then
+                echo '$SYSTEM_BOOT_SCRIPT &' >> /system/etc/install-recovery.sh
+            fi
+        fi
+
+        mount -o remount,ro /system 2>/dev/null || mount -o remount,ro /
+    " 2>> "$LOG_FILE"
+
+    if [ $? -eq 0 ]; then
+        log "[OK] Injeção na partição /system concluída com sucesso."
+    else
+        log "[AVISO/ERRO] Não foi possível alterar a partição /system."
+    fi
+}
+
+injetar_auto_inicio_system
+
+# 3. Garante que este script seja chamado no .bashrc do Termux
+BASHRC_FILE="$HOME/.bashrc"
+log "Verificando chamada deste script no arquivo $BASHRC_FILE..."
+
+if ! grep -q "$CURRENT_SCRIPT_PATH" "$BASHRC_FILE" 2>/dev/null; then
+    echo "bash \"$CURRENT_SCRIPT_PATH\"" >> "$BASHRC_FILE"
+    log "[OK] Comando adicionado ao $BASHRC_FILE."
+else
+    log "[OK] O arquivo $BASHRC_FILE já contém a referência para este script."
+fi
+
+# ------------------------------------------------------------------
+# CONFIGURAÇÃO DE DESEMPENHO E SESSÕES TMUX
+# ------------------------------------------------------------------
+
+if ! tmux has-session -t camera 2>/dev/null; then
+    log "Sessão 'camera' não encontrada. Aplicando ajustes de sistema e iniciando tmux..."
+
+    termux-wake-lock 2>> "$LOG_FILE"
+    su -c 'dumpsys deviceidle whitelist +com.termux' >> "$LOG_FILE" 2>&1
+    su -c 'cmd deviceidle disable' >> "$LOG_FILE" 2>&1
+    su -c 'svc power stayon true' >> "$LOG_FILE" 2>&1
+    su -c 'settings put secure lockscreen.disabled 1' >> "$LOG_FILE" 2>&1
+    su -c 'settings put global wifi_sleep_policy 2' >> "$LOG_FILE" 2>&1
+    su -c 'svc wifi enable' >> "$LOG_FILE" 2>&1
+
+    log "[OK] Bloqueios de suspensão e energia configurados."
+
+    # Substituição do LPM (Modo de carregamento offline para autoboot ao conectar carregador)
+    su -c 'mount -o remount,rw /system; echo -e "#!/system/bin/sh\n/system/bin/reboot" > /system/bin/lpm; chmod 755 /system/bin/lpm; mount -o remount,ro /system' >> "$LOG_FILE" 2>&1
+    su -c 'mount -o remount,rw /system; echo -e "#!/system/bin/sh\n/system/bin/reboot" > /system/bin/playlpm; chmod 755 /system/bin/playlpm; mount -o remount,ro /system' >> "$LOG_FILE" 2>&1
+    log "[OK] Substituição LPM/PlayLPM aplicada para boot automático via cabo."
+
+    (su -c 'setprop service.adb.tcp.port 5555; stop adbd; start adbd' >> "$LOG_FILE" 2>&1 &)
+    log "[OK] ADB sobre TCP ativado na porta 5555."
+
+    export PYTHONIOENCODING=utf-8
+    mkdir -p /sdcard/servidor/dados/videos 2>/dev/null
+
+    # 1. SERVIDOR WEB
+    if ! tmux has-session -t http 2>/dev/null; then
+        tmux new-session -d -s http "cd /sdcard/servidor && python -u server.py"
+        log "[OK] Servidor Web (http) iniciado no tmux."
+    else
+        log "[INFO] Sessão tmux 'http' já estava ativa."
+    fi
+
+    # 2. GERENCIADOR DE FALA
+    if ! tmux has-session -t fala 2>/dev/null; then
+        tmux new-session -d -s fala "cd /sdcard/servidor && python -u checkfala.py"
+        log "[OK] Gerenciador de Áudio (fala) iniciado no tmux."
+    else
+        log "[INFO] Sessão tmux 'fala' já estava ativa."
+    fi
+
+    # 3. MONITOR DE BATERIA
+    if ! tmux has-session -t bateria 2>/dev/null; then
+        tmux new-session -d -s bateria "cd /sdcard/servidor && python -u checkbat.py"
+        log "[OK] Monitor de Bateria (bateria) iniciado no tmux."
+    else
+        log "[INFO] Sessão tmux 'bateria' já estava ativa."
+    fi
+
+    # 4. VERIFICAÇÃO DE PARÂMETROS DA CÂMERA
+    if ! tmux has-session -t config_cam 2>/dev/null; then
+        tmux new-session -d -s config_cam "cd /sdcard/servidor && python -u config_cam.py"
+        log "[OK] Configurador da Câmera (config_cam) iniciado no tmux."
+    else
+        log "[INFO] Sessão tmux 'config_cam' já estava ativa."
+    fi
+
+    # 5. CÂMERA
+    if ! tmux has-session -t camera 2>/dev/null; then
+        tmux new-session -d -s camera "cd /sdcard/servidor && python -u cam.py"
+        log "[OK] Captura de Câmera (camera) iniciada no tmux."
+    else
+        log "[INFO] Sessão tmux 'camera' já estava ativa."
+    fi
+
+    log "✅ Todos os serviços foram processados!"
+else
+    log "[INFO] A sessão tmux 'camera' já está em execução. Script finalizado sem duplicar processos."
+fi
+
+log "=========================================="
+log "=== FIM DO PROCESSAMENTO ==="
+log "=========================================="
