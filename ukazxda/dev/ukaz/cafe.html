@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apoie ❤️</title>
+    <!-- Tailwind CSS, FontAwesome e Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- QR Code Generator Lib -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        ios: {
+                            bg: '#f2f2f7',
+                            card: 'rgba(255, 255, 255, 0.75)',
+                            blue: '#007aff',
+                            'blue-hover': '#0062cc',
+                            green: '#34c759',
+                            text: '#1c1c1e',
+                            secondary: '#8e8e93',
+                            border: 'rgba(255, 255, 255, 0.85)',
+                        }
+                    },
+                    boxShadow: {
+                        'ios-card': '0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset',
+                        'ios-btn': '0 10px 20px -5px rgba(0, 122, 255, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f2f2f7;
+            color: #1c1c1e;
+            overflow-x: hidden;
+        }
+        .ios-glass-card {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(30px) saturate(190%);
+            -webkit-backdrop-filter: blur(30px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+        }
+        .ios-btn {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .ios-btn:active {
+            transform: scale(0.95) !important;
+        }
+        @keyframes blob-float-1 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(40px, -30px) scale(1.1); }
+        }
+        @keyframes blob-float-2 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(-40px, 40px) scale(0.95); }
+        }
+        .animate-blob-1 { animation: blob-float-1 12s ease-in-out infinite; }
+        .animate-blob-2 { animation: blob-float-2 16s ease-in-out infinite; }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex items-center justify-center p-4 relative selection:bg-blue-500 selection:text-white">
+
+    <!-- Background Blobs Estilo iOS -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[30rem] h-[30rem] bg-blue-300/30 rounded-full blur-3xl animate-blob-1"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-[25rem] h-[25rem] bg-indigo-300/25 rounded-full blur-3xl animate-blob-2"></div>
+        <div class="absolute top-10 left-10 w-[20rem] h-[20rem] bg-teal-200/30 rounded-full blur-3xl animate-blob-1"></div>
+    </div>
+
+    <!-- Container Principal do Card -->
+    <div class="relative z-10 w-full max-w-md my-6">
+        <div class="ios-glass-card rounded-[2.5rem] p-6 md:p-8 shadow-ios-card text-center relative overflow-hidden border border-white/80">
+            
+            <!-- Cabeçalho reorganizado: Avatar no canto esquerdo, textos ao lado -->
+            <div class="flex items-center gap-4 mb-4 text-left">
+                <!-- Avatar no Canto -->
+                <div class="relative flex-shrink-0">
+                    <img 
+                        src="https://ukazxda.github.io/ukazxda/pixel/perfil.png" 
+                        alt="UKAzXDA Profile" 
+                        class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md"
+                        onerror="this.src='https://ui-avatars.com/api/?name=UKAzXDA&background=007aff&color=fff&size=128'"
+                    >
+                    <span class="absolute -bottom-1 -right-1 bg-teal-500 text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-white text-[9px] shadow" title="Dev Neurodivergente / TEA">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </span>
+                </div>
+
+                <!-- Textos ao lado: UKAzXDA em cima e Contribuição em baixo -->
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-xl font-extrabold text-gray-900 tracking-tight leading-tight">UKAzXDA</h1>
+                    <div class="inline-flex items-center gap-1.5 mt-1 text-blue-600 text-xs font-semibold">
+                        <i class="fas fa-heart text-red-500 animate-pulse text-[11px]"></i>
+                        <span>Contribuição Pessoal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Propósitos / Sugestões -->
+            <div class="mt-6">
+                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Escolha como incentivar meu trabalho</label>
+                <div class="grid grid-cols-2 gap-2 mb-3">
+                    <button onclick="selectAmount(5, 'um Café ☕')" class="val-btn py-2 px-3 rounded-xl bg-white/80 hover:bg-white text-gray-800 text-xs font-bold border border-gray-200 shadow-sm ios-btn flex items-center justify-center gap-1.5">
+                        <i class="fas fa-coffee text-amber-600"></i> R$ 5 <span class="text-[10px] text-gray-400 font-normal">(Café)</span>
+                    </button>
+                    <button onclick="selectAmount(15, 'Energia para Build ⚡')" class="val-btn py-2 px-3 rounded-xl bg-white/80 hover:bg-white text-gray-800 text-xs font-bold border border-gray-200 shadow-sm ios-btn flex items-center justify-center gap-1.5">
+                        <i class="fas fa-bolt text-yellow-500"></i> R$ 15 <span class="text-[10px] text-gray-400 font-normal">(Energia)</span>
+                    </button>
+                    <button onclick="selectAmount(30, 'uma Lancheira/Pizza 🍕')" class="val-btn py-2 px-3 rounded-xl bg-white/80 hover:bg-white text-gray-800 text-xs font-bold border border-gray-200 shadow-sm ios-btn flex items-center justify-center gap-1.5">
+                        <i class="fas fa-pizza-slice text-orange-500"></i> R$ 30 <span class="text-[10px] text-gray-400 font-normal">(Lanche)</span>
+                    </button>
+                    <button onclick="selectAmount(50, 'Ajuda no Servidor 🖥️')" class="val-btn py-2 px-3 rounded-xl bg-white/80 hover:bg-white text-gray-800 text-xs font-bold border border-gray-200 shadow-sm ios-btn flex items-center justify-center gap-1.5">
+                        <i class="fas fa-server text-blue-500"></i> R$ 50 <span class="text-[10px] text-gray-400 font-normal">(Servidor)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- QR Code Container -->
+            <div class="my-5 flex flex-col items-center justify-center">
+                <div class="p-4 bg-white rounded-3xl shadow-md border border-gray-100/80 inline-block relative group">
+                    <div id="qrcode" class="flex justify-center"></div>
+                    <div class="mt-2 text-[10px] font-mono text-gray-400 flex items-center justify-center gap-1">
+                        <i class="fas fa-qrcode"></i> Pague com QR Code Pix
+                    </div>
+                </div>
+            </div>
+
+            <!-- Caixa de Chave Pix (Copia e Cola) -->
+            <div class="space-y-2">
+                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider">Chave PIX Direta (E-mail)</label>
+                
+                <div class="flex items-center gap-2 bg-white/90 p-2.5 rounded-2xl border border-gray-200/80 shadow-sm">
+                    <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 text-sm">
+                        <i class="fas fa-at"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="pixKeyInput" 
+                        value="ukazxda@gmail.com" 
+                        readonly 
+                        class="bg-transparent font-mono text-xs text-gray-800 font-semibold w-full focus:outline-none select-all"
+                    >
+                    <button 
+                        onclick="copyPixKey()" 
+                        id="btnCopy" 
+                        class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold rounded-xl transition shadow-ios-btn ios-btn flex items-center gap-1.5 flex-shrink-0"
+                    >
+                        <i class="fas fa-copy text-xs"></i>
+                        <span id="btnCopyText">Copiar</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mensagem de Confirmação (Toast) -->
+            <div id="toast" class="opacity-0 pointer-events-none transition-all duration-300 mt-3 p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 text-xs font-semibold flex items-center justify-center gap-2">
+                <i class="fas fa-check-circle text-emerald-500"></i>
+                <span id="toastMsg">Chave PIX copiada com sucesso!</span>
+            </div>
+
+            <!-- Rodapé / Agradecimento -->
+            <div class="mt-4 pt-4 border-t border-gray-200/50 flex items-center justify-between text-[11px] text-gray-400 font-medium">
+                <span>Toda ajuda fortalece a jornada! ❤️</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Script para geração de QR Code e Interações -->
+    <script>
+        const pixKey = "ukazxda@gmail.com";
+
+        // Gerar QR Code ao carregar a página
+        document.addEventListener("DOMContentLoaded", () => {
+            new QRCode(document.getElementById("qrcode"), {
+                text: pixKey,
+                width: 140,
+                height: 140,
+                colorDark : "#1c1c1e",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+
+        // Função de Copiar Chave Pix
+        function copyPixKey() {
+            const copyInput = document.getElementById("pixKeyInput");
+            
+            copyInput.select();
+            copyInput.setSelectionRange(0, 99999);
+
+            try {
+                document.execCommand('copy');
+                showToast("✓ Chave PIX copiada para a área de transferência!");
+            } catch (err) {
+                showToast("Erro ao copiar. Selecione manualmente.");
+            }
+        }
+
+        // Selecionar valor e dar feedback visual específico
+        function selectAmount(val, item) {
+            showToast(`Obrigado por apoiar com ${item} (R$ ${val})! Copie a chave abaixo.`);
+        }
+
+        // Toast de feedback
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            const toastMsg = document.getElementById("toastMsg");
+            const btnCopyText = document.getElementById("btnCopyText");
+
+            toastMsg.innerText = msg;
+            toast.classList.remove("opacity-0", "pointer-events-none");
+            
+            btnCopyText.innerText = "Copiado!";
+            setTimeout(() => {
+                btnCopyText.innerText = "Copiar";
+            }, 2000);
+
+            setTimeout(() => {
+                toast.classList.add("opacity-0", "pointer-events-none");
+            }, 3500);
+        }
+    </script>
+</body>
+</html>

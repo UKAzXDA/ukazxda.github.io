@@ -118,12 +118,46 @@
         .ios-btn:active {
             transform: scale(0.94) !important;
         }
-        .modal-active {
-            opacity: 1 !important;
-            pointer-events: auto !important;
+
+        /* Comportamento do Modal em Tela Cheia Permanente */
+        #project-modal {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease-in-out;
         }
-        .modal-active .modal-content {
-            transform: scale(1) translateY(0) !important;
+        #project-modal.modal-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #project-modal .modal-content {
+            transform: scale(0.96) translateY(10px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #project-modal.modal-active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Animações e estados do perfil na barra superior */
+        @keyframes profileHeaderEnter {
+            0% { opacity: 0; filter: blur(10px); transform: translateY(-8px) scale(0.96); }
+            100% { opacity: 1; filter: blur(0px); transform: translateY(0) scale(1); }
+        }
+        .modal-header-anim {
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(-8px) scale(0.96);
+        }
+        .modal-active .modal-header-anim {
+            animation: profileHeaderEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.05s;
+        }
+
+        #modal-content-box {
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: 100vw !important;
+            max-height: 100vh !important;
+            border-radius: 0 !important;
+            resize: none !important;
         }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); border-radius: 99px; }
@@ -212,25 +246,22 @@
         </main>
     </div>
     <!-- Fixed Project Modal Container -->
-    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 bg-black/40 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="modal-content relative w-full max-w-5xl h-[85vh] md:h-[90vh] bg-white/90 backdrop-blur-3xl rounded-[2rem] md:rounded-[2.5rem] shadow-ios-modal flex flex-col overflow-hidden border border-white/60 transform scale-95 translateY-4 transition-transform duration-300">
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xl">
+        <div id="modal-content-box" class="modal-content relative bg-white/95 backdrop-blur-3xl shadow-ios-modal flex flex-col overflow-hidden border border-white/60">
             <!-- Modal Header -->
-            <div class="flex items-center justify-between px-5 py-3.5 bg-white/60 border-b border-gray-200/60 select-none">
-                <div class="flex items-center gap-2.5">
-                    <div class="flex gap-1.5">
-                        <button onclick="closeProjectModal()" class="w-3.5 h-3.5 rounded-full bg-red-500 hover:bg-red-600 transition shadow-sm"></button>
-                        <span class="w-3.5 h-3.5 rounded-full bg-yellow-400 shadow-sm"></span>
-                        <span class="w-3.5 h-3.5 rounded-full bg-green-500 shadow-sm"></span>
+            <div class="flex items-center justify-between px-6 py-4 bg-white/80 border-b border-gray-200/60 select-none">
+                <div class="flex items-center gap-3 modal-header-anim">
+                    <img src="pixel/perfil.png" alt="UKAzXDA" class="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=UKAzXDA&background=007aff&color=fff&size=64'">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-sm text-gray-900 tracking-tight">UKAzXDA</span>
+                        <span class="text-gray-400 text-xs">/</span>
+                        <span id="modal-title" class="text-sm font-semibold text-gray-600 truncate max-w-[200px] md:max-w-md">Projeto</span>
                     </div>
-                    <span id="modal-title" class="font-bold text-xs md:text-sm text-gray-800 tracking-tight ml-2 truncate max-w-[200px] md:max-w-md">Visualizador de Projeto</span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <a id="modal-external-link" href="#" target="_blank" class="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold transition ios-btn flex items-center gap-1">
-                        <i class="fas fa-external-link-alt text-[10px]"></i>
-                        <span class="hidden md:inline">Nova Aba</span>
-                    </a>
-                    <button onclick="closeProjectModal()" class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition ios-btn">
+                <div class="flex items-center modal-header-anim">
+                    <button onclick="closeProjectModal()" class="px-4 py-2 rounded-full bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition ios-btn flex items-center gap-1.5 shadow-sm" title="Sair do Projeto">
                         <i class="fas fa-times text-xs"></i>
+                        <span>Sair</span>
                     </button>
                 </div>
             </div>
@@ -257,6 +288,10 @@ const devProjects = [
     {
         "path": "dev/on7xelte/Custom ROMs/Limpo ROMs J7 Prime.html",
         "title": "Limpo ROMs J7 Prime"
+    },
+    {
+        "path": "dev/ukaz/cafe.html",
+        "title": "Apoie ❤️"
     }
 ];
 // PROJETOS_END
@@ -289,12 +324,9 @@ const devProjects = [
                     <h3 class="text-base md:text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors tracking-tight"></h3>
                 </div>
                 <div class="flex items-center gap-2 mt-6 pt-3 border-t border-gray-200/50">
-                    <button type="button" class="btn-open flex-1 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-semibold shadow-md shadow-blue-500/20 transition ios-btn flex items-center justify-center gap-1.5">
+                    <button type="button" class="btn-open w-full py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-semibold shadow-md shadow-blue-500/20 transition ios-btn flex items-center justify-center gap-1.5">
                         <i class="fas fa-play text-[10px]"></i> Abrir Projeto
                     </button>
-                    <a href="#" class="btn-ext px-3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition ios-btn" title="Abrir em Nova Aba" target="_blank">
-                        <i class="fas fa-external-link-alt"></i>
-                    </a>
                 </div>
             `;
 
@@ -304,8 +336,6 @@ const devProjects = [
                 openProjectModal(proj.path, proj.title);
             });
 
-            card.querySelector('.btn-ext').href = proj.path;
-
             container.appendChild(card);
         }
 
@@ -313,22 +343,26 @@ const devProjects = [
             const modal = document.getElementById('project-modal');
             const iframe = document.getElementById('project-iframe');
             const modalTitle = document.getElementById('modal-title');
-            const extLink = document.getElementById('modal-external-link');
             
-            iframe.src = url;
             modalTitle.innerText = title;
-            extLink.href = url;
             modal.classList.add('modal-active');
             document.body.style.overflow = 'hidden';
+
+            setTimeout(() => {
+                iframe.src = url;
+            }, 80);
         }
 
         function closeProjectModal() {
             const modal = document.getElementById('project-modal');
             const iframe = document.getElementById('project-iframe');
+            
             modal.classList.remove('modal-active');
+            
             setTimeout(() => {
                 iframe.src = '';
             }, 300);
+            
             document.body.style.overflow = '';
         }
 
