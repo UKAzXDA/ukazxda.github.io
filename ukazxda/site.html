@@ -2,19 +2,19 @@
 <html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>UKAzXDA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>UKAzXDA | Portfólio de projetos</title>
     <!-- Meta Tags Principais -->
-    <meta name="title" content="UKAzXDA - Portfolio & Tech Stack">
-    <meta name="description" content="Portfolio e projetos de UKAzXDA: Desenvolvedor, Custom ROMs (Limpo ROMs), Eletrônica, Lógica Booleana e Inteligência Artificial.">
+    <meta name="title" content="UKAzXDA | Portfólio de projetos">
+    <meta name="description" content="Projetos de UKAzXDA em software, firmware, eletrônica e personalização Android.">
     <meta name="author" content="UKAzXDA">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#f2f2f7">
     <!-- Open Graph / Redes Sociais -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ukazxda.github.io/ukazxda/site.html">
-    <meta property="og:title" content="UKAzXDA - Portfolio & Tech Stack">
-    <meta property="og:description" content="Portfolio de UKAzXDA. Especializado em Desenvolvimento, ROMs Customizadas, Eletrônica e Lógica Booleana.">
+    <meta property="og:url" content="https://ukazxda.github.io/">
+    <meta property="og:title" content="UKAzXDA | Portfólio de projetos">
+    <meta property="og:description" content="Projetos de UKAzXDA em software, firmware, eletrônica e personalização Android.">
     <meta property="og:image" content="https://ukazxda.github.io/ukazxda/pixel/perfil.png">
     
     <!-- Schema.org -->
@@ -26,13 +26,17 @@
       "alternateName": "UKΛz-XDΛ",
       "url": "https://ukazxda.github.io/",
       "image": "https://ukazxda.github.io/ukazxda/pixel/perfil.png",
-      "jobTitle": "Developer",
+      "jobTitle": "Desenvolvedor independente",
       "sameAs": [
         "https://github.com/ukazxda",
         "https://t.me/LimpoROMgrupo"
       ],
       "knowsAbout": [
-        "Custom ROMs",
+        "Desenvolvimento de software",
+        "Firmware Marlin",
+        "Impressão 3D",
+        "Eletrônica",
+        "Custom ROMs"
       ]
     }
     </script>
@@ -116,6 +120,22 @@
         .ios-btn:active {
             transform: scale(0.94) !important;
         }
+        :focus-visible {
+            outline: 3px solid #2563eb;
+            outline-offset: 3px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+            .scroll-reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
 
         /* Comportamento do Modal Adaptável para Mobile */
         #project-modal {
@@ -173,6 +193,7 @@
     </style>
 </head>
 <body class="font-sans antialiased min-h-screen relative flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+    <a href="#conteudo" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:text-blue-700 focus:shadow-lg">Pular para o conteúdo</a>
     <!-- Background Blobs -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div class="absolute -top-32 -left-20 w-[20rem] sm:w-[35rem] h-[20rem] sm:h-[35rem] bg-blue-200/40 rounded-full blur-3xl animate-blob-1"></div>
@@ -182,7 +203,7 @@
 
     <!-- Main Container -->
     <div class="relative z-10 my-4 sm:my-8 md:my-12">
-        <main class="container mx-auto px-4 max-w-4xl space-y-6 sm:space-y-8">
+        <main id="conteudo" class="container mx-auto px-4 max-w-4xl space-y-6 sm:space-y-8">
             <!-- Profile Section -->
             <section class="profile text-center scroll-reveal visible">
                 <div class="ios-glass-card p-5 sm:p-8 md:p-10 rounded-[2rem] sm:rounded-[2.5rem] shadow-ios-card relative overflow-hidden">
@@ -200,13 +221,14 @@
                         </span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">UKAzXDA</h1>
+                    <p class="mt-3 text-sm sm:text-base text-gray-600 max-w-xl mx-auto">Desenvolvimento independente em software, firmware e eletrônica.</p>
                     <!-- Links Sociais -->
                     <div class="social-links mt-6 flex justify-center items-center gap-2.5 sm:gap-3">
-                        <a href="https://github.com/ukazxda" target="_blank" class="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gray-900 hover:bg-black text-white text-xs font-semibold shadow-md transition-all ios-btn">
+                        <a href="https://github.com/ukazxda" target="_blank" rel="noopener noreferrer" aria-label="Visitar perfil de UKAzXDA no GitHub" class="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gray-900 hover:bg-black text-white text-xs font-semibold shadow-md transition-all ios-btn">
                             <i class="fab fa-github text-sm sm:text-base"></i>
                             <span>GitHub</span>
                         </a>
-                        <a href="https://t.me/LimpoROMgrupo" target="_blank" class="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold shadow-md shadow-blue-500/20 transition-all ios-btn">
+                        <a href="https://t.me/LimpoROMgrupo" target="_blank" rel="noopener noreferrer" aria-label="Entrar na comunidade do Telegram" class="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold shadow-md shadow-blue-500/20 transition-all ios-btn">
                             <i class="fab fa-telegram text-sm sm:text-base"></i>
                             <span>Comunidade</span>
                         </a>
@@ -214,15 +236,20 @@
                 </div>
             </section>
             <!-- Projects Grid Section -->
-            <section id="dev-projects" class="scroll-reveal">
+            <section id="dev-projects" class="scroll-reveal" aria-labelledby="projects-heading">
+                <div class="mb-4 sm:mb-5">
+                    <p class="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">Portfólio</p>
+                    <h2 id="projects-heading" class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">Projetos em destaque</h2>
+                    <p class="mt-2 text-sm text-gray-600">Uma seleção de projetos de software, firmware e personalização.</p>
+                </div>
                 <div id="projects-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4"></div>
             </section>
         </main>
     </div>
 
     <!-- Fixed Project Modal Container -->
-    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md">
-        <div id="modal-content-box" class="modal-content relative bg-white flex flex-col overflow-hidden">
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md" aria-hidden="true" inert>
+        <div id="modal-content-box" class="modal-content relative bg-white flex flex-col overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
             <!-- Modal Header -->
             <div class="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 bg-white/90 backdrop-blur-md border-b border-gray-200/80 select-none shrink-0 z-10">
                 <div class="flex items-center gap-2 sm:gap-3 modal-header-anim overflow-hidden">
@@ -234,7 +261,7 @@
                     </div>
                 </div>
                 <div class="flex items-center modal-header-anim shrink-0 ml-2">
-                    <button onclick="closeProjectModal()" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition ios-btn flex items-center gap-1.5 shadow-sm" title="Sair do Projeto">
+                    <button id="modal-close" type="button" class="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition ios-btn flex items-center gap-1.5 shadow-sm" aria-label="Fechar visualização do projeto" title="Fechar projeto">
                         <i class="fas fa-times text-xs"></i>
                         <span>Sair</span>
                     </button>
@@ -242,14 +269,14 @@
             </div>
             <!-- Modal Frame -->
             <div class="flex-1 w-full bg-white relative iframe-wrapper">
-                <iframe id="project-iframe" class="w-full h-full border-none" src="" allow="fullscreen; autoplay; accelerometer; gyroscope"></iframe>
+                <iframe id="project-iframe" class="w-full h-full border-none" src="" title="Visualização do projeto selecionado" allow="fullscreen; autoplay; accelerometer; gyroscope"></iframe>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="relative z-10 py-5 text-center text-xs font-semibold text-gray-500 ios-glass border-t border-white/80 mt-8">
-        <div>© UKAzXDA</div>
+        <div>© <span id="current-year"></span> UKAzXDA · Feito com projetos e curiosidade.</div>
     </footer>
 
     <!-- Logic Script -->
@@ -257,80 +284,140 @@
         // PROJETOS_START
 const devProjects = [
     {
-        "path": "dev/on7xelte/Custom ROMs/Limpo ROMs J7 Prime.html",
-        "title": "Limpo ROMs J7 Prime"
+        type: "modal",
+        path: "dev/on7xelte/Custom ROMs/Limpo ROMs J7 Prime.html",
+        title: "Limpo ROMs J7 Prime",
+        description: "Projeto de ROMs personalizadas para o Samsung Galaxy J7 Prime.",
+        tags: ["Android", "Custom ROM"]
     },
+    {
+        type: "links",
+        title: "Marlin de alta velocidade — Neptune 3 Pro",
+        description: "Firmware comunitário Marlin 2.1.1 para Neptune 3 Pro. O autor relata bons resultados de impressão e compatibilidade com uma versão recente da tela LCD.",
+        tags: ["Marlin", "STM32F401RC", "Impressão 3D"],
+        links: [
+            {
+                url: "https://github.com/UKAzXDA/neptune-3-pro-marlin-speed4pro",
+                label: "Código e detalhes",
+                icon: "fab fa-github"
+            },
+            {
+                url: "https://github.com/UKAzXDA/neptune-3-pro-marlin-speed4pro/releases/download/v1.0.0/ZNP_ROBIN_NANO.bin",
+                label: "Baixar firmware",
+                icon: "fas fa-download"
+            }
+        ],
+        note: "Firmware modificado: confira compatibilidade, riscos e avisos de garantia no repositório antes de instalar."
+    }
 ];
 // PROJETOS_END
 
         function loadProjects() {
             const container = document.getElementById("projects-container");
             container.innerHTML = "";
-            
+
             if (!devProjects || devProjects.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full ios-glass-card p-8 rounded-3xl text-center text-gray-500 text-xs">
-                        <i class="fas fa-folder-open text-2xl mb-2 text-gray-400"></i>
-                        <p>Nenhum projeto ativo encontrado!</p>
-                    </div>
-                `;
+                const emptyState = document.createElement("p");
+                emptyState.className = "col-span-full ios-glass-card p-8 rounded-3xl text-center text-gray-500 text-sm";
+                emptyState.textContent = "Nenhum projeto publicado no momento.";
+                container.appendChild(emptyState);
                 return;
             }
-            
-            for (const proj of devProjects) {
-                renderProjectCard(container, proj);
-            }
+
+            devProjects.forEach(proj => renderProjectCard(container, proj));
         }
 
         function renderProjectCard(container, proj) {
-            const card = document.createElement("div");
-            card.className = "ios-glass-card p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-ios-card flex flex-col justify-between border border-white/80 group";
-            
-            card.innerHTML = `
-                <div>
-                    <h3 class="text-sm sm:text-base md:text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors tracking-tight"></h3>
-                </div>
-                <div class="flex items-center gap-2 mt-4 sm:mt-6 pt-3 border-t border-gray-200/50">
-                    <button type="button" class="btn-open w-full py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-semibold shadow-md shadow-blue-500/20 transition ios-btn flex items-center justify-center gap-1.5">
-                        <i class="fas fa-play text-[10px]"></i> Abrir Projeto
-                    </button>
-                </div>
-            `;
+            const card = document.createElement("article");
+            card.className = "ios-glass-card p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-ios-card flex flex-col border border-white/80 group";
 
-            card.querySelector('h3').textContent = proj.title;
-            
-            card.querySelector('.btn-open').addEventListener('click', () => {
-                openProjectModal(proj.path, proj.title);
+            const title = document.createElement("h3");
+            title.className = "text-base sm:text-lg font-bold text-gray-900 tracking-tight";
+            title.textContent = proj.title;
+            card.appendChild(title);
+
+            const description = document.createElement("p");
+            description.className = "mt-3 text-sm leading-6 text-gray-600";
+            description.textContent = proj.description;
+            card.appendChild(description);
+
+            if (proj.tags && proj.tags.length) {
+                const tags = document.createElement("ul");
+                tags.className = "mt-4 flex flex-wrap gap-2";
+                tags.setAttribute("aria-label", "Tecnologias e categorias");
+                proj.tags.forEach(tag => {
+                    const item = document.createElement("li");
+                    item.className = "rounded-full bg-blue-50 px-3 py-1 text-[11px] font-semibold text-blue-700";
+                    item.textContent = tag;
+                    tags.appendChild(item);
+                });
+                card.appendChild(tags);
+            }
+
+            if (proj.note) {
+                const note = document.createElement("p");
+                note.className = "mt-4 rounded-xl bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-900";
+                note.textContent = proj.note;
+                card.appendChild(note);
+            }
+
+            const actions = document.createElement("div");
+            actions.className = "mt-auto flex flex-wrap gap-2 border-t border-gray-200/50 pt-4 sm:mt-6";
+
+            if (proj.type === "modal") {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "ios-btn flex-1 rounded-xl bg-blue-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md shadow-blue-500/20 transition hover:bg-blue-600";
+                button.textContent = "Abrir projeto";
+                button.addEventListener("click", () => openProjectModal(proj.path, proj.title));
+                actions.appendChild(button);
+            }
+
+            (proj.links || []).forEach(link => {
+                const anchor = document.createElement("a");
+                anchor.href = link.url;
+                anchor.target = "_blank";
+                anchor.rel = "noopener noreferrer";
+                anchor.className = "ios-btn flex-1 rounded-xl bg-blue-500 px-4 py-2.5 text-center text-xs font-semibold text-white shadow-md shadow-blue-500/20 transition hover:bg-blue-600";
+                const icon = document.createElement("i");
+                icon.className = link.icon + " mr-1.5";
+                icon.setAttribute("aria-hidden", "true");
+                anchor.append(icon, document.createTextNode(link.label));
+                actions.appendChild(anchor);
             });
+
+            card.appendChild(actions);
 
             container.appendChild(card);
         }
+
+        let previouslyFocusedElement = null;
 
         function openProjectModal(url, title) {
             const modal = document.getElementById('project-modal');
             const iframe = document.getElementById('project-iframe');
             const modalTitle = document.getElementById('modal-title');
-            
-            modalTitle.innerText = title;
+            previouslyFocusedElement = document.activeElement;
+            modalTitle.textContent = title;
             modal.classList.add('modal-active');
+            modal.setAttribute('aria-hidden', 'false');
+            modal.inert = false;
             document.body.style.overflow = 'hidden';
-
-            setTimeout(() => {
-                iframe.src = url;
-            }, 50);
+            iframe.src = url;
+            document.getElementById('modal-close').focus();
         }
 
         function closeProjectModal() {
             const modal = document.getElementById('project-modal');
             const iframe = document.getElementById('project-iframe');
-            
+
+            if (modal.getAttribute('aria-hidden') === 'true') return;
             modal.classList.remove('modal-active');
-            
-            setTimeout(() => {
-                iframe.src = '';
-            }, 250);
-            
+            modal.setAttribute('aria-hidden', 'true');
+            modal.inert = true;
+            iframe.src = 'about:blank';
             document.body.style.overflow = '';
+            if (previouslyFocusedElement) previouslyFocusedElement.focus();
         }
 
         document.addEventListener('keydown', (e) => {
@@ -339,14 +426,25 @@ const devProjects = [
 
         document.addEventListener("DOMContentLoaded", () => {
             loadProjects();
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+            document.getElementById("current-year").textContent = new Date().getFullYear();
+            document.getElementById("modal-close").addEventListener("click", closeProjectModal);
+            document.getElementById("project-modal").addEventListener("click", event => {
+                if (event.target.id === "project-modal") closeProjectModal();
+            });
+
+            if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.scroll-reveal:not(.visible)').forEach(el => observer.observe(el));
+            } else {
+                document.querySelectorAll('.scroll-reveal').forEach(el => el.classList.add('visible'));
+            }
         });
     </script>
 </body>
