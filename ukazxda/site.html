@@ -104,20 +104,57 @@
             box-shadow: 0 28px 60px -24px rgba(37, 99, 235, 0.42), 0 0 1px 1px rgba(255, 255, 255, 1) inset;
         }
         .project-icon {
-            animation: project-icon-float 4s ease-in-out infinite;
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            transition: color 0.3s ease;
         }
-        .project-card:nth-child(2) .project-icon { animation-delay: 0.8s; }
         .project-card:hover .project-icon {
-            animation: none;
-            transform: translateY(-4px) rotate(-8deg) scale(1.12);
-            color: #fff;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            box-shadow: 0 10px 28px rgba(59, 130, 246, 0.42);
+            animation: icon-hover 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+            color: #2563eb;
+        }
+        .projects-heading-icon {
+            color: #2563eb;
+            font-size: 1.35rem;
+            transition: color 0.3s ease;
+        }
+        .projects-heading-icon:hover {
+            animation: icon-hover 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+            color: #2563eb;
+        }
+        .profile-topics {
+            max-width: 46rem;
+            margin: 1rem auto 0;
+        }
+        .profile-topic {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.7rem;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.68);
+            color: #4b5563;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(31, 41, 55, 0.04);
+            transition: transform 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .profile-topic i {
+            color: #4f76d9;
+            animation: project-icon-float 4s ease-in-out infinite;
+        }
+        .profile-topic:nth-child(even) i { animation-delay: 0.6s; }
+        .profile-topic:hover {
+            transform: translateY(-3px) scale(1.04);
+            color: #1d4ed8;
+            box-shadow: 0 8px 18px rgba(59, 130, 246, 0.14);
         }
         @keyframes project-icon-float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
+        }
+        @keyframes icon-hover {
+            0%, 100% { transform: translateY(0) rotate(0) scale(1); }
+            40% { transform: translateY(-5px) rotate(-12deg) scale(1.2); }
+            75% { transform: translateY(1px) rotate(5deg) scale(0.98); }
         }
         @keyframes blob-float-1 {
             0%, 100% { transform: translate(0px, 0px) scale(1); }
@@ -245,8 +282,26 @@
                         </span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">UKAzXDA</h1>
+                    <ul class="profile-topics flex flex-wrap justify-center gap-2" aria-label="Temas de ciência e tecnologia">
+                        <li class="profile-topic"><i class="fas fa-atom" aria-hidden="true"></i>Física</li>
+                        <li class="profile-topic"><i class="fas fa-flask" aria-hidden="true"></i>Química</li>
+                        <li class="profile-topic"><i class="fas fa-square-root-variable" aria-hidden="true"></i>Matemática</li>
+                        <li class="profile-topic"><i class="fas fa-diagram-project" aria-hidden="true"></i>Lógica</li>
+                        <li class="profile-topic"><i class="fas fa-dna" aria-hidden="true"></i>Biologia</li>
+                        <li class="profile-topic"><i class="fas fa-meteor" aria-hidden="true"></i>Astronomia</li>
+                        <li class="profile-topic"><i class="fas fa-mountain-sun" aria-hidden="true"></i>Geologia</li>
+                        <li class="profile-topic"><i class="fas fa-chart-simple" aria-hidden="true"></i>Estatística</li>
+                        <li class="profile-topic"><i class="fas fa-laptop-code" aria-hidden="true"></i>Computação</li>
+                        <li class="profile-topic"><i class="fas fa-code" aria-hidden="true"></i>Programação</li>
+                        <li class="profile-topic"><i class="fas fa-gears" aria-hidden="true"></i>Engenharia</li>
+                        <li class="profile-topic"><i class="fas fa-microchip" aria-hidden="true"></i>Eletrônica</li>
+                        <li class="profile-topic"><i class="fas fa-memory" aria-hidden="true"></i>Firmware</li>
+                        <li class="profile-topic"><i class="fas fa-robot" aria-hidden="true"></i>Robótica</li>
+                        <li class="profile-topic"><i class="fas fa-cubes" aria-hidden="true"></i>Impressão 3D</li>
+                        <li class="profile-topic"><i class="fab fa-android" aria-hidden="true"></i>Android</li>
+                    </ul>
                     <!-- Links Sociais -->
-                    <div class="social-links mt-6 flex justify-center items-center gap-2.5 sm:gap-3">
+                    <div class="social-links mt-5 flex justify-center items-center gap-2.5 sm:gap-3">
                         <a href="https://github.com/ukazxda" target="_blank" rel="noopener noreferrer" aria-label="Visitar perfil de UKAzXDA no GitHub" class="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gray-900 hover:bg-black text-white text-xs font-semibold shadow-md transition-all ios-btn">
                             <i class="fab fa-github text-sm sm:text-base"></i>
                             <span>GitHub</span>
@@ -261,7 +316,7 @@
             <!-- Projects Grid Section -->
             <section id="dev-projects" class="scroll-reveal" aria-labelledby="projects-heading">
                 <div class="mb-4 flex items-center gap-3 sm:mb-5">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/25" aria-hidden="true"><i class="fas fa-layer-group"></i></span>
+                    <span class="flex h-10 w-10 items-center justify-center" aria-hidden="true"><i class="projects-heading-icon fas fa-layer-group"></i></span>
                     <h2 id="projects-heading" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">Meus projetos</h2>
                 </div>
                 <div id="projects-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4"></div>
@@ -298,7 +353,7 @@
 
     <!-- Footer -->
     <footer class="relative z-10 py-5 text-center text-xs font-semibold text-gray-500 ios-glass border-t border-white/80 mt-8">
-        <div>© <span id="current-year"></span> UKAzXDA · Feito com projetos e curiosidade.</div>
+        <div>© 2026 UKAzXDA</div>
     </footer>
 
     <!-- Logic Script -->
@@ -357,7 +412,7 @@ const devProjects = [
             const heading = document.createElement("div");
             heading.className = "flex items-center gap-4";
             const iconTile = document.createElement("span");
-            iconTile.className = "project-icon flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-2xl text-blue-600";
+            iconTile.className = "project-icon flex h-14 w-14 shrink-0 items-center justify-center text-2xl text-blue-600";
             iconTile.setAttribute("aria-hidden", "true");
             const icon = document.createElement("i");
             icon.className = proj.icon;
@@ -450,7 +505,6 @@ const devProjects = [
 
         document.addEventListener("DOMContentLoaded", () => {
             loadProjects();
-            document.getElementById("current-year").textContent = new Date().getFullYear();
             document.getElementById("modal-close").addEventListener("click", closeProjectModal);
             document.getElementById("project-modal").addEventListener("click", event => {
                 if (event.target.id === "project-modal") closeProjectModal();
