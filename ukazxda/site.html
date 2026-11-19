@@ -95,6 +95,30 @@
             transform: translateY(-4px) scale(1.01);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(255, 255, 255, 1) inset;
         }
+        .project-card {
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.025);
+            border-color: rgba(96, 165, 250, 0.8);
+            box-shadow: 0 28px 60px -24px rgba(37, 99, 235, 0.42), 0 0 1px 1px rgba(255, 255, 255, 1) inset;
+        }
+        .project-icon {
+            animation: project-icon-float 4s ease-in-out infinite;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:nth-child(2) .project-icon { animation-delay: 0.8s; }
+        .project-card:hover .project-icon {
+            animation: none;
+            transform: translateY(-4px) rotate(-8deg) scale(1.12);
+            color: #fff;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            box-shadow: 0 10px 28px rgba(59, 130, 246, 0.42);
+        }
+        @keyframes project-icon-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
         @keyframes blob-float-1 {
             0%, 100% { transform: translate(0px, 0px) scale(1); }
             50% { transform: translate(60px, -40px) scale(1.12); }
@@ -221,7 +245,11 @@
                         </span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">UKAzXDA</h1>
-                    <p class="mt-3 text-sm sm:text-base text-gray-600 max-w-xl mx-auto">Aqui compartilho projetos que desenvolvi em software, firmware e eletrônica.</p>
+                    <div class="mt-4 flex flex-wrap justify-center gap-2">
+                        <span class="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700"><i class="fas fa-code mr-1.5" aria-hidden="true"></i>Software</span>
+                        <span class="rounded-full bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700"><i class="fas fa-microchip mr-1.5" aria-hidden="true"></i>Firmware</span>
+                        <span class="rounded-full bg-cyan-50 px-3 py-1.5 text-xs font-semibold text-cyan-700"><i class="fas fa-bolt mr-1.5" aria-hidden="true"></i>Eletrônica</span>
+                    </div>
                     <!-- Links Sociais -->
                     <div class="social-links mt-6 flex justify-center items-center gap-2.5 sm:gap-3">
                         <a href="https://github.com/ukazxda" target="_blank" rel="noopener noreferrer" aria-label="Visitar perfil de UKAzXDA no GitHub" class="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gray-900 hover:bg-black text-white text-xs font-semibold shadow-md transition-all ios-btn">
@@ -237,10 +265,9 @@
             </section>
             <!-- Projects Grid Section -->
             <section id="dev-projects" class="scroll-reveal" aria-labelledby="projects-heading">
-                <div class="mb-4 sm:mb-5">
-                    <p class="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">Portfólio</p>
-                    <h2 id="projects-heading" class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">Projetos que desenvolvi</h2>
-                    <p class="mt-2 text-sm text-gray-600">Conheça meus projetos de software, firmware e personalização.</p>
+                <div class="mb-4 flex items-center gap-3 sm:mb-5">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/25" aria-hidden="true"><i class="fas fa-layer-group"></i></span>
+                    <h2 id="projects-heading" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">Meus projetos</h2>
                 </div>
                 <div id="projects-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4"></div>
             </section>
@@ -286,28 +313,29 @@ const devProjects = [
     {
         type: "modal",
         path: "dev/on7xelte/Custom ROMs/Limpo ROMs J7 Prime.html",
-        title: "Limpo ROMs J7 Prime",
-        description: "ROMs personalizadas que desenvolvi para o Samsung Galaxy J7 Prime.",
-        tags: ["Android", "Custom ROM"]
+        icon: "fab fa-android",
+        category: "ANDROID",
+        title: "Limpo ROMs",
+        description: "ROMs que desenvolvi para o Galaxy J7 Prime."
     },
     {
         type: "links",
-        title: "Marlin de alta velocidade — Neptune 3 Pro",
-        description: "Desenvolvi e testei este firmware Marlin 2.1.1 na minha Neptune 3 Pro. No meu teste, alcancei qualidade de impressão e velocidade comparáveis ao perfil padrão da Neptune 4 Pro. Também confirmei compatibilidade com uma versão recente da tela LCD.",
-        tags: ["Marlin", "STM32F401RC", "Impressão 3D"],
+        icon: "fas fa-microchip",
+        category: "FIRMWARE",
+        title: "Neptune 3 Pro",
+        description: "Marlin 2.1.1, desenvolvido e testado por mim.",
         links: [
             {
                 url: "https://github.com/UKAzXDA/neptune-3-pro-marlin-speed4pro",
-                label: "Código e detalhes",
+                label: "Código",
                 icon: "fab fa-github"
             },
             {
                 url: "https://github.com/UKAzXDA/neptune-3-pro-marlin-speed4pro/releases/download/v1.0.0/ZNP_ROBIN_NANO.bin",
-                label: "Baixar firmware",
+                label: "Baixar",
                 icon: "fas fa-download"
             }
-        ],
-        note: "Antes de instalar meu firmware, confira os requisitos, riscos e informações sobre garantia no repositório."
+        ]
     }
 ];
 // PROJETOS_END
@@ -329,46 +357,46 @@ const devProjects = [
 
         function renderProjectCard(container, proj) {
             const card = document.createElement("article");
-            card.className = "ios-glass-card p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-ios-card flex flex-col border border-white/80 group";
+            card.className = "project-card ios-glass-card p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-ios-card flex flex-col border border-white/80 group";
 
+            const heading = document.createElement("div");
+            heading.className = "flex items-center gap-4";
+            const iconTile = document.createElement("span");
+            iconTile.className = "project-icon flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-2xl text-blue-600";
+            iconTile.setAttribute("aria-hidden", "true");
+            const icon = document.createElement("i");
+            icon.className = proj.icon;
+            iconTile.appendChild(icon);
+            heading.appendChild(iconTile);
+
+            const identity = document.createElement("div");
+            const category = document.createElement("p");
+            category.className = "text-[10px] font-bold tracking-[0.18em] text-blue-600";
+            category.textContent = proj.category;
             const title = document.createElement("h3");
-            title.className = "text-base sm:text-lg font-bold text-gray-900 tracking-tight";
+            title.className = "mt-1 text-base sm:text-lg font-bold text-gray-900 tracking-tight";
             title.textContent = proj.title;
-            card.appendChild(title);
+            identity.append(category, title);
+            heading.appendChild(identity);
+            card.appendChild(heading);
 
             const description = document.createElement("p");
-            description.className = "mt-3 text-sm leading-6 text-gray-600";
+            description.className = "mt-5 text-sm leading-6 text-gray-600";
             description.textContent = proj.description;
             card.appendChild(description);
 
-            if (proj.tags && proj.tags.length) {
-                const tags = document.createElement("ul");
-                tags.className = "mt-4 flex flex-wrap gap-2";
-                tags.setAttribute("aria-label", "Tecnologias e categorias");
-                proj.tags.forEach(tag => {
-                    const item = document.createElement("li");
-                    item.className = "rounded-full bg-blue-50 px-3 py-1 text-[11px] font-semibold text-blue-700";
-                    item.textContent = tag;
-                    tags.appendChild(item);
-                });
-                card.appendChild(tags);
-            }
-
-            if (proj.note) {
-                const note = document.createElement("p");
-                note.className = "mt-4 rounded-xl bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-900";
-                note.textContent = proj.note;
-                card.appendChild(note);
-            }
-
             const actions = document.createElement("div");
-            actions.className = "mt-auto flex flex-wrap gap-2 border-t border-gray-200/50 pt-4 sm:mt-6";
+            actions.className = "mt-auto flex flex-wrap gap-2 pt-5";
 
             if (proj.type === "modal") {
                 const button = document.createElement("button");
                 button.type = "button";
                 button.className = "ios-btn flex-1 rounded-xl bg-blue-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md shadow-blue-500/20 transition hover:bg-blue-600";
-                button.textContent = "Abrir projeto";
+                button.setAttribute("aria-label", "Abrir Limpo ROMs");
+                const buttonIcon = document.createElement("i");
+                buttonIcon.className = "fas fa-arrow-up-right-from-square mr-1.5";
+                buttonIcon.setAttribute("aria-hidden", "true");
+                button.append(buttonIcon, document.createTextNode("Ver projeto"));
                 button.addEventListener("click", () => openProjectModal(proj.path, proj.title));
                 actions.appendChild(button);
             }
@@ -379,6 +407,7 @@ const devProjects = [
                 anchor.target = "_blank";
                 anchor.rel = "noopener noreferrer";
                 anchor.className = "ios-btn flex-1 rounded-xl bg-blue-500 px-4 py-2.5 text-center text-xs font-semibold text-white shadow-md shadow-blue-500/20 transition hover:bg-blue-600";
+                anchor.setAttribute("aria-label", link.label === "Baixar" ? "Baixar firmware Marlin" : "Ver código e informações do projeto Marlin");
                 const icon = document.createElement("i");
                 icon.className = link.icon + " mr-1.5";
                 icon.setAttribute("aria-hidden", "true");
