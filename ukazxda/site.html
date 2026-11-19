@@ -120,32 +120,32 @@
             color: #2563eb;
         }
         .profile-topics {
-            max-width: 46rem;
-            margin: 1rem auto 0;
+            display: grid;
+            grid-template-columns: repeat(8, minmax(0, 1fr));
+            gap: 0.25rem;
+            width: 18rem;
+            max-width: 100%;
+            margin: 0.75rem auto 0;
         }
         .profile-topic {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 0.4rem;
-            padding: 0.45rem 0.7rem;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.68);
-            color: #4b5563;
-            font-size: 0.75rem;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(31, 41, 55, 0.04);
-            transition: transform 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            margin: 0 auto;
+            color: #2563eb;
+            font-size: 1.15rem;
+            transition: color 0.25s ease;
         }
         .profile-topic i {
-            color: #4f76d9;
+            color: inherit;
             animation: project-icon-float 4s ease-in-out infinite;
         }
         .profile-topic:nth-child(even) i { animation-delay: 0.6s; }
-        .profile-topic:hover {
-            transform: translateY(-3px) scale(1.04);
-            color: #1d4ed8;
-            box-shadow: 0 8px 18px rgba(59, 130, 246, 0.14);
+        .profile-topic:hover { color: #1d4ed8; }
+        .profile-topic:hover i {
+            animation: icon-hover 0.65s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes project-icon-float {
             0%, 100% { transform: translateY(0); }
@@ -282,23 +282,23 @@
                         </span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">UKAzXDA</h1>
-                    <ul class="profile-topics flex flex-wrap justify-center gap-2" aria-label="Temas de ciência e tecnologia">
-                        <li class="profile-topic"><i class="fas fa-atom" aria-hidden="true"></i>Física</li>
-                        <li class="profile-topic"><i class="fas fa-flask" aria-hidden="true"></i>Química</li>
-                        <li class="profile-topic"><i class="fas fa-square-root-variable" aria-hidden="true"></i>Matemática</li>
-                        <li class="profile-topic"><i class="fas fa-diagram-project" aria-hidden="true"></i>Lógica</li>
-                        <li class="profile-topic"><i class="fas fa-dna" aria-hidden="true"></i>Biologia</li>
-                        <li class="profile-topic"><i class="fas fa-meteor" aria-hidden="true"></i>Astronomia</li>
-                        <li class="profile-topic"><i class="fas fa-mountain-sun" aria-hidden="true"></i>Geologia</li>
-                        <li class="profile-topic"><i class="fas fa-chart-simple" aria-hidden="true"></i>Estatística</li>
-                        <li class="profile-topic"><i class="fas fa-laptop-code" aria-hidden="true"></i>Computação</li>
-                        <li class="profile-topic"><i class="fas fa-code" aria-hidden="true"></i>Programação</li>
-                        <li class="profile-topic"><i class="fas fa-gears" aria-hidden="true"></i>Engenharia</li>
-                        <li class="profile-topic"><i class="fas fa-microchip" aria-hidden="true"></i>Eletrônica</li>
-                        <li class="profile-topic"><i class="fas fa-memory" aria-hidden="true"></i>Firmware</li>
-                        <li class="profile-topic"><i class="fas fa-robot" aria-hidden="true"></i>Robótica</li>
-                        <li class="profile-topic"><i class="fas fa-cubes" aria-hidden="true"></i>Impressão 3D</li>
-                        <li class="profile-topic"><i class="fab fa-android" aria-hidden="true"></i>Android</li>
+                    <ul class="profile-topics" aria-label="Temas de ciência e tecnologia">
+                        <li class="profile-topic" aria-label="Física"><i class="fas fa-atom" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Química"><i class="fas fa-flask" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Matemática"><i class="fas fa-square-root-variable" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Lógica"><i class="fas fa-diagram-project" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Biologia"><i class="fas fa-dna" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Astronomia"><i class="fas fa-meteor" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Geologia"><i class="fas fa-mountain-sun" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Estatística"><i class="fas fa-chart-simple" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Computação"><i class="fas fa-laptop-code" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Programação"><i class="fas fa-code" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Engenharia"><i class="fas fa-gears" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Eletrônica"><i class="fas fa-microchip" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Firmware"><i class="fas fa-memory" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Robótica"><i class="fas fa-robot" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Impressão 3D"><i class="fas fa-cubes" aria-hidden="true"></i></li>
+                        <li class="profile-topic" aria-label="Android"><i class="fab fa-android" aria-hidden="true"></i></li>
                     </ul>
                     <!-- Links Sociais -->
                     <div class="social-links mt-5 flex justify-center items-center gap-2.5 sm:gap-3">
