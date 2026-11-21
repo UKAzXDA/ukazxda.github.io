@@ -11,9 +11,6 @@
 	<meta name="author" content="UKAzXDA">
 	<link rel="canonical" href="https://ukazxda.github.io/">
 
-	<!-- Redirecionamento Automático -->
-	<meta http-equiv="refresh" content="0; url=/ukazxda/site.html">
-
 	<!-- Open Graph / Facebook / Discord / Telegram -->
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://ukazxda.github.io/">
@@ -30,12 +27,193 @@
 	<!-- Ícones -->
 	<link rel="shortcut icon" href="ukazxda/pixel/perfil.png" type="image/png">
 	<link rel="apple-touch-icon" href="ukazxda/pixel/perfil.png">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<style>
+		* { box-sizing: border-box; }
+		:root {
+			color-scheme: light;
+			--bg: #f2f2f7;
+			--text: #1c1c1e;
+			--secondary: #8e8e93;
+			--blue: #007aff;
+		}
+		body {
+			min-height: 100vh;
+			margin: 0;
+			display: grid;
+			place-items: center;
+			overflow: hidden;
+			font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+			background: var(--bg);
+			color: var(--text);
+			-webkit-font-smoothing: antialiased;
+			transition: background-color 900ms ease;
+		}
+		body.network-slow { --bg: #fff6f6; background: #fff6f6; }
+		.blob {
+			position: fixed;
+			width: 22rem;
+			height: 22rem;
+			border-radius: 999px;
+			filter: blur(70px);
+			pointer-events: none;
+			opacity: 0.34;
+			animation: float 9s ease-in-out infinite;
+		}
+		.blob-blue { top: -7rem; right: -7rem; background: #bfdbfe; }
+		.blob-teal { bottom: -9rem; left: -8rem; background: #99f6e4; animation-delay: -3s; }
+		.loading-card {
+			position: relative;
+			z-index: 1;
+			width: min(24rem, calc(100vw - 32px));
+			padding: 30px 28px 24px;
+			text-align: center;
+			border: 1px solid rgba(255, 255, 255, 0.9);
+			border-radius: 28px;
+			background: rgba(255, 255, 255, 0.78);
+			box-shadow: 0 24px 55px -20px rgba(0, 0, 0, 0.14), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
+			backdrop-filter: blur(28px) saturate(180%);
+			-webkit-backdrop-filter: blur(28px) saturate(180%);
+		}
+		.avatar-wrap {
+			position: relative;
+			width: 82px;
+			height: 82px;
+			margin: 0 auto 18px;
+		}
+		.avatar-wrap::before {
+			content: "";
+			position: absolute;
+			inset: -7px;
+			border: 2px solid rgba(0, 122, 255, 0.12);
+			border-top-color: var(--blue);
+			border-radius: 999px;
+			animation: spin 1.8s linear infinite;
+		}
+		.avatar {
+			width: 82px;
+			height: 82px;
+			display: block;
+			border: 3px solid #fff;
+			border-radius: 999px;
+			object-fit: cover;
+			box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
+		}
+		h1 {
+			margin: 0;
+			font-size: 1.25rem;
+			line-height: 1.2;
+			letter-spacing: -0.035em;
+		}
+		.status {
+			min-height: 22px;
+			margin: 8px 0 16px;
+			font-size: 0.82rem;
+			font-weight: 600;
+			color: var(--secondary);
+			transition: color 300ms ease;
+		}
+		.progress-track {
+			height: 7px;
+			overflow: hidden;
+			border-radius: 999px;
+			background: #e5e5ea;
+		}
+		.progress-bar {
+			width: 0;
+			height: 100%;
+			border-radius: 999px;
+			background: linear-gradient(90deg, #2563eb, #0ea5e9);
+			box-shadow: 0 3px 10px rgba(37, 99, 235, 0.22);
+			transition: width 80ms linear, background 300ms ease;
+		}
+		.fallback {
+			display: none;
+			align-items: center;
+			justify-content: center;
+			gap: 7px;
+			width: 100%;
+			margin-top: 16px;
+			padding: 11px 14px;
+			border: 0;
+			border-radius: 999px;
+			background: #007aff;
+			color: #fff;
+			font: 700 0.78rem "Plus Jakarta Sans", sans-serif;
+			text-decoration: none;
+			transition: transform 180ms ease, background 180ms ease;
+		}
+		.fallback.visible { display: flex; }
+		.fallback:active { transform: scale(0.96); }
+		body.network-slow .status { color: #c25858; }
+		body.network-slow .progress-bar { background: #f09a9a; }
+		@keyframes spin { to { transform: rotate(360deg); } }
+		@keyframes float {
+			0%, 100% { transform: translate(0, 0) scale(1); }
+			50% { transform: translate(24px, -18px) scale(1.08); }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after {
+				animation-duration: 0.01ms !important;
+				animation-iteration-count: 1 !important;
+				transition-duration: 0.01ms !important;
+			}
+		}
+	</style>
 </head>
 <body>
-	<main>
+	<div class="blob blob-blue"></div>
+	<div class="blob blob-teal"></div>
+	<main class="loading-card" aria-live="polite">
+		<div class="avatar-wrap">
+			<img class="avatar" src="/ukazxda/pixel/perfil.png" alt="UKAzXDA">
+		</div>
 		<h1>UKAzXDA</h1>
-		<p>Redirecionando para o portfólio. Se isso não acontecer, <a href="/ukazxda/site.html">abra o site aqui</a>.</p>
+		<p class="status" id="status">Preparando o portfólio...</p>
+		<div class="progress-track" role="progressbar" aria-label="Carregando portfólio" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+			<div class="progress-bar" id="progress"></div>
+		</div>
+		<a class="fallback" id="fallback" href="/ukazxda/site.html">Abrir portfólio agora</a>
 	</main>
-	<script>window.location.replace("/ukazxda/site.html");</script>
+	<script>
+		const destination = "/ukazxda/site.html";
+		const progress = document.getElementById("progress");
+		const track = document.querySelector(".progress-track");
+		const status = document.getElementById("status");
+		const fallback = document.getElementById("fallback");
+		const redirectDelay = 1150;
+		const startedAt = performance.now();
+
+		function updateProgress() {
+			const elapsed = performance.now() - startedAt;
+			const percent = Math.min(100, Math.round((elapsed / redirectDelay) * 100));
+			progress.style.width = `${percent}%`;
+			track.setAttribute("aria-valuenow", String(percent));
+
+			if (elapsed < 500) status.textContent = "Preparando o portfólio...";
+			else if (elapsed < redirectDelay) status.textContent = "Organizando os projetos...";
+			if (elapsed < redirectDelay) requestAnimationFrame(updateProgress);
+		}
+
+		requestAnimationFrame(updateProgress);
+		setTimeout(() => { status.textContent = "Abrindo seu portfólio..."; }, 700);
+
+		setTimeout(() => {
+			document.body.classList.add("network-slow");
+			status.textContent = "A conexão está um pouco lenta...";
+		}, 5000);
+
+		setTimeout(() => {
+			status.textContent = "Se continuar assim, a rede pode estar instável.";
+			fallback.classList.add("visible");
+		}, 8000);
+
+		setTimeout(() => window.location.replace(destination), redirectDelay);
+	</script>
+	<noscript>
+		<meta http-equiv="refresh" content="1; url=/ukazxda/site.html">
+	</noscript>
 </body>
 </html>
