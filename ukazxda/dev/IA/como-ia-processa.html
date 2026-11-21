@@ -3,101 +3,264 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Como a IA Processa uma Resposta | UKAzXDA</title>
-<meta name="description" content="Simulador visual animado que explica passo a passo como uma IA transforma um prompt em tokens e escolhe uma resposta.">
+<title>Simulador Visual de Inferência LLM — Terminologia Técnica Real</title>
+<meta name="description" content="Simulador visual interativo e minimalista mostrando o fluxo real de inferência autoregressiva de um LLM em português, com etiquetas coladas aos dados.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-canvas: #f2f2f7;
+    --surface: rgba(255, 255, 255, 0.84);
+    --surface-solid: #ffffff;
+    --surface-subtle: #f7f7fa;
+    --ink-primary: #1c1c1e;
+    --ink-secondary: #5c5c66;
+    --ink-muted: #8e8e93;
+    --border-hairline: rgba(60, 60, 67, 0.12);
+    --accent-blue: #007aff;
+    --accent-blue-soft: rgba(0, 122, 255, 0.10);
+    --accent-amber: #d97706;
+    --accent-amber-soft: rgba(217, 119, 6, 0.11);
+    --accent-green: #16a34a;
+    --accent-green-soft: rgba(22, 163, 74, 0.11);
+    --accent-purple: #9333ea;
+    --accent-purple-soft: rgba(147, 51, 234, 0.10);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
   body {
     font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-    background-color: #f2f2f7;
-    color: #1c1c1e;
+    background-color: var(--bg-canvas);
+    color: var(--ink-primary);
     padding: 16px;
     line-height: 1.45;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
+
+  /* Atmosfera suave de fundo no estilo iOS */
   body::before,
   body::after {
     content: "";
     position: fixed;
-    width: 24rem;
-    height: 24rem;
+    width: 26rem;
+    height: 26rem;
     border-radius: 999px;
-    filter: blur(70px);
+    filter: blur(80px);
     opacity: 0.22;
     pointer-events: none;
     z-index: -1;
   }
-  body::before { top: 2%; right: -8rem; background: #93c5fd; }
-  body::after { bottom: -8rem; left: -8rem; background: #99f6e4; }
+  body::before {
+    top: -4rem;
+    right: -8rem;
+    background: #93c5fd;
+  }
+  body::after {
+    bottom: -8rem;
+    left: -8rem;
+    background: #c4b5fd;
+  }
+
   .container {
-    max-width: 1080px;
+    max-width: 1120px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 14px;
   }
 
-  /* Cartão Base Estilo iOS */
-  header, .narrator, .road-zone, .armario-zone, .cpu-zone, .candidates-zone, .screen-zone {
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(30px) saturate(190%);
-    -webkit-backdrop-filter: blur(30px) saturate(190%);
-    border: 1px solid rgba(255, 255, 255, 0.9);
+  .card {
+    background: var(--surface);
+    backdrop-filter: blur(28px) saturate(185%);
+    -webkit-backdrop-filter: blur(28px) saturate(185%);
+    border: 1px solid rgba(255, 255, 255, 0.92);
     border-radius: 20px;
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.06), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
+    box-shadow:
+      0 18px 36px -16px rgba(15, 23, 42, 0.08),
+      0 0 1px 1px rgba(255, 255, 255, 0.85) inset;
   }
 
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  /* Cabeçalho e Controles */
   header {
-    padding: 16px 18px;
+    padding: 16px 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: 12px;
   }
+
+  .header-title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
   header h1 {
     font-size: 1.15rem;
     font-weight: 700;
     letter-spacing: -0.02em;
     color: #000000;
   }
-  header p {
-    font-size: 0.85rem;
-    color: #6e6e73;
-    margin-top: 2px;
+
+  .arch-pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--accent-blue-soft);
+    color: var(--accent-blue);
+    border: 1px solid rgba(0, 122, 255, 0.22);
   }
 
-  /* Controles Estilo iOS */
+  header p {
+    font-size: 0.84rem;
+    color: var(--ink-secondary);
+    margin-top: 3px;
+  }
+
   .controls {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
   }
+
+  .prompt-input-group,
+  .token-stream-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .prompt-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--ink-primary);
+  }
+
+  .prompt-input {
+    width: min(360px, 52vw);
+    min-width: 180px;
+    height: 38px;
+    border: 1px solid var(--border-hairline);
+    border-radius: 10px;
+    background: #ffffff;
+    padding: 8px 11px;
+    color: var(--ink-primary);
+    font: 600 0.82rem "JetBrains Mono", monospace;
+    outline: none;
+  }
+
+  .prompt-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px var(--accent-blue-soft);
+  }
+
+  .zoom-box {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #f2f2f7;
+    border-radius: 999px;
+    min-height: 36px;
+    padding: 3px 5px;
+  }
+
+  .zoom-box button {
+    min-width: 30px;
+    min-height: 30px;
+    padding: 4px 8px;
+    justify-content: center;
+    background: #ffffff;
+    color: var(--ink-primary);
+    border: 1px solid var(--border-hairline);
+  }
+
+  .zoom-value {
+    min-width: 48px;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ink-secondary);
+  }
+
   button {
-    background: #007aff;
+    background: var(--accent-blue);
     color: #ffffff;
     border: none;
-    padding: 8px 14px;
+    padding: 9px 15px;
     border-radius: 999px;
     font-weight: 600;
     font-size: 0.83rem;
     cursor: pointer;
-    transition: opacity 0.2s, transform 0.1s, background 0.2s;
+    transition: transform 0.12s ease, opacity 0.2s ease, background 0.2s ease;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }
-  button:hover { opacity: 0.88; }
-  button:active { transform: scale(0.97); }
+
+  button:hover {
+    opacity: 0.9;
+  }
+
+  button:active {
+    transform: scale(0.97);
+  }
+
   button.secondary {
     background: #e5e5ea;
-    color: #1c1c1e;
+    color: var(--ink-primary);
   }
-  button.secondary:hover { background: #d1d1d6; opacity: 1; }
-  button.play-btn { background: #34c759; }
-  button.play-btn.playing { background: #ff9500; }
+
+  button.secondary:hover {
+    background: #d1d1d6;
+    opacity: 1;
+  }
+
+  button.secondary.active-mode {
+    background: #1c1c1e;
+    color: #ffffff;
+  }
+
+  button.preset-btn {
+    background: #ffffff;
+    color: var(--ink-primary);
+    border: 1px solid var(--border-hairline);
+    padding: 5px 11px;
+    min-height: 30px;
+    font-size: 0.76rem;
+    font-weight: 600;
+  }
+
+  button.preset-btn:hover {
+    background: #eef6ff;
+    border-color: rgba(0, 122, 255, 0.35);
+    color: #0055b3;
+    opacity: 1;
+  }
+
+  button.play-btn {
+    background: #22c55e;
+  }
+
+  button.play-btn.playing {
+    background: #f59e0b;
+  }
 
   .speed-box {
     display: flex;
@@ -107,655 +270,1499 @@
     padding: 5px 12px;
     border-radius: 999px;
     font-size: 0.8rem;
-    color: #3a3a3c;
-    font-weight: 500;
+    color: var(--ink-secondary);
+    font-weight: 600;
+    min-height: 36px;
   }
+
   select {
     background: transparent;
-    color: #007aff;
+    color: var(--accent-blue);
     border: none;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.8rem;
     outline: none;
     cursor: pointer;
   }
 
-  /* Barra de Explicação do Passo Atual */
+  /* Barra de Prompt e Tokenização */
+  .prompt-bar {
+    padding: 13px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .prompt-top-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .presets-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.76rem;
+    color: var(--ink-secondary);
+  }
+
+  .chip-id {
+    background: var(--accent-blue-soft);
+    color: #0055b3;
+    border: 1px solid rgba(0, 122, 255, 0.25);
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.76rem;
+  }
+
+  /* Narrador Técnico */
   .narrator {
     padding: 14px 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 14px;
-    border-left: 4px solid #007aff;
+    border-left: 4px solid var(--accent-blue);
   }
+
   .narrator-step {
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #007aff;
+    color: var(--accent-blue);
     font-weight: 700;
   }
+
   .narrator-text {
-    font-size: 0.98rem;
+    font-size: 0.94rem;
     font-weight: 500;
-    color: #1c1c1e;
+    color: var(--ink-primary);
     margin-top: 3px;
   }
+
+  .narrator-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
   .round-badge {
     background: #f2f2f7;
-    color: #3a3a3c;
-    padding: 6px 12px;
+    color: var(--ink-primary);
+    padding: 5px 12px;
     border-radius: 999px;
-    font-weight: 600;
-    font-size: 0.8rem;
+    font-weight: 700;
+    font-size: 0.78rem;
     white-space: nowrap;
   }
 
-  /* Títulos das Zonas */
+  .kv-badge {
+    font-size: 0.73rem;
+    color: var(--accent-purple);
+    background: var(--accent-purple-soft);
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* Títulos de Seção */
   .zone-label {
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    margin-bottom: 12px;
-    display: block;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
   }
-  .label-blue { color: #007aff; }
-  .label-amber { color: #d97706; }
-  .label-green { color: #28a745; }
-  .label-purple { color: #af52de; }
 
-  /* Pista do Carro (CPU) */
-  .road-zone { padding: 16px; }
-  .houses-row {
+  .zone-sub {
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink-muted);
+  }
+
+  .label-blue { color: var(--accent-blue); }
+  .label-amber { color: var(--accent-amber); }
+  .label-green { color: var(--accent-green); }
+  .label-purple { color: var(--accent-purple); }
+
+  /* Seção 1 & 2: Embedding Lookup Table + Deslocamento da Unidade de Processamento */
+  .lookup-zone {
+    padding: 16px;
+  }
+
+  .embeddings-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 10px;
-    margin-bottom: 14px;
-  }
-  .house {
-    background: #f9f9fb;
-    border: 1.5px solid #e5e5ea;
-    border-radius: 12px;
-    padding: 10px 8px;
-    text-align: center;
-    transition: all 0.45s ease;
-  }
-  .house.active {
-    border-color: #007aff;
-    background: #eef6ff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.14);
-  }
-  .house-num {
-    font-size: 0.72rem;
-    color: #8e8e93;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  }
-  .house-token {
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: #1c1c1e;
-    margin: 3px 0;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  }
-  .house-vec {
-    font-size: 0.78rem;
-    color: #007aff;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    background: rgba(0, 122, 255, 0.08);
-    padding: 2px 6px;
-    border-radius: 6px;
-    display: inline-block;
+    margin-bottom: 12px;
   }
 
-  /* Pista animada do Carro */
+  .emb-row-card {
+    background: var(--surface-subtle);
+    border: 1.5px solid var(--border-hairline);
+    border-radius: 14px;
+    padding: 10px;
+    transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  .emb-row-card.active {
+    border-color: var(--accent-blue);
+    background: #eef6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 122, 255, 0.14);
+    animation: lookupPulse 1.2s ease-in-out infinite;
+  }
+
+  .emb-row-card.in-context {
+    border-color: rgba(147, 51, 234, 0.35);
+    background: #faf5ff;
+  }
+
+  .emb-idx {
+    font-size: 0.7rem;
+    color: var(--ink-muted);
+    font-weight: 600;
+  }
+
+  .emb-label {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--ink-primary);
+    margin: 3px 0 5px 0;
+    word-break: break-word;
+  }
+
+  .emb-vec {
+    font-size: 0.74rem;
+    color: #0055b3;
+    background: rgba(0, 122, 255, 0.08);
+    padding: 4px 6px;
+    border-radius: 8px;
+    display: block;
+  }
+
   .track {
-    height: 44px;
+    height: 46px;
     background: #f2f2f7;
-    border-radius: 12px;
+    border-radius: 14px;
     position: relative;
     display: flex;
     align-items: center;
-    border: 1px solid #e5e5ea;
+    border: 1px solid var(--border-hairline);
+    overflow: hidden;
   }
+
   .car {
     position: absolute;
     left: 2%;
-    transition: left 1.1s cubic-bezier(0.25, 0.9, 0.3, 1);
+    transition: left 0.95s cubic-bezier(0.25, 0.9, 0.3, 1);
     background: #ffffff;
-    color: #1c1c1e;
+    color: var(--ink-primary);
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     padding: 5px 12px;
     border-radius: 999px;
-    border: 1.5px solid #34c759;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1.5px solid #22c55e;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     gap: 6px;
     white-space: nowrap;
-    z-index: 5;
+    z-index: 4;
   }
+
   .car-cargo {
-    background: #e8f8ed;
-    color: #1e7e34;
-    padding: 2px 7px;
+    background: var(--accent-green-soft);
+    color: #15803d;
+    padding: 2px 8px;
     border-radius: 999px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 600;
   }
 
-  /* Área do Meio: Armário + Oficina CPU */
+  /* Seção 3: Matrizes de Pesos (W) + Forward Pass (Projeções, Atenção/KV, MLP, Residual) */
   .middle-grid {
     display: grid;
-    grid-template-columns: 1fr 1.35fr;
+    grid-template-columns: 1fr 1.45fr;
     gap: 14px;
   }
-  @media (max-width: 800px) {
-    .middle-grid { grid-template-columns: 1fr; }
-    .houses-row { grid-template-columns: repeat(2, 1fr); }
-    .bottom-grid { grid-template-columns: 1fr; }
-    header { align-items: flex-start; }
-    .controls { width: 100%; }
-    .controls button,
-    .speed-box { flex: 1 1 auto; justify-content: center; }
-    .narrator { align-items: flex-start; }
+
+  .weights-zone {
+    padding: 16px;
   }
 
-  .armario-zone { padding: 16px; }
-  .shelf {
-    background: #f9f9fb;
-    border: 1.5px solid #e5e5ea;
-    border-radius: 10px;
-    padding: 9px 12px;
+  .weight-matrix {
+    background: var(--surface-subtle);
+    border: 1.5px solid var(--border-hairline);
+    border-radius: 12px;
+    padding: 9px 11px;
     margin-bottom: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .weight-matrix:last-child {
+    margin-bottom: 0;
+  }
+
+  .weight-matrix.active {
+    border-color: #f59e0b;
+    background: #fffbeb;
+    transform: scale(1.01);
+    animation: weightPulse 1s ease-in-out infinite;
+  }
+
+  .weight-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 0.85rem;
-    color: #1c1c1e;
-    transition: all 0.35s ease;
+    gap: 6px;
+    margin-bottom: 4px;
   }
-  .shelf:last-child { margin-bottom: 0; }
-  .shelf.active {
-    border-color: #ff9500;
-    background: #fff8eb;
-    transform: scale(1.015);
-  }
-  .shelf-tag {
-    background: #ffedd5;
+
+  .weight-tag {
+    background: var(--accent-amber-soft);
     color: #b45309;
     padding: 2px 8px;
     border-radius: 6px;
     font-weight: 700;
+    font-size: 0.76rem;
   }
 
-  .cpu-zone {
+  .weight-role {
+    font-size: 0.72rem;
+    color: var(--ink-secondary);
+    font-weight: 500;
+  }
+
+  .weight-vals {
+    font-size: 0.76rem;
+    color: var(--ink-primary);
+  }
+
+  .forward-zone {
     padding: 16px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 8px;
   }
-  .calc-row {
-    background: #f9f9fb;
-    border: 1px solid #e5e5ea;
-    border-radius: 10px;
-    padding: 8px 12px;
-    margin-bottom: 8px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 0.82rem;
-    color: #8e8e93;
-    transition: all 0.4s ease;
+
+  .stage-row {
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-hairline);
+    border-radius: 11px;
+    padding: 8px 11px;
+    font-size: 0.77rem;
+    color: var(--ink-muted);
+    transition: all 0.35s ease;
   }
-  .calc-row.done {
-    color: #1c1c1e;
-    border-color: #a7f3d0;
+
+  .stage-row.done {
+    color: var(--ink-primary);
+    border-color: rgba(22, 163, 74, 0.35);
     background: #f0fdf4;
   }
-  .calc-row.current {
-    color: #065f46;
+
+  .stage-row.current {
+    color: #14532d;
     font-weight: 600;
-    border-color: #34c759;
-    background: #e8f8ed;
+    border-color: #22c55e;
+    background: #dcfce7;
     transform: scale(1.01);
+    animation: stagePulse 1.2s ease-in-out infinite;
   }
-  .vetor-atual-box {
+
+  .hidden-state-box {
     background: #f0fdf4;
-    border: 1.5px solid #34c759;
-    border-radius: 10px;
+    border: 1.5px solid #22c55e;
+    border-radius: 12px;
     padding: 9px 12px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 0.88rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    color: #166534;
+    color: #14532d;
     text-align: center;
   }
 
-  /* Área Inferior: Candidatos e Tela de Resultado */
+  .hidden-state-box.updated,
+  .context-influence-bar.updated,
+  .live-answer-box.updated {
+    animation: valueArrive 0.75s ease-out;
+  }
+
+  .calculation-line {
+    display: block;
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: calculationArrive 0.45s ease-out forwards;
+    animation-delay: calc(var(--line-index) * 150ms);
+  }
+
+  /* Seção 4 & 5: LM Head / Logits / Softmax + Loop Autoregressivo */
   .bottom-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1.35fr 1fr;
     gap: 14px;
   }
-  @media (max-width: 800px) {
-    .bottom-grid { grid-template-columns: 1fr; }
-    .cand-list { grid-template-columns: 1fr; }
+
+  .logits-zone {
+    padding: 16px;
   }
-  .candidates-zone { padding: 16px; }
-  .cand-list {
+
+  .logits-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
   }
-  .cand-card {
-    background: #f9f9fb;
-    border: 1.5px solid #e5e5ea;
-    border-radius: 10px;
+
+  .logit-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-subtle);
+    border: 1.5px solid var(--border-hairline);
+    border-radius: 12px;
     padding: 9px 8px;
     text-align: center;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    color: #1c1c1e;
     transition: all 0.35s ease;
-  }
-  .cand-card.winner {
-    border-color: #34c759;
-    background: #e8f8ed;
-    transform: scale(1.03);
-    box-shadow: 0 3px 10px rgba(52, 199, 89, 0.15);
-  }
-  .cand-score {
-    font-size: 0.98rem;
-    font-weight: 700;
-    margin-top: 4px;
-    color: #1c1c1e;
+    padding-bottom: 13px;
   }
 
-  .screen-zone {
+  .logit-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: var(--probability, 0%);
+    height: 5px;
+    background: linear-gradient(90deg, #86efac, #16a34a);
+    transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .logit-card.revealed::after {
+    width: var(--probability, 0%);
+  }
+
+  .logit-card.winner {
+    border-color: #22c55e;
+    background: #dcfce7;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.16);
+  }
+
+  .logit-token {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ink-primary);
+    word-break: break-word;
+  }
+
+  .logit-raw {
+    font-size: 0.72rem;
+    color: var(--ink-secondary);
+    margin-top: 3px;
+  }
+
+  .logit-prob {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #15803d;
+    margin-top: 3px;
+  }
+
+  .autoregressive-zone {
     padding: 16px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 10px;
   }
-  .chat-output {
-    background: #f9f9fb;
-    border: 1px solid #e5e5ea;
-    border-radius: 12px;
+
+  .context-stream {
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-hairline);
+    border-radius: 14px;
     padding: 10px 12px;
-    min-height: 64px;
+    min-height: 76px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
+
   .token-pill {
-    padding: 5px 11px;
+    padding: 5px 10px;
     border-radius: 999px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-weight: 700;
-    font-size: 0.85rem;
-    animation: popIn 0.4s ease;
+    font-size: 0.76rem;
+    animation: popIn 0.35s ease;
   }
-  .pill-prompt { background: #e5f1ff; color: #0066cc; border: 1px solid #b3d7ff; }
-  .pill-gen { background: #e8f8ed; color: #1e7e34; border: 1px solid #a3e4b7; }
-  .pill-end { background: #f5ebff; color: #7e22ce; border: 1px solid #d8b4fe; }
+
+  .flight-packet {
+    position: fixed;
+    z-index: 9999;
+    max-width: min(260px, 70vw);
+    padding: 9px 13px;
+    border: 1px solid rgba(0, 122, 255, 0.4);
+    border-radius: 12px;
+    background: #ffffff;
+    color: #0756a3;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.2);
+    font: 700 0.75rem/1.35 "JetBrains Mono", monospace;
+    text-align: center;
+    pointer-events: none;
+    overflow-wrap: anywhere;
+  }
+
+  .flight-packet.purple {
+    border-color: rgba(147, 51, 234, 0.4);
+    color: #7e22ce;
+    background: #faf5ff;
+  }
+
+  .flight-packet.amber {
+    border-color: rgba(217, 119, 6, 0.45);
+    color: #a34a05;
+    background: #fffbeb;
+  }
+
+  .flight-packet.green {
+    border-color: rgba(22, 163, 74, 0.42);
+    color: #15803d;
+    background: #f0fdf4;
+  }
+
+  .receiving {
+    animation: receivePulse 0.8s ease-out;
+  }
+
+  .pill-prompt {
+    background: var(--accent-blue-soft);
+    color: #0055b3;
+    border: 1px solid rgba(0, 122, 255, 0.25);
+  }
+
+  .pill-gen {
+    background: var(--accent-green-soft);
+    color: #15803d;
+    border: 1px solid rgba(22, 163, 74, 0.28);
+  }
+
+  .pill-end {
+    background: var(--accent-purple-soft);
+    color: #7e22ce;
+    border: 1px solid rgba(147, 51, 234, 0.28);
+  }
+
+  .decoded-preview {
+    font-size: 0.82rem;
+    color: var(--ink-secondary);
+    background: #ffffff;
+    border: 1px dashed rgba(60, 60, 67, 0.2);
+    border-radius: 10px;
+    padding: 8px 11px;
+  }
+
+  .dot-detail-box {
+    background: #f9fafb;
+    border: 1px solid var(--border-hairline);
+    border-radius: 10px;
+    padding: 7px 10px;
+    font-size: 0.73rem;
+    color: var(--ink-secondary);
+    line-height: 1.4;
+  }
+
+  .context-influence-bar {
+    background: #faf5ff;
+    border: 1px solid rgba(147, 51, 234, 0.22);
+    border-radius: 10px;
+    padding: 7px 10px;
+    font-size: 0.74rem;
+    color: #581c87;
+  }
+
+  .live-answer-box {
+    background: #ffffff;
+    border: 1.5px solid rgba(22, 163, 74, 0.35);
+    border-radius: 12px;
+    padding: 9px 12px;
+    font-size: 0.88rem;
+    color: var(--ink-primary);
+  }
 
   @keyframes popIn {
-    0% { transform: scale(0.8); opacity: 0; }
+    0% { transform: scale(0.84); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes lookupPulse {
+    50% { box-shadow: 0 0 0 5px rgba(0, 122, 255, 0.13), 0 8px 20px rgba(0, 122, 255, 0.18); }
+  }
+
+  @keyframes weightPulse {
+    50% { box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.13); }
+  }
+
+  @keyframes stagePulse {
+    50% { box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14); }
+  }
+
+  @keyframes valueArrive {
+    0% { transform: scale(0.96); filter: brightness(1.12); }
+    55% { transform: scale(1.025); filter: brightness(1.06); }
+    100% { transform: scale(1); filter: brightness(1); }
+  }
+
+  @keyframes calculationArrive {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes receivePulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.34); }
+    100% { box-shadow: 0 0 0 10px rgba(0, 122, 255, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .embeddings-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .middle-grid,
+    .bottom-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    body {
+      padding: 12px;
+    }
+    header {
+      align-items: flex-start;
+    }
+    .controls {
+      width: 100%;
+    }
+    .controls button,
+    .speed-box {
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+    .narrator {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .narrator-meta {
+      align-items: flex-start;
+    }
+    .logits-list {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
 <body>
 <div class="container">
-  <header>
+  <!-- CABEÇALHO E CONTROLES -->
+  <header class="card">
     <div>
-      <h1>Simulador Visual Devagar: De "Oi" até a Resposta Completa</h1>
-      <p>Cada palavra mantém sua etiqueta colada (ex.: <strong>Oi (42)</strong>) em todas as etapas.</p>
+      <p>✨ Fluxo autoregressivo completo com etiquetas coladas em cada dado (ex.: <strong class="mono">Oi [id=42]</strong>) e ponte visual.</p>
     </div>
     <div class="controls">
-      <button id="btnPlay" class="play-btn">▶ Tocar Devagar</button>
-      <button id="btnNext">Próximo Passo ⏭</button>
+      <button id="btnPlay" class="play-btn">▶ Iniciar Demonstração</button>
+      <button id="btnNext">⏭ Próximo Passo</button>
+      <button id="btnMode" class="secondary active-mode">🔀 Modo: Técnico + Ponte Visual</button>
       <button id="btnReset" class="secondary">↺ Reiniciar</button>
       <div class="speed-box">
-        <label for="speedSelect">Velocidade:</label>
+        <label for="speedSelect">⏱️ Velocidade:</label>
         <select id="speedSelect">
-          <option value="3200">Bem Devagar (3.2s)</option>
-          <option value="2000" selected>Devagar (2.0s)</option>
-          <option value="1100">Médio (1.1s)</option>
+          <option value="5200">🐌 Muito Devagar (5.2s)</option>
+          <option value="3200" selected>🐢 Bem Devagar (3.2s)</option>
+          <option value="2000">🚶 Devagar (2.0s)</option>
+          <option value="900">⚡ Rápido (0.9s)</option>
+          <option value="450">🚀 Turbinado (0.45s)</option>
         </select>
+      </div>
+      <div class="zoom-box" aria-label="Controles de zoom">
+        <button id="zoomOut" type="button" title="Diminuir zoom">−</button>
+        <span class="zoom-value mono" id="zoomValue">100%</span>
+        <button id="zoomIn" type="button" title="Aumentar zoom">+</button>
       </div>
     </div>
   </header>
 
-  <div class="narrator">
+  <!-- PROMPT E TOKENIZAÇÃO -->
+  <section class="card prompt-bar" aria-label="Prompt e Tokenização">
+    <div class="prompt-top-row">
+      <div class="prompt-input-group">
+        <span class="prompt-label">🧩 1. Prompt &amp; Tokenização</span>
+        <input
+          id="promptInput"
+          class="prompt-input"
+          type="text"
+          value="Oi"
+          maxlength="64"
+          aria-label="Texto de entrada do prompt"
+        >
+        <button id="btnApplyPrompt" class="secondary">✂️ Tokenizar Prompt</button>
+      </div>
+      <div class="token-stream-box mono" id="tokenStreamBox">
+        <span>🏷️ Tokens de entrada:</span>
+        <span class="chip-id">Oi [id=42]</span>
+      </div>
+    </div>
+    <div class="presets-row">
+      <span>⚡ Presets rápidos:</span>
+      <button type="button" class="preset-btn mono" data-preset="Oi">💬 "Oi"</button>
+      <button type="button" class="preset-btn mono" data-preset="Oi tudo">👋 "Oi tudo"</button>
+      <button type="button" class="preset-btn mono" data-preset="Qual a cor do céu?">🌤️ "Qual a cor do céu?"</button>
+      <button type="button" class="preset-btn mono" data-preset="Como funciona uma IA?">🧠 "Como funciona uma IA?"</button>
+    </div>
+  </section>
+
+  <!-- NARRADOR DO PASSO ATUAL -->
+  <section class="card narrator" aria-live="polite">
     <div>
-      <div class="narrator-step" id="stepTag">PASSO 0 • INÍCIO</div>
-      <div class="narrator-text" id="narratorText">Você digitou o Prompt: "Oi". Ele ganhou a etiqueta Oi (42). Clique em "Tocar Devagar" ou "Próximo Passo".</div>
-    </div>
-    <div class="round-badge" id="roundBadge">Rodada 1 de 3</div>
-  </div>
-
-  <!-- LUGAR A: RUA DAS CASAS + CARRO CPU -->
-  <div class="road-zone">
-    <span class="zone-label label-blue">Lugar A — Rua das Casas (Mão Única: Início → Fim) &amp; Carro (CPU)</span>
-    <div class="houses-row">
-      <div class="house" id="house-41">
-        <div class="house-num">Casa #41</div>
-        <div class="house-token">Olá (41)</div>
-        <div class="house-vec">[ 0, 1, 3 ]</div>
-      </div>
-      <div class="house" id="house-42">
-        <div class="house-num">Casa #42</div>
-        <div class="house-token">Oi (42)</div>
-        <div class="house-vec">[ 1, 2, 0 ]</div>
-      </div>
-      <div class="house" id="house-43">
-        <div class="house-num">Casa #43</div>
-        <div class="house-token">tudo (43)</div>
-        <div class="house-vec">[ 0, 1, 2 ]</div>
-      </div>
-      <div class="house" id="house-44">
-        <div class="house-num">Casa #44</div>
-        <div class="house-token">bem (44)</div>
-        <div class="house-vec">[ 2, 0, 1 ]</div>
-      </div>
-      <div class="house" id="house-99">
-        <div class="house-num">Casa #99</div>
-        <div class="house-token">[FIM] (99)</div>
-        <div class="house-vec">[ 0, 0, 1 ]</div>
+      <div class="narrator-step mono" id="stepTag">🎬 ETAPA 0 • PRONTO PARA INICIAR</div>
+      <div class="narrator-text" id="narratorText">
+        Prompt tokenizado em <strong>Oi [id=42]</strong>. Clique em "▶ Iniciar Demonstração" ou "⏭ Próximo Passo" para acompanhar o lookup na Embedding Table, o Contexto/KV Cache, o MLP e a decodificação autoregressiva.
       </div>
     </div>
+    <div class="narrator-meta">
+      <span class="round-badge mono" id="roundBadge">🔁 Passo 1 / 5</span>
+      <span class="kv-badge mono" id="kvBadge">🧠 KV Cache: [vazio]</span>
+    </div>
+  </section>
 
-    <div class="track">
+  <!-- SEÇÃO 2: EMBEDDING LOOKUP TABLE + UNIDADE DE PROCESSAMENTO -->
+  <section class="card lookup-zone">
+    <div class="zone-label label-blue">
+      <span id="lookupTitle">🏠 2. Embedding Lookup Table • Rua de IDs (Vetor Denso x₀ ∈ ℝ⁴)</span>
+      <span class="zone-sub mono" id="lookupSub">📐 4 dimensões legíveis • sem limite artificial</span>
+    </div>
+
+    <div class="embeddings-grid" id="embeddingsGrid">
+      <div class="emb-row-card" id="emb-41">
+        <div class="emb-idx mono">🏠 ID 41 • E[41]</div>
+        <div class="emb-label mono">Olá [id=41]</div>
+        <code class="emb-vec mono">[0.20, -0.30, 0.80, 0.10]</code>
+      </div>
+      <div class="emb-row-card" id="emb-42">
+        <div class="emb-idx mono">🏠 ID 42 • E[42]</div>
+        <div class="emb-label mono">Oi [id=42]</div>
+        <code class="emb-vec mono">[0.80, -0.20, 0.40, 0.50]</code>
+      </div>
+      <div class="emb-row-card" id="emb-43">
+        <div class="emb-idx mono">🏠 ID 43 • E[43]</div>
+        <div class="emb-label mono">tudo [id=43]</div>
+        <code class="emb-vec mono">[-0.20, 0.70, 0.30, 0.60]</code>
+      </div>
+      <div class="emb-row-card" id="emb-44">
+        <div class="emb-idx mono">🏠 ID 44 • E[44]</div>
+        <div class="emb-label mono">bem [id=44]</div>
+        <code class="emb-vec mono">[0.50, 0.60, -0.10, 0.40]</code>
+      </div>
+      <div class="emb-row-card" id="emb-99">
+        <div class="emb-idx mono">🛑 ID 99 • E[99]</div>
+        <div class="emb-label mono">&lt;eos&gt; [id=99]</div>
+        <code class="emb-vec mono">[-0.60, -0.40, 0.80, -0.50]</code>
+      </div>
+    </div>
+
+    <div class="track" aria-label="Deslocamento da CPU sobre a Embedding Lookup Table">
       <div class="car" id="cpuCar">
-        🚗 CPU <span class="car-cargo" id="carCargo">Vazio</span>
+        <span class="mono">🚗 ⚙️ CPU / Tensor</span>
+        <span class="car-cargo mono" id="carCargo">💤 Lookup ocioso</span>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- LUGAR B (ARMÁRIO) E LUGAR C (OFICINA CPU) -->
+  <!-- SEÇÃO 3: MATRIZES DE PESOS (W) + FORWARD PASS / CONTEXTO / MLP -->
   <div class="middle-grid">
-    <div class="armario-zone">
-      <span class="zone-label label-amber">Lugar B — Armário de Pesos (Arquivo Fixo)</span>
-      <div class="shelf" id="shelf-1">
-        <span class="shelf-tag">Peso_Linha_1</span>
-        <span>[ 3, 1, 5 ]</span>
+    <section class="card weights-zone">
+      <div class="zone-label label-amber">
+        <span id="weightsTitle">🗄️ 3A. Armário de Pesos • Matrizes Lineares (W₁–W₄)</span>
+        <span class="zone-sub mono">⚖️ 4 dims • produto escalar</span>
       </div>
-      <div class="shelf" id="shelf-2">
-        <span class="shelf-tag">Peso_Linha_2</span>
-        <span>[ 0, 2, 1 ]</span>
-      </div>
-      <div class="shelf" id="shelf-3">
-        <span class="shelf-tag">Peso_Linha_3</span>
-        <span>[ 1, 0, 4 ]</span>
-      </div>
-    </div>
 
-    <div class="cpu-zone">
-      <span class="zone-label label-green">Lugar C — Oficina de Contas do Carro (CPU)</span>
-      <div id="calcContainer">
-        <div class="calc-row" id="calc-1">1) Aguardando vetor da casa × Peso_Linha_1 [3, 1, 5]...</div>
-        <div class="calc-row" id="calc-2">2) Aguardando vetor da casa × Peso_Linha_2 [0, 2, 1]...</div>
-        <div class="calc-row" id="calc-3">3) Aguardando vetor da casa × Peso_Linha_3 [1, 0, 4]...</div>
+      <div class="weight-matrix" id="w-qkv">
+        <div class="weight-header">
+          <span class="weight-tag mono">🧠 W_attn / KV Cache</span>
+          <span class="weight-role">Atenção Causal</span>
+        </div>
+        <div class="weight-vals mono">x_ctx = média_ponderada(K, V históricos) + x₀</div>
       </div>
-      <div class="vetor-atual-box" id="vetorAtualBox">
-        Vetor_Atual na Oficina: [ ?, ?, ? ]
+
+      <div class="weight-matrix" id="w-mlp">
+        <div class="weight-header">
+          <span class="weight-tag mono">🗄️ W_1..W_4 (MLP)</span>
+          <span class="weight-role">Pesos Lineares + ReLU</span>
+        </div>
+        <div class="weight-vals mono">W_1=[0.6,0.5,-0.2,0.4] • W_2=[-0.3,0.8,0.5,0.2] • W_3=[0.4,-0.2,0.7,0.5] • W_4=[0.2,0.3,0.4,0.9]</div>
       </div>
-    </div>
+
+      <div class="weight-matrix" id="w-lmhead">
+        <div class="weight-header">
+          <span class="weight-tag mono">🎯 W_lm_head</span>
+          <span class="weight-role">Projeção p/ Logits</span>
+        </div>
+        <div class="weight-vals mono">z = h · W_lm_head^T → p = softmax(z)</div>
+      </div>
+    </section>
+
+    <section class="card forward-zone">
+      <div class="zone-label label-green">
+        <span id="forwardTitle">⚙️ 3B. Forward Pass • Atenção, Produto Escalar &amp; MLP</span>
+        <span class="zone-sub mono">🧬 Estado oculto h</span>
+      </div>
+
+      <div id="forwardStages">
+        <div class="stage-row mono" id="stage-1">🏠 1) Lookup E[id] → vetor inicial x₀ ∈ ℝ⁴</div>
+        <div class="stage-row mono" id="stage-2">🧠 2) Contexto / KV Cache &amp; Atenção → vetor contextualizado x_ctx</div>
+        <div class="stage-row mono" id="stage-3">🗄️ 3) Produto escalar com W₁..W₄ + ativação ReLU(z) = max(0, z) → h</div>
+      </div>
+
+      <div class="context-influence-bar mono" id="contextInfluenceBar">
+        🧠 Contexto / KV Cache ativo: [aguardando tokens]
+      </div>
+
+      <div class="dot-detail-box mono" id="dotDetailBox">
+        🧮 Produto escalar (x · w) &amp; não-linearidade: aguardando cálculo na CPU...
+      </div>
+
+      <div class="hidden-state-box mono" id="hiddenStateBox">
+        🧬 Estado Oculto h: [ aguardando forward pass ]
+      </div>
+    </section>
   </div>
 
-  <!-- DECISÃO DE NOTAS E TELA FINAL -->
+  <!-- SEÇÃO 4 & 5: LOGITS / SOFTMAX / DECODIFICAÇÃO + LOOP AUTOREGRESSIVO -->
   <div class="bottom-grid">
-    <div class="candidates-zone">
-      <span class="zone-label" style="color:#6e6e73;">Placar Final dos Candidatos (Quem tem maior nota vence)</span>
-      <div class="cand-list">
-        <div class="cand-card" id="cand-tudo">
-          <div><strong>tudo (43)</strong></div>
-          <div style="font-size:0.75rem;color:#8e8e93;">Perfil [1,0,0]</div>
-          <div class="cand-score" id="score-tudo">Nota: -</div>
-        </div>
-        <div class="cand-card" id="cand-bem">
-          <div><strong>bem (44)</strong></div>
-          <div style="font-size:0.75rem;color:#8e8e93;">Perfil [0,1,0]</div>
-          <div class="cand-score" id="score-bem">Nota: -</div>
-        </div>
-        <div class="cand-card" id="cand-fim">
-          <div><strong>[FIM] (99)</strong></div>
-          <div style="font-size:0.75rem;color:#8e8e93;">Perfil [0,0,1]</div>
-          <div class="cand-score" id="score-fim">Nota: -</div>
-        </div>
+    <section class="card logits-zone">
+      <div class="zone-label">
+        <span style="color:#374151;">🎯 4. LM Head → Logits → 📊 Softmax</span>
+        <span class="zone-sub mono">🏆 Maior probabilidade vence</span>
       </div>
-    </div>
 
-    <div class="screen-zone">
-      <span class="zone-label label-purple">Tela de Resposta (Ciclo Acumulado)</span>
-      <div class="chat-output" id="chatOutput">
-        <span class="token-pill pill-prompt">Prompt: Oi (42)</span>
+      <div class="logits-list" id="logitsList">
+        <div class="logit-card" id="cand-0">
+          <div class="logit-token mono">tudo [id=43]</div>
+          <div class="logit-raw mono" id="raw-0">📐 logit: -</div>
+          <div class="logit-prob mono" id="prob-0">📊 prob: -</div>
+        </div>
+        <div class="logit-card" id="cand-1">
+          <div class="logit-token mono">bem [id=44]</div>
+          <div class="logit-raw mono" id="raw-1">📐 logit: -</div>
+          <div class="logit-prob mono" id="prob-1">📊 prob: -</div>
+        </div>
+        <div class="logit-card" id="cand-2">
+          <div class="logit-token mono">🛑 &lt;eos&gt; [id=99]</div>
+          <div class="logit-raw mono" id="raw-2">📐 logit: -</div>
+          <div class="logit-prob mono" id="prob-2">📊 prob: -</div>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <section class="card autoregressive-zone">
+      <div class="zone-label label-purple">
+        <span>🔁 5. Loop Autoregressivo &amp; Resposta ao Vivo</span>
+        <span class="zone-sub mono">🛑 Para em &lt;eos&gt; [id=99]</span>
+      </div>
+
+      <div class="context-stream" id="contextStream">
+        <span class="token-pill pill-prompt mono">🧩 Oi [id=42]</span>
+      </div>
+
+      <div class="live-answer-box" id="liveAnswerBox">
+        💬 <strong>Resposta fluida ao vivo:</strong> <span class="mono">Oi</span>
+      </div>
+
+      <div class="decoded-preview mono" id="decodedPreview">
+        🏷️ Sequência etiquetada: <strong>Oi [id=42]</strong>
+      </div>
+    </section>
   </div>
 </div>
 
 <script>
-  const rounds = [
-    {
-      roundNum: 1,
-      tokenLabel: "Oi (42)",
-      houseId: "house-42",
-      carLeft: "23%",
-      vec: [1, 2, 0],
-      calcs: [
-        "1) Oi (42) [1,2,0] × Peso_Linha_1 [3,1,5] = 3+2+0 = 5",
-        "2) Oi (42) [1,2,0] × Peso_Linha_2 [0,2,1] = 0+4+0 = 4",
-        "3) Oi (42) [1,2,0] × Peso_Linha_3 [1,0,4] = 1+0+0 = 1"
-      ],
-      vetorAtual: "[ 5, 4, 1 ]",
-      scores: { tudo: 5, bem: 4, fim: 1 },
-      winnerId: "cand-tudo",
-      winnerLabel: "tudo (43)",
-      pillClass: "pill-gen",
-      isEnd: false
-    },
-    {
-      roundNum: 2,
-      tokenLabel: "tudo (43)",
-      houseId: "house-43",
-      carLeft: "43%",
-      vec: [0, 1, 2],
-      calcs: [
-        "1) tudo (43) [0,1,2] × Peso_Linha_1 [3,1,5] = 0+1+10 = 11",
-        "2) tudo (43) [0,1,2] × Peso_Linha_2 [0,2,1] = 0+2+2 = 4",
-        "3) tudo (43) [0,1,2] × Peso_Linha_3 [1,0,4] = 0+0+8 = 8"
-      ],
-      vetorAtual: "[ 11, 4, 8 ]",
-      scores: { tudo: 11, bem: 14, fim: 8 },
-      winnerId: "cand-bem",
-      winnerLabel: "bem (44)",
-      pillClass: "pill-gen",
-      isEnd: false
-    },
-    {
-      roundNum: 3,
-      tokenLabel: "bem (44)",
-      houseId: "house-44",
-      carLeft: "63%",
-      vec: [2, 0, 1],
-      calcs: [
-        "1) bem (44) [2,0,1] × Peso_Linha_1 [3,1,5] = 6+0+5 = 11",
-        "2) bem (44) [2,0,1] × Peso_Linha_2 [0,2,1] = 0+0+1 = 1",
-        "3) bem (44) [2,0,1] × Peso_Linha_3 [1,0,4] = 2+0+4 = 6"
-      ],
-      vetorAtual: "[ 11, 1, 6 ]",
-      scores: { tudo: 2, bem: 1, fim: 18 },
-      winnerId: "cand-fim",
-      winnerLabel: "[FIM] (99)",
-      pillClass: "pill-end",
-      isEnd: true
-    }
+  /**
+   * Vetores determinísticos de 4 dimensões para tokens base e gerados.
+   */
+  const BASE_EMBEDDINGS = {
+    41: { label: "Olá", vec: [0.20, -0.30, 0.80, 0.10] },
+    42: { label: "Oi", vec: [0.80, -0.20, 0.40, 0.50] },
+    43: { label: "tudo", vec: [-0.20, 0.70, 0.30, 0.60] },
+    44: { label: "bem", vec: [0.50, 0.60, -0.10, 0.40] },
+    99: { label: "<eos>", vec: [-0.60, -0.40, 0.80, -0.50] }
+  };
+
+  /**
+   * Pesos lineares de 4 dimensões (W_1 a W_4) e não-linearidade ReLU: relu(v) = max(0, v).
+   */
+  const MLP_WEIGHTS = [
+    [0.60,  0.50, -0.20, 0.40],
+    [-0.30, 0.80,  0.50, 0.20],
+    [0.40, -0.20,  0.70, 0.50],
+    [0.20,  0.30,  0.40, 0.90]
   ];
 
-  let currentRoundIdx = 0;
-  let subStep = 0;
-  let timer = null;
+  function dotProduct4(a, b) {
+    return Number((a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3]).toFixed(2));
+  }
+
+  function formatDotTerms(a, b) {
+    return `(${a[0]}×${b[0]})+(${a[1]}×${b[1]})+(${a[2]}×${b[2]})+(${a[3]}×${b[3]})`;
+  }
+
+  function relu(val) {
+    return Number(Math.max(0, val).toFixed(2));
+  }
+
+  function computeSoftmax(logitsArray) {
+    const maxLogit = Math.max(...logitsArray);
+    const exps = logitsArray.map(z => Math.exp(z - maxLogit));
+    const sumExp = exps.reduce((acc, v) => acc + v, 0);
+    return exps.map(e => Number(((e / sumExp) * 100).toFixed(1)));
+  }
+
+  function deterministicTokenId(word) {
+    const lower = word.toLowerCase();
+    const knownMap = {
+      "olá": 41,
+      "ola": 41,
+      "oi": 42,
+      "tudo": 43,
+      "bem": 44,
+      "qual": 51,
+      "a": 52,
+      "cor": 53,
+      "do": 54,
+      "céu": 55,
+      "ceu": 55,
+      "como": 56,
+      "funciona": 57,
+      "uma": 58,
+      "ia": 59
+    };
+    if (knownMap[lower] !== undefined) return knownMap[lower];
+    let hash = 100;
+    for (let i = 0; i < lower.length; i++) {
+      hash = (hash * 31 + lower.charCodeAt(i)) % 8900;
+    }
+    return 100 + hash;
+  }
+
+  function deterministicVec4(word, id) {
+    if (BASE_EMBEDDINGS[id]) return BASE_EMBEDDINGS[id].vec;
+    const lower = word.toLowerCase();
+    let seed = id * 17;
+    for (let i = 0; i < lower.length; i++) {
+      seed += lower.charCodeAt(i) * (i + 3);
+    }
+    return [
+      Number((((seed % 15) - 7) * 0.12).toFixed(2)),
+      Number(((((seed * 3) % 15) - 7) * 0.11).toFixed(2)),
+      Number(((((seed * 7) % 15) - 7) * 0.13).toFixed(2)),
+      Number(((((seed * 11) % 15) - 7) * 0.10).toFixed(2))
+    ];
+  }
+
+  function buildScenarioForPrompt(promptText) {
+    const cleanPrompt = (promptText || "Oi").trim();
+    const words = cleanPrompt.split(/\s+/).filter(Boolean);
+    const firstWord = words[0] || "Oi";
+    const firstId = deterministicTokenId(firstWord);
+    const firstVec = deterministicVec4(firstWord, firstId);
+    const firstLabel = `${firstWord} [id=${firstId}]`;
+
+    const lowerAll = cleanPrompt.toLowerCase();
+    let answerWords = [];
+
+    if (lowerAll.includes("cor") && (lowerAll.includes("céu") || lowerAll.includes("ceu"))) {
+      answerWords = ["O", "céu", "está", "azul"];
+    } else if (lowerAll.includes("ia") || lowerAll.includes("inteligência") || lowerAll.includes("inteligencia")) {
+      answerWords = ["Uma", "IA", "prevê", "tokens", "pela", "probabilidade"];
+    } else if (/(oi|olá|ola|bom dia|boa tarde|boa noite)/.test(lowerAll)) {
+      answerWords = words.length > 1 ? ["Tudo", "bem", "e", "com", "você"] : ["Oi", "como", "posso", "ajudar"];
+    } else if (lowerAll.includes("python") || lowerAll.includes("código") || lowerAll.includes("codigo")) {
+      answerWords = ["Um", "código", "bom", "será", "simples", "e", "testável"];
+    } else if (lowerAll.includes("obrigad")) {
+      answerWords = ["De", "nada", "fico", "feliz", "em", "ajudar"];
+    } else {
+      answerWords = ["Entendi", "vou", "usar", "o", "contexto", "para", "responder"];
+    }
+
+    const genSequence = answerWords.map((word, index) => ({
+      word,
+      id: deterministicTokenId(word),
+      vec: deterministicVec4(word, deterministicTokenId(word)),
+      logits: index === 1 ? [1.25, 3.15, -0.80] : [3.15, 1.25, -0.80],
+      isEos: false
+    }));
+    genSequence.push({
+      word: "<eos>",
+      id: 99,
+      vec: BASE_EMBEDDINGS[99].vec,
+      logits: [-1.10, -0.55, 3.60],
+      isEos: true
+    });
+
+    const activeHistoryLabels = [firstLabel];
+    const activeHistoryVecs = [firstVec];
+
+    return genSequence.map((stepItem, idx) => {
+      const currentTokenWord = idx === 0 ? firstWord : genSequence[idx - 1].word;
+      const currentTokenId = idx === 0 ? firstId : genSequence[idx - 1].id;
+      const currentVec = idx === 0 ? firstVec : genSequence[idx - 1].vec;
+      const currentLabel = `${currentTokenWord} [id=${currentTokenId}]`;
+
+      if (idx > 0) {
+        activeHistoryLabels.push(currentLabel);
+        activeHistoryVecs.push(currentVec);
+      }
+
+      const avgContextVec = [0, 0, 0, 0].map((_, d) => {
+        const sum = activeHistoryVecs.reduce((acc, v) => acc + v[d], 0);
+        return Number((sum / activeHistoryVecs.length).toFixed(2));
+      });
+
+      const xCtx = [
+        Number(((currentVec[0] + avgContextVec[0]) / 2).toFixed(2)),
+        Number(((currentVec[1] + avgContextVec[1]) / 2).toFixed(2)),
+        Number(((currentVec[2] + avgContextVec[2]) / 2).toFixed(2)),
+        Number(((currentVec[3] + avgContextVec[3]) / 2).toFixed(2))
+      ];
+
+      const rawDots = MLP_WEIGHTS.map(wRow => dotProduct4(xCtx, wRow));
+      const hiddenVec = rawDots.map(val => relu(val));
+      const probs = computeSoftmax(stepItem.logits);
+
+      const candA = idx < 2 ? genSequence[0] : stepItem;
+      const candB = idx < 2
+        ? genSequence[1]
+        : (genSequence[idx + 1] && !genSequence[idx + 1].isEos
+          ? genSequence[idx + 1]
+          : { word: "mais", id: deterministicTokenId("mais"), vec: deterministicVec4("mais", deterministicTokenId("mais")) });
+      const candEos = genSequence[genSequence.length - 1];
+
+      const winnerIdx = stepItem.isEos ? 2 : (idx === 1 ? 1 : 0);
+
+      return {
+        iterNum: idx + 1,
+        tokenText: currentTokenWord,
+        tokenLabel: currentLabel,
+        embId: idx === 0 ? "emb-42" : (idx === 1 ? "emb-43" : "emb-44"),
+        carLeft: idx === 0 ? "23%" : (idx === 1 ? "43%" : "63%"),
+        vecInitial: currentVec,
+        xCtx,
+        kvSummary: activeHistoryLabels.join(" | "),
+        rawDots,
+        hiddenVec,
+        stages: [
+          `🏠 1) Lookup ${currentLabel} → x₀ = [${currentVec.join(", ")}]`,
+          `🧠 2) Atenção & KV Cache [${activeHistoryLabels.join(", ")}] → x_ctx = [${xCtx.join(", ")}]`,
+          `🗄️ 3) MLP (W₁..W₄ + ReLU) → h = [${hiddenVec.join(", ")}]`
+        ],
+        dotDetails: MLP_WEIGHTS.map((wRow, wIdx) =>
+          `W_${wIdx + 1}: ${formatDotTerms(xCtx, wRow)} = ${rawDots[wIdx]} → ReLU = ${hiddenVec[wIdx]}`
+        ).join(" | "),
+        candidates: [
+          {
+            label: `${candA.word} [id=${candA.id}]`,
+            word: candA.word,
+            logit: stepItem.logits[0].toFixed(2),
+            prob: `${probs[0]}%`
+          },
+          {
+            label: `${candB.word} [id=${candB.id}]`,
+            word: candB.word,
+            logit: stepItem.logits[1].toFixed(2),
+            prob: `${probs[1]}%`
+          },
+          {
+            label: `🛑 ${candEos.word} [id=${candEos.id}]`,
+            word: candEos.word,
+            logit: stepItem.logits[2].toFixed(2),
+            prob: `${probs[2]}%`
+          }
+        ],
+        winnerIdx,
+        winnerText: stepItem.word,
+        winnerLabel: `${stepItem.isEos ? "🛑 " : ""}${stepItem.word} [id=${stepItem.id}]`,
+        pillClass: stepItem.isEos ? "pill-end" : "pill-gen",
+        isEos: stepItem.isEos
+      };
+    });
+  }
+
+  let promptBaseText = "Oi";
+  let iterations = buildScenarioForPrompt(promptBaseText);
+  let currentIterIdx = 0;
+  let stepIndex = 0;
+  let autoTimer = null;
+  let detailedMode = true;
+  let zoomLevel = 1;
+  let autoZoom = true;
 
   const btnPlay = document.getElementById("btnPlay");
   const btnNext = document.getElementById("btnNext");
+  const btnMode = document.getElementById("btnMode");
   const btnReset = document.getElementById("btnReset");
+  const btnApplyPrompt = document.getElementById("btnApplyPrompt");
+  const promptInput = document.getElementById("promptInput");
   const speedSelect = document.getElementById("speedSelect");
+  const zoomValue = document.getElementById("zoomValue");
 
-  function clearHighlights() {
-    document.querySelectorAll(".house").forEach(el => el.classList.remove("active"));
-    document.querySelectorAll(".shelf").forEach(el => el.classList.remove("active"));
-    document.querySelectorAll(".calc-row").forEach(el => el.classList.remove("current"));
-    document.querySelectorAll(".cand-card").forEach(el => el.classList.remove("winner"));
-  }
+  function setZoom(nextZoom, scrollToSelector = null) {
+    zoomLevel = Math.max(0.85, Math.min(1.35, nextZoom));
+    const container = document.querySelector(".container");
+    container.style.zoom = String(zoomLevel);
+    zoomValue.textContent = `${Math.round(zoomLevel * 100)}%`;
 
-  function resetRoundUI() {
-    clearHighlights();
-    for (let i = 1; i <= 3; i++) {
-      const c = document.getElementById("calc-" + i);
-      c.className = "calc-row";
-      c.textContent = `${i}) Aguardando vetor da casa × Peso_Linha_${i}...`;
-    }
-    document.getElementById("vetorAtualBox").textContent = "Vetor_Atual na Oficina: [ ?, ?, ? ]";
-    document.getElementById("score-tudo").textContent = "Nota: -";
-    document.getElementById("score-bem").textContent = "Nota: -";
-    document.getElementById("score-fim").textContent = "Nota: -";
-  }
-
-  function executeStep() {
-    if (currentRoundIdx >= rounds.length) {
-      stopAuto();
-      return;
-    }
-
-    const r = rounds[currentRoundIdx];
-    document.getElementById("roundBadge").textContent = `Rodada ${r.roundNum} de 3`;
-
-    if (subStep === 0) {
-      resetRoundUI();
-      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 1: CARRO VAI ATÉ A CASA`;
-      document.getElementById("narratorText").textContent = `O Carro (CPU) anda pela rua até a ${r.tokenLabel} para buscar o vetor inicial.`;
-      document.getElementById("cpuCar").style.left = r.carLeft;
-      document.getElementById("carCargo").textContent = `Indo p/ ${r.tokenLabel}`;
-      document.getElementById(r.houseId).classList.add("active");
-      subStep = 1;
-    } else if (subStep === 1) {
-      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 2: PEGA O VETOR DA CASA`;
-      document.getElementById("narratorText").textContent = `CPU abriu ${r.tokenLabel} e carregou o vetor [${r.vec.join(", ")}] sem mudar nada na casa.`;
-      document.getElementById("carCargo").textContent = `${r.tokenLabel}: [${r.vec.join(",")}]`;
-      subStep = 2;
-    } else if (subStep === 2) {
-      clearHighlights();
-      document.getElementById(r.houseId).classList.add("active");
-      document.getElementById("shelf-1").classList.add("active");
-      const c1 = document.getElementById("calc-1");
-      c1.textContent = r.calcs[0];
-      c1.classList.add("current");
-      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 3: CONTA COM PESO_LINHA_1`;
-      document.getElementById("narratorText").textContent = `CPU multiplica [${r.vec.join(", ")}] pela prateleira Peso_Linha_1 do Armário.`;
-      subStep = 3;
-    } else if (subStep === 3) {
-      document.getElementById("shelf-1").classList.remove("active");
-      document.getElementById("shelf-2").classList.add("active");
-      document.getElementById("calc-1").className = "calc-row done";
-      const c2 = document.getElementById("calc-2");
-      c2.textContent = r.calcs[1];
-      c2.classList.add("current");
-      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 4: CONTA COM PESO_LINHA_2`;
-      document.getElementById("narratorText").textContent = `Agora CPU multiplica [${r.vec.join(", ")}] pela prateleira Peso_Linha_2.`;
-      subStep = 4;
-    } else if (subStep === 4) {
-      document.getElementById("shelf-2").classList.remove("active");
-      document.getElementById("shelf-3").classList.add("active");
-      document.getElementById("calc-2").className = "calc-row done";
-      const c3 = document.getElementById("calc-3");
-      c3.textContent = r.calcs[2];
-      c3.classList.add("current");
-      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 5: CONTA COM PESO_LINHA_3`;
-      document.getElementById("narratorText").textContent = `Por fim, multiplica [${r.vec.join(", ")}] pela Peso_Linha_3 e monta o Vetor_Atual.`;
-      subStep = 5;
-    } else if (subStep === 5) {
-      document.getElementById("shelf-3").classList.remove("active");
-      document.getElementById("calc-3").className = "calc-row done";
-      document.getElementById("vetorAtualBox").textContent = `Vetor_Atual de ${r.tokenLabel} = ${r.vetorAtual}`;
-      document.getElementById("score-tudo").textContent = `Nota: ${r.scores.tudo}`;
-      document.getElementById("score-bem").textContent = `Nota: ${r.scores.bem}`;
-      document.getElementById("score-fim").textContent = `Nota: ${r.scores.fim}`;
-      document.getElementById(r.winnerId).classList.add("winner");
-      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 6: PLACAR E ESCOLHA DO VENCEDOR`;
-      document.getElementById("narratorText").textContent = `Usando ${r.vetorAtual}, o candidato ${r.winnerLabel} tirou a maior nota e venceu!`;
-      subStep = 6;
-    } else if (subStep === 6) {
-      const chat = document.getElementById("chatOutput");
-      const pill = document.createElement("span");
-      pill.className = `token-pill ${r.pillClass}`;
-      pill.textContent = r.winnerLabel;
-      chat.appendChild(pill);
-
-      if (r.isEnd) {
-        document.getElementById("stepTag").textContent = "CICLO CONCLUÍDO!";
-        document.getElementById("narratorText").textContent = 'O token [FIM] (99) venceu e encerrou o ciclo! Resposta completa: "Oi tudo bem".';
-        document.getElementById("carCargo").textContent = "Fim do ciclo!";
-        currentRoundIdx++;
-        stopAuto();
-      } else {
-        document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 7: REPETE O CICLO`;
-        document.getElementById("narratorText").textContent = `"${r.winnerLabel}" entrou na tela e agora o Carro (CPU) vai visitar a casa dele na próxima rodada!`;
-        currentRoundIdx++;
-        subStep = 0;
+    if (scrollToSelector) {
+      const target = document.querySelector(scrollToSelector);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
   }
 
-  function startAuto() {
-    if (timer) return;
-    btnPlay.textContent = "⏸ Pausar";
-    btnPlay.classList.add("playing");
-    executeStep();
-    timer = setInterval(executeStep, Number(speedSelect.value));
+  function focusDemoZone(selector, zoom) {
+    if (autoZoom) setZoom(zoom, selector);
   }
 
-  function stopAuto() {
-    clearInterval(timer);
-    timer = null;
-    btnPlay.textContent = "▶ Tocar Devagar";
+  function replayArrival(element) {
+    if (!element) return;
+    element.classList.remove("updated", "receiving");
+    void element.offsetWidth;
+    element.classList.add("updated");
+  }
+
+  function animateDemoTransfer(fromSelector, toSelector, label, tone = "blue") {
+    const source = document.querySelector(fromSelector);
+    const target = document.querySelector(toSelector);
+    if (!source || !target) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      replayArrival(target);
+      return;
+    }
+
+    const previousPacket = document.querySelector(".flight-packet");
+    if (previousPacket) previousPacket.remove();
+
+    window.setTimeout(() => {
+      const sourceRect = source.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      if (!sourceRect.width || !targetRect.width) return;
+
+      const startX = sourceRect.left + sourceRect.width / 2;
+      const startY = sourceRect.top + sourceRect.height / 2;
+      const deltaX = targetRect.left + targetRect.width / 2 - startX;
+      const deltaY = targetRect.top + targetRect.height / 2 - startY;
+      const packet = document.createElement("div");
+      packet.className = `flight-packet ${tone}`;
+      packet.textContent = label;
+      packet.style.left = `${startX}px`;
+      packet.style.top = `${startY}px`;
+      document.body.appendChild(packet);
+
+      const animation = packet.animate([
+        { transform: "translate(-50%, -50%) scale(0.72)", opacity: 0.15 },
+        { transform: `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px)) scale(1)`, opacity: 1, offset: 0.7 },
+        { transform: `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px)) scale(0.86)`, opacity: 0 }
+      ], {
+        duration: Math.min(850, Math.max(420, Number(speedSelect.value) * 0.7)),
+        easing: "cubic-bezier(0.2, 0.8, 0.2, 1)"
+      });
+
+      animation.onfinish = () => {
+        packet.remove();
+        replayArrival(target);
+      };
+    }, 180);
+  }
+
+  function syncCandidateCardsFromScenario() {
+    if (!iterations.length) return;
+    const firstCands = iterations[0].candidates;
+    for (let i = 0; i < 3; i++) {
+      const card = document.getElementById("cand-" + i);
+      const tokenEl = card.querySelector(".logit-token");
+      if (tokenEl && firstCands[i]) {
+        tokenEl.textContent = firstCands[i].label;
+      }
+    }
+  }
+
+  function updateModeLabels() {
+    const lookupTitle = document.getElementById("lookupTitle");
+    const weightsTitle = document.getElementById("weightsTitle");
+    const forwardTitle = document.getElementById("forwardTitle");
+    const dotBox = document.getElementById("dotDetailBox");
+
+    if (detailedMode) {
+      lookupTitle.textContent = "🏠 2. Embedding Lookup Table • Rua de IDs (x₀ ∈ ℝ⁴)";
+      weightsTitle.textContent = "🗄️ 3A. Armário de Pesos • Matrizes Lineares (W₁–W₄)";
+      forwardTitle.textContent = "⚙️ 3B. Forward Pass • Atenção, Produto Escalar & MLP";
+      dotBox.style.display = "block";
+      btnMode.textContent = "🔀 Modo: Técnico + Ponte Visual";
+      btnMode.classList.add("active-mode");
+    } else {
+      lookupTitle.textContent = "🏠 2. Embedding Lookup Table (x₀ ∈ ℝ⁴)";
+      weightsTitle.textContent = "🗄️ 3A. Camadas Lineares & Projeção (W₁–W₄, W_lm_head)";
+      forwardTitle.textContent = "⚙️ 3B. Forward Pass Autoregressivo (KV Cache + MLP → h)";
+      dotBox.style.display = "none";
+      btnMode.textContent = "🔬 Modo: Técnico Detalhado";
+      btnMode.classList.remove("active-mode");
+    }
+  }
+
+  function clearHighlights() {
+    document.querySelectorAll(".emb-row-card").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".weight-matrix").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".stage-row").forEach(el => el.classList.remove("current"));
+    document.querySelectorAll(".logit-card").forEach(el => el.classList.remove("winner"));
+    document.querySelectorAll(".logit-card").forEach(el => {
+      el.classList.remove("revealed");
+      el.style.setProperty("--probability", "0%");
+    });
+    document.querySelectorAll(".updated").forEach(el => el.classList.remove("updated"));
+    const packet = document.querySelector(".flight-packet");
+    if (packet) packet.remove();
+  }
+
+  function resetIterationDisplay() {
+    clearHighlights();
+    for (let i = 1; i <= 3; i++) {
+      const row = document.getElementById("stage-" + i);
+      row.className = "stage-row mono";
+      row.textContent = `${i === 1 ? "🏠" : i === 2 ? "🧠" : "🗄️"} ${i}) Aguardando vetor na unidade de cálculo...`;
+    }
+    document.getElementById("hiddenStateBox").textContent = "🧬 Estado Oculto h: [ aguardando forward pass ]";
+    document.getElementById("dotDetailBox").textContent = "🧮 Produto escalar (x · w) & ativação ReLU: aguardando cálculo...";
+    for (let i = 0; i < 3; i++) {
+      document.getElementById("raw-" + i).textContent = "📐 logit: -";
+      document.getElementById("prob-" + i).textContent = "📊 prob: -";
+    }
+  }
+
+  function formatNarrator(technicalMsg, bridgeMsg) {
+    return detailedMode ? `${technicalMsg} 💡 [${bridgeMsg}]` : technicalMsg;
+  }
+
+  function runNextStep() {
+    if (currentIterIdx >= iterations.length) {
+      stopAutoPlay();
+      return;
+    }
+
+    const it = iterations[currentIterIdx];
+    document.getElementById("roundBadge").textContent = `🔁 Passo ${it.iterNum} / ${iterations.length}`;
+
+    if (stepIndex === 0) {
+      resetIterationDisplay();
+      focusDemoZone(".lookup-zone", 1.12);
+      document.getElementById("stepTag").textContent = `🎬 PASSO ${it.iterNum} • 1/6 LOOKUP NA EMBEDDING TABLE`;
+      document.getElementById("narratorText").textContent = formatNarrator(
+        `A CPU busca ${it.tokenLabel} na Embedding Lookup Table para obter o vetor inicial x₀ = [${it.vecInitial.join(", ")}].`,
+        `🚗 carro CPU vai até a casa de ${it.tokenLabel} na rua de IDs`
+      );
+      document.getElementById("cpuCar").style.left = it.carLeft;
+      document.getElementById("carCargo").textContent = `🔍 ${it.tokenLabel}`;
+      const embCard = document.getElementById(it.embId);
+      if (embCard) embCard.classList.add("active");
+      animateDemoTransfer(
+        `#${it.embId}`,
+        "#stage-1",
+        `x₀ = [${it.vecInitial.join(", ")}]`,
+        "blue"
+      );
+      stepIndex = 1;
+    } else if (stepIndex === 1) {
+      focusDemoZone(".forward-zone", 1.08);
+      document.getElementById("stepTag").textContent = `🎬 PASSO ${it.iterNum} • 2/6 CONTEXTO & KV CACHE`;
+      document.getElementById("narratorText").textContent = formatNarrator(
+        `O mecanismo de atenção lê o histórico do KV Cache (${it.kvSummary}) e compõe o vetor contextualizado x_ctx = [${it.xCtx.join(", ")}].`,
+        `🧠 tokens anteriores ajudam a colorir o significado atual sem apagar a tabela`
+      );
+      document.getElementById("w-qkv").classList.add("active");
+      document.getElementById("contextInfluenceBar").textContent =
+        `🧠 KV Cache (${it.kvSummary}) → x_ctx = [${it.xCtx.join(", ")}]`;
+      replayArrival(document.getElementById("contextInfluenceBar"));
+      animateDemoTransfer(
+        "#contextStream",
+        "#contextInfluenceBar",
+        `Atenção combina histórico → x_ctx [${it.xCtx.join(", ")}]`,
+        "purple"
+      );
+      const s1 = document.getElementById("stage-1");
+      const s2 = document.getElementById("stage-2");
+      s1.textContent = it.stages[0];
+      s1.className = "stage-row mono done";
+      s2.textContent = it.stages[1];
+      s2.className = "stage-row mono current";
+      stepIndex = 2;
+    } else if (stepIndex === 2) {
+      focusDemoZone(".forward-zone", 1.12);
+      document.getElementById("w-qkv").classList.remove("active");
+      document.getElementById("w-mlp").classList.add("active");
+      document.getElementById("stage-2").className = "stage-row mono done";
+      const s3 = document.getElementById("stage-3");
+      s3.textContent = it.stages[2];
+      s3.className = "stage-row mono current";
+      const dotDetailBox = document.getElementById("dotDetailBox");
+      dotDetailBox.innerHTML = "";
+      const calculationTitle = document.createElement("span");
+      calculationTitle.textContent = "🧮 Produtos escalares e ativação ReLU:";
+      dotDetailBox.appendChild(calculationTitle);
+      it.dotDetails.split(" | ").forEach((detail, index) => {
+        const line = document.createElement("span");
+        line.className = "calculation-line mono";
+        line.style.setProperty("--line-index", String(index));
+        line.textContent = detail;
+        dotDetailBox.appendChild(line);
+      });
+      animateDemoTransfer(
+        "#w-mlp",
+        "#dotDetailBox",
+        `W₁–W₄ × x_ctx → h [${it.hiddenVec.join(", ")}]`,
+        "amber"
+      );
+      document.getElementById("stepTag").textContent = `🎬 PASSO ${it.iterNum} • 3/6 PRODUTO ESCALAR & MLP (W₁–W₄)`;
+      document.getElementById("narratorText").textContent = formatNarrator(
+        `Produto escalar de x_ctx com W₁..W₄ seguido de ReLU gera o estado oculto h = [${it.hiddenVec.join(", ")}].`,
+        `🗄️ CPU multiplica linha por linha no armário de pesos e zera valores negativos com ReLU`
+      );
+      stepIndex = 3;
+    } else if (stepIndex === 3) {
+      focusDemoZone(".forward-zone", 1.10);
+      document.getElementById("w-mlp").classList.remove("active");
+      document.getElementById("w-lmhead").classList.add("active");
+      document.getElementById("stage-3").className = "stage-row mono done";
+      document.getElementById("hiddenStateBox").textContent =
+        `🧬 Estado Oculto h (${it.tokenLabel}): [${it.hiddenVec.join(", ")}]`;
+      replayArrival(document.getElementById("hiddenStateBox"));
+      document.getElementById("kvBadge").textContent = `🧠 KV: ${it.kvSummary}`;
+      document.getElementById("stepTag").textContent = `🎬 PASSO ${it.iterNum} • 4/6 ESTADO OCULTO h PRONTO`;
+      document.getElementById("narratorText").textContent = formatNarrator(
+        `Estado oculto h = [${it.hiddenVec.join(", ")}] pronto para ser projetado pela LM Head sobre o vocabulário.`,
+        `⚙️ resumo matemático pronto para virar nota dos candidatos`
+      );
+      animateDemoTransfer(
+        "#hiddenStateBox",
+        "#logitsList",
+        `h → LM Head → logits`,
+        "green"
+      );
+      stepIndex = 4;
+    } else if (stepIndex === 4) {
+      focusDemoZone(".logits-zone", 1.18);
+      document.getElementById("w-lmhead").classList.remove("active");
+      for (let i = 0; i < 3; i++) {
+        const cand = it.candidates[i];
+        const card = document.getElementById("cand-" + i);
+        card.style.setProperty("--probability", cand.prob);
+        card.classList.remove("revealed");
+        card.querySelector(".logit-token").textContent = cand.label;
+        document.getElementById("raw-" + i).textContent = `📐 logit: ${cand.logit}`;
+        document.getElementById("prob-" + i).textContent = `📊 prob: ${cand.prob}`;
+        requestAnimationFrame(() => card.classList.add("revealed"));
+      }
+      document.getElementById("cand-" + it.winnerIdx).classList.add("winner");
+      replayArrival(document.getElementById("logitsList"));
+      document.getElementById("stepTag").textContent = `🎬 PASSO ${it.iterNum} • 5/6 LOGITS, SOFTMAX & ESCOLHA`;
+      document.getElementById("narratorText").textContent = formatNarrator(
+        `Softmax converte os logits em probabilidades e seleciona ${it.winnerLabel} (${it.candidates[it.winnerIdx].prob}).`,
+        `🏆 maior probabilidade vence a rodada`
+      );
+      stepIndex = 5;
+    } else if (stepIndex === 5) {
+      focusDemoZone(".autoregressive-zone", 1.18);
+      const stream = document.getElementById("contextStream");
+      const pill = document.createElement("span");
+      pill.className = `token-pill mono ${it.pillClass}`;
+      pill.textContent = it.winnerLabel;
+      stream.appendChild(pill);
+      animateDemoTransfer(
+        `#cand-${it.winnerIdx}`,
+        "#contextStream",
+        `Token escolhido: ${it.winnerLabel}`,
+        it.isEos ? "purple" : "green"
+      );
+      const embCard = document.getElementById(it.embId);
+      if (embCard) embCard.classList.add("in-context");
+
+      const generatedWords = Array.from(stream.querySelectorAll(".token-pill"))
+        .map(el => el.textContent.replace(/^🛑\s*/, "").replace(/\s*\[id=\d+\]$/, ""))
+        .filter(txt => !txt.startsWith("🧩 ") && txt !== "<eos>");
+
+      const fullSentence = [promptBaseText, ...generatedWords].join(" ").trim();
+      const labeledSequence = [
+        `${promptBaseText} [id=${deterministicTokenId(promptBaseText.split(/\s+/)[0] || "Oi")}]`,
+        ...Array.from(stream.querySelectorAll(".token-pill"))
+          .filter((_, index) => index > 0)
+          .map(el => el.textContent.replace(/^🛑\s*/, ""))
+      ].join(" → ");
+
+      document.getElementById("liveAnswerBox").innerHTML =
+        `💬 <strong>Resposta fluida ao vivo:</strong> <span class="mono">${fullSentence}</span>`;
+      document.getElementById("decodedPreview").innerHTML =
+        `🏷️ Sequência etiquetada: <strong>${labeledSequence}</strong>`;
+
+      if (it.isEos) {
+        document.getElementById("stepTag").textContent = "🛑 LOOP AUTOREGRESSIVO CONCLUÍDO (<EOS>)";
+        document.getElementById("narratorText").textContent = formatNarrator(
+          `Token <eos> [id=99] escolhido: o loop autoregressivo para. Resposta completa: "${fullSentence}".`,
+          `✅ ciclo encerrado com resposta pronta na tela`
+        );
+        document.getElementById("carCargo").textContent = "🛑 <eos> [id=99]";
+        currentIterIdx++;
+        stopAutoPlay();
+      } else {
+        document.getElementById("stepTag").textContent = `🎬 PASSO ${it.iterNum} • 6/6 REPETE LOOP AUTOREGRESSIVO`;
+        document.getElementById("narratorText").textContent = formatNarrator(
+          `${it.winnerLabel} entra na sequência e alimenta a próxima iteração autoregressiva.`,
+          `🔁 token escolhido volta para iniciar o próximo ciclo`
+        );
+        currentIterIdx++;
+        stepIndex = 0;
+      }
+    }
+  }
+
+  function startAutoPlay() {
+    if (autoTimer) return;
+    btnPlay.textContent = "⏸ Pausar demonstração";
+    btnPlay.classList.add("playing");
+    runNextStep();
+    autoTimer = setInterval(runNextStep, Number(speedSelect.value));
+  }
+
+  function stopAutoPlay() {
+    clearInterval(autoTimer);
+    autoTimer = null;
+    btnPlay.textContent = "▶ Iniciar Demonstração";
     btnPlay.classList.remove("playing");
   }
 
+  function resetSimulation() {
+    stopAutoPlay();
+    iterations = buildScenarioForPrompt(promptBaseText);
+    syncCandidateCardsFromScenario();
+    currentIterIdx = 0;
+    stepIndex = 0;
+    resetIterationDisplay();
+
+    const firstWord = promptBaseText.split(/\s+/)[0] || "Oi";
+    const firstId = deterministicTokenId(firstWord);
+    const firstVec = deterministicVec4(firstWord, firstId);
+    const firstLabel = `${firstWord} [id=${firstId}]`;
+
+    const emb42Label = document.querySelector("#emb-42 .emb-label");
+    const emb42Vec = document.querySelector("#emb-42 .emb-vec");
+    if (emb42Label) emb42Label.textContent = firstLabel;
+    if (emb42Vec) emb42Vec.textContent = `[${firstVec.join(", ")}]`;
+    if (emb42Label) {
+      document.querySelector("#emb-42 .emb-idx").textContent = `🏠 ID ${firstId} • E[${firstId}]`;
+    }
+
+    document.querySelectorAll(".emb-row-card").forEach(el => el.classList.remove("in-context"));
+    document.getElementById("cpuCar").style.left = "2%";
+    document.getElementById("carCargo").textContent = "💤 Lookup ocioso";
+    document.getElementById("roundBadge").textContent = `🔁 Passo 1 / ${iterations.length}`;
+    document.getElementById("kvBadge").textContent = "🧠 KV Cache: [vazio]";
+    document.getElementById("contextInfluenceBar").textContent =
+      `🧠 Contexto / KV Cache ativo: ${firstLabel}`;
+    document.getElementById("stepTag").textContent = "🎬 ETAPA 0 • PRONTO PARA INICIAR";
+    document.getElementById("narratorText").innerHTML =
+      `Prompt tokenizado em <strong>${firstLabel}</strong>. Clique em "▶ Iniciar Demonstração" ou "⏭ Próximo Passo" para acompanhar o fluxo.`;
+    document.getElementById("contextStream").innerHTML =
+      `<span class="token-pill pill-prompt mono">🧩 ${firstLabel}</span>`;
+    document.getElementById("liveAnswerBox").innerHTML =
+      `💬 <strong>Resposta fluida ao vivo:</strong> <span class="mono">${promptBaseText}</span>`;
+    document.getElementById("decodedPreview").innerHTML =
+      `🏷️ Sequência etiquetada: <strong>${firstLabel}</strong>`;
+    setZoom(1);
+  }
+
+  function applyPromptText(rawValue) {
+    const cleaned = (rawValue || "").trim();
+    promptBaseText = cleaned || "Oi";
+    promptInput.value = promptBaseText;
+    const words = promptBaseText.split(/\s+/).filter(Boolean);
+    const chipsHtml = words
+      .map(w => `<span class="chip-id">${w} [id=${deterministicTokenId(w)}]</span>`)
+      .join("");
+    document.getElementById("tokenStreamBox").innerHTML =
+      `<span>🏷️ Tokens de entrada:</span>${chipsHtml}`;
+    resetSimulation();
+  }
+
   btnPlay.addEventListener("click", () => {
-    if (timer) stopAuto();
-    else startAuto();
+    if (autoTimer) stopAutoPlay();
+    else startAutoPlay();
   });
 
   btnNext.addEventListener("click", () => {
-    stopAuto();
-    executeStep();
+    stopAutoPlay();
+    runNextStep();
   });
 
-  speedSelect.addEventListener("change", () => {
-    if (timer) {
-      stopAuto();
-      startAuto();
+  btnMode.addEventListener("click", () => {
+    detailedMode = !detailedMode;
+    updateModeLabels();
+  });
+
+  btnApplyPrompt.addEventListener("click", () => applyPromptText(promptInput.value));
+
+  promptInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      applyPromptText(promptInput.value);
     }
   });
 
-  btnReset.addEventListener("click", () => {
-    stopAuto();
-    currentRoundIdx = 0;
-    subStep = 0;
-    resetRoundUI();
-    document.getElementById("cpuCar").style.left = "2%";
-    document.getElementById("carCargo").textContent = "Vazio";
-    document.getElementById("roundBadge").textContent = "Rodada 1 de 3";
-    document.getElementById("stepTag").textContent = "PASSO 0 • INÍCIO";
-    document.getElementById("narratorText").textContent = 'Você digitou o Prompt: "Oi". Ele ganhou a etiqueta Oi (42). Clique em "Tocar Devagar" ou "Próximo Passo".';
-    document.getElementById("chatOutput").innerHTML = '<span class="token-pill pill-prompt">Prompt: Oi (42)</span>';
+  document.querySelectorAll(".preset-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      applyPromptText(btn.getAttribute("data-preset") || "Oi");
+    });
   });
+
+  btnReset.addEventListener("click", resetSimulation);
+
+  speedSelect.addEventListener("change", () => {
+    if (autoTimer) {
+      stopAutoPlay();
+      startAutoPlay();
+    }
+  });
+
+  document.getElementById("zoomIn").addEventListener("click", () => setZoom(zoomLevel + 0.05));
+  document.getElementById("zoomOut").addEventListener("click", () => setZoom(zoomLevel - 0.05));
+
+  updateModeLabels();
+  syncCandidateCardsFromScenario();
 </script>
 </body>
 </html>
