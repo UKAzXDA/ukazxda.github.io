@@ -357,6 +357,22 @@
 const devProjects = [
     {
         type: "modal",
+        path: "dev/IA/como-ia-processa.html",
+        icon: "fas fa-brain",
+        category: "INTELIGÊNCIA ARTIFICIAL",
+        title: "Como a IA Processa",
+        description: "Simulador visual do fluxo de inferência, tokens e geração de resposta."
+    },
+    {
+        type: "modal",
+        path: "dev/ukaz/cafe.html",
+        icon: "fas fa-coffee",
+        category: "APOIO",
+        title: "Apoie meu trabalho",
+        description: "Contribua com café, energia, lanche ou servidor."
+    },
+    {
+        type: "modal",
         path: "dev/on7xelte/Custom ROMs/Limpo ROMs J7 Prime.html",
         icon: "fab fa-android",
         category: "ANDROID",
@@ -437,7 +453,7 @@ const devProjects = [
                 const button = document.createElement("button");
                 button.type = "button";
                 button.className = "ios-btn flex-1 rounded-xl bg-blue-500 px-4 py-2.5 text-xs font-semibold text-white shadow-md shadow-blue-500/20 transition hover:bg-blue-600";
-                button.setAttribute("aria-label", "Abrir Limpo ROMs");
+                button.setAttribute("aria-label", `Abrir ${proj.title}`);
                 const buttonIcon = document.createElement("i");
                 buttonIcon.className = "fas fa-arrow-up-right-from-square mr-1.5";
                 buttonIcon.setAttribute("aria-hidden", "true");

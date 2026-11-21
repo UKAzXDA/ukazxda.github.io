@@ -45,6 +45,28 @@
             color: #1c1c1e;
             overflow-x: hidden;
         }
+        .support-shell {
+            max-width: 920px;
+            width: 100%;
+            margin: 24px auto;
+        }
+        .support-card {
+            width: 100%;
+        }
+        .support-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+            gap: 20px;
+            align-items: start;
+        }
+        .support-main,
+        .support-side {
+            min-width: 0;
+        }
+        .support-side {
+            border-left: 1px solid rgba(229, 231, 235, 0.9);
+            padding-left: 20px;
+        }
         .ios-glass-card {
             background: rgba(255, 255, 255, 0.78);
             backdrop-filter: blur(30px) saturate(190%);
@@ -67,6 +89,27 @@
         }
         .animate-blob-1 { animation: blob-float-1 12s ease-in-out infinite; }
         .animate-blob-2 { animation: blob-float-2 16s ease-in-out infinite; }
+        @media (max-width: 720px) {
+            body { padding: 12px 10px; }
+            .support-shell { margin: 0 auto; }
+            .support-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .support-side {
+                border-left: 0;
+                border-top: 1px solid rgba(229, 231, 235, 0.9);
+                padding-left: 0;
+                padding-top: 14px;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body class="font-sans antialiased min-h-screen flex items-center justify-center p-4 relative selection:bg-blue-500 selection:text-white">
@@ -79,8 +122,8 @@
     </div>
 
     <!-- Container Principal do Card -->
-    <div class="relative z-10 w-full max-w-md my-6">
-        <div class="ios-glass-card rounded-[2.5rem] p-6 md:p-8 shadow-ios-card text-center relative overflow-hidden border border-white/80">
+    <div class="support-shell relative z-10">
+        <div class="support-card ios-glass-card rounded-[2.5rem] p-6 md:p-8 shadow-ios-card text-center relative overflow-hidden border border-white/80">
             
             <!-- Cabeçalho reorganizado: Avatar no canto esquerdo, textos ao lado -->
             <div class="flex items-center gap-4 mb-4 text-left">
@@ -107,8 +150,10 @@
                 </div>
             </div>
 
+            <div class="support-grid mt-6">
+            <div class="support-main">
             <!-- Propósitos / Sugestões -->
-            <div class="mt-6">
+            <div>
                 <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Escolha como incentivar meu trabalho</label>
                 <div class="grid grid-cols-2 gap-2 mb-3">
                     <button onclick="selectAmount(5, 'um Café ☕')" class="val-btn py-2 px-3 rounded-xl bg-white/80 hover:bg-white text-gray-800 text-xs font-bold border border-gray-200 shadow-sm ios-btn flex items-center justify-center gap-1.5">
@@ -125,7 +170,9 @@
                     </button>
                 </div>
             </div>
+            </div>
 
+            <div class="support-side">
             <!-- QR Code Container -->
             <div class="my-5 flex flex-col items-center justify-center">
                 <div class="p-4 bg-white rounded-3xl shadow-md border border-gray-100/80 inline-block relative group">
@@ -160,6 +207,8 @@
                         <span id="btnCopyText">Copiar</span>
                     </button>
                 </div>
+            </div>
+            </div>
             </div>
 
             <!-- Mensagem de Confirmação (Toast) -->
