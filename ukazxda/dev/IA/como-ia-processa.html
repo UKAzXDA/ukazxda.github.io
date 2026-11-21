@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como a IA Processa uma Resposta | UKAzXDA</title>
+<meta name="description" content="Simulador visual animado que explica passo a passo como uma IA transforma um prompt em tokens e escolhe uma resposta.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+    background-color: #f2f2f7;
+    color: #1c1c1e;
+    padding: 16px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    width: 24rem;
+    height: 24rem;
+    border-radius: 999px;
+    filter: blur(70px);
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: -1;
+  }
+  body::before { top: 2%; right: -8rem; background: #93c5fd; }
+  body::after { bottom: -8rem; left: -8rem; background: #99f6e4; }
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  /* Cartão Base Estilo iOS */
+  header, .narrator, .road-zone, .armario-zone, .cpu-zone, .candidates-zone, .screen-zone {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(30px) saturate(190%);
+    -webkit-backdrop-filter: blur(30px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.06), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
+  }
+
+  header {
+    padding: 16px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  header h1 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #000000;
+  }
+  header p {
+    font-size: 0.85rem;
+    color: #6e6e73;
+    margin-top: 2px;
+  }
+
+  /* Controles Estilo iOS */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  button {
+    background: #007aff;
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.83rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s, background 0.2s;
+  }
+  button:hover { opacity: 0.88; }
+  button:active { transform: scale(0.97); }
+  button.secondary {
+    background: #e5e5ea;
+    color: #1c1c1e;
+  }
+  button.secondary:hover { background: #d1d1d6; opacity: 1; }
+  button.play-btn { background: #34c759; }
+  button.play-btn.playing { background: #ff9500; }
+
+  .speed-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f2f2f7;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: #3a3a3c;
+    font-weight: 500;
+  }
+  select {
+    background: transparent;
+    color: #007aff;
+    border: none;
+    font-weight: 600;
+    font-size: 0.8rem;
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* Barra de Explicação do Passo Atual */
+  .narrator {
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    border-left: 4px solid #007aff;
+  }
+  .narrator-step {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #007aff;
+    font-weight: 700;
+  }
+  .narrator-text {
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: #1c1c1e;
+    margin-top: 3px;
+  }
+  .round-badge {
+    background: #f2f2f7;
+    color: #3a3a3c;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  /* Títulos das Zonas */
+  .zone-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .label-blue { color: #007aff; }
+  .label-amber { color: #d97706; }
+  .label-green { color: #28a745; }
+  .label-purple { color: #af52de; }
+
+  /* Pista do Carro (CPU) */
+  .road-zone { padding: 16px; }
+  .houses-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .house {
+    background: #f9f9fb;
+    border: 1.5px solid #e5e5ea;
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+    transition: all 0.45s ease;
+  }
+  .house.active {
+    border-color: #007aff;
+    background: #eef6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.14);
+  }
+  .house-num {
+    font-size: 0.72rem;
+    color: #8e8e93;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .house-token {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1c1c1e;
+    margin: 3px 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .house-vec {
+    font-size: 0.78rem;
+    color: #007aff;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: rgba(0, 122, 255, 0.08);
+    padding: 2px 6px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  /* Pista animada do Carro */
+  .track {
+    height: 44px;
+    background: #f2f2f7;
+    border-radius: 12px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid #e5e5ea;
+  }
+  .car {
+    position: absolute;
+    left: 2%;
+    transition: left 1.1s cubic-bezier(0.25, 0.9, 0.3, 1);
+    background: #ffffff;
+    color: #1c1c1e;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1.5px solid #34c759;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    z-index: 5;
+  }
+  .car-cargo {
+    background: #e8f8ed;
+    color: #1e7e34;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  /* Área do Meio: Armário + Oficina CPU */
+  .middle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    gap: 14px;
+  }
+  @media (max-width: 800px) {
+    .middle-grid { grid-template-columns: 1fr; }
+    .houses-row { grid-template-columns: repeat(2, 1fr); }
+    .bottom-grid { grid-template-columns: 1fr; }
+    header { align-items: flex-start; }
+    .controls { width: 100%; }
+    .controls button,
+    .speed-box { flex: 1 1 auto; justify-content: center; }
+    .narrator { align-items: flex-start; }
+  }
+
+  .armario-zone { padding: 16px; }
+  .shelf {
+    background: #f9f9fb;
+    border: 1.5px solid #e5e5ea;
+    border-radius: 10px;
+    padding: 9px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.85rem;
+    color: #1c1c1e;
+    transition: all 0.35s ease;
+  }
+  .shelf:last-child { margin-bottom: 0; }
+  .shelf.active {
+    border-color: #ff9500;
+    background: #fff8eb;
+    transform: scale(1.015);
+  }
+  .shelf-tag {
+    background: #ffedd5;
+    color: #b45309;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+  }
+
+  .cpu-zone {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .calc-row {
+    background: #f9f9fb;
+    border: 1px solid #e5e5ea;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.82rem;
+    color: #8e8e93;
+    transition: all 0.4s ease;
+  }
+  .calc-row.done {
+    color: #1c1c1e;
+    border-color: #a7f3d0;
+    background: #f0fdf4;
+  }
+  .calc-row.current {
+    color: #065f46;
+    font-weight: 600;
+    border-color: #34c759;
+    background: #e8f8ed;
+    transform: scale(1.01);
+  }
+  .vetor-atual-box {
+    background: #f0fdf4;
+    border: 1.5px solid #34c759;
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #166534;
+    text-align: center;
+  }
+
+  /* Área Inferior: Candidatos e Tela de Resultado */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 800px) {
+    .bottom-grid { grid-template-columns: 1fr; }
+    .cand-list { grid-template-columns: 1fr; }
+  }
+  .candidates-zone { padding: 16px; }
+  .cand-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .cand-card {
+    background: #f9f9fb;
+    border: 1.5px solid #e5e5ea;
+    border-radius: 10px;
+    padding: 9px 8px;
+    text-align: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: #1c1c1e;
+    transition: all 0.35s ease;
+  }
+  .cand-card.winner {
+    border-color: #34c759;
+    background: #e8f8ed;
+    transform: scale(1.03);
+    box-shadow: 0 3px 10px rgba(52, 199, 89, 0.15);
+  }
+  .cand-score {
+    font-size: 0.98rem;
+    font-weight: 700;
+    margin-top: 4px;
+    color: #1c1c1e;
+  }
+
+  .screen-zone {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .chat-output {
+    background: #f9f9fb;
+    border: 1px solid #e5e5ea;
+    border-radius: 12px;
+    padding: 10px 12px;
+    min-height: 64px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .token-pill {
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-weight: 700;
+    font-size: 0.85rem;
+    animation: popIn 0.4s ease;
+  }
+  .pill-prompt { background: #e5f1ff; color: #0066cc; border: 1px solid #b3d7ff; }
+  .pill-gen { background: #e8f8ed; color: #1e7e34; border: 1px solid #a3e4b7; }
+  .pill-end { background: #f5ebff; color: #7e22ce; border: 1px solid #d8b4fe; }
+
+  @keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div>
+      <h1>Simulador Visual Devagar: De "Oi" até a Resposta Completa</h1>
+      <p>Cada palavra mantém sua etiqueta colada (ex.: <strong>Oi (42)</strong>) em todas as etapas.</p>
+    </div>
+    <div class="controls">
+      <button id="btnPlay" class="play-btn">▶ Tocar Devagar</button>
+      <button id="btnNext">Próximo Passo ⏭</button>
+      <button id="btnReset" class="secondary">↺ Reiniciar</button>
+      <div class="speed-box">
+        <label for="speedSelect">Velocidade:</label>
+        <select id="speedSelect">
+          <option value="3200">Bem Devagar (3.2s)</option>
+          <option value="2000" selected>Devagar (2.0s)</option>
+          <option value="1100">Médio (1.1s)</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <div class="narrator">
+    <div>
+      <div class="narrator-step" id="stepTag">PASSO 0 • INÍCIO</div>
+      <div class="narrator-text" id="narratorText">Você digitou o Prompt: "Oi". Ele ganhou a etiqueta Oi (42). Clique em "Tocar Devagar" ou "Próximo Passo".</div>
+    </div>
+    <div class="round-badge" id="roundBadge">Rodada 1 de 3</div>
+  </div>
+
+  <!-- LUGAR A: RUA DAS CASAS + CARRO CPU -->
+  <div class="road-zone">
+    <span class="zone-label label-blue">Lugar A — Rua das Casas (Mão Única: Início → Fim) &amp; Carro (CPU)</span>
+    <div class="houses-row">
+      <div class="house" id="house-41">
+        <div class="house-num">Casa #41</div>
+        <div class="house-token">Olá (41)</div>
+        <div class="house-vec">[ 0, 1, 3 ]</div>
+      </div>
+      <div class="house" id="house-42">
+        <div class="house-num">Casa #42</div>
+        <div class="house-token">Oi (42)</div>
+        <div class="house-vec">[ 1, 2, 0 ]</div>
+      </div>
+      <div class="house" id="house-43">
+        <div class="house-num">Casa #43</div>
+        <div class="house-token">tudo (43)</div>
+        <div class="house-vec">[ 0, 1, 2 ]</div>
+      </div>
+      <div class="house" id="house-44">
+        <div class="house-num">Casa #44</div>
+        <div class="house-token">bem (44)</div>
+        <div class="house-vec">[ 2, 0, 1 ]</div>
+      </div>
+      <div class="house" id="house-99">
+        <div class="house-num">Casa #99</div>
+        <div class="house-token">[FIM] (99)</div>
+        <div class="house-vec">[ 0, 0, 1 ]</div>
+      </div>
+    </div>
+
+    <div class="track">
+      <div class="car" id="cpuCar">
+        🚗 CPU <span class="car-cargo" id="carCargo">Vazio</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LUGAR B (ARMÁRIO) E LUGAR C (OFICINA CPU) -->
+  <div class="middle-grid">
+    <div class="armario-zone">
+      <span class="zone-label label-amber">Lugar B — Armário de Pesos (Arquivo Fixo)</span>
+      <div class="shelf" id="shelf-1">
+        <span class="shelf-tag">Peso_Linha_1</span>
+        <span>[ 3, 1, 5 ]</span>
+      </div>
+      <div class="shelf" id="shelf-2">
+        <span class="shelf-tag">Peso_Linha_2</span>
+        <span>[ 0, 2, 1 ]</span>
+      </div>
+      <div class="shelf" id="shelf-3">
+        <span class="shelf-tag">Peso_Linha_3</span>
+        <span>[ 1, 0, 4 ]</span>
+      </div>
+    </div>
+
+    <div class="cpu-zone">
+      <span class="zone-label label-green">Lugar C — Oficina de Contas do Carro (CPU)</span>
+      <div id="calcContainer">
+        <div class="calc-row" id="calc-1">1) Aguardando vetor da casa × Peso_Linha_1 [3, 1, 5]...</div>
+        <div class="calc-row" id="calc-2">2) Aguardando vetor da casa × Peso_Linha_2 [0, 2, 1]...</div>
+        <div class="calc-row" id="calc-3">3) Aguardando vetor da casa × Peso_Linha_3 [1, 0, 4]...</div>
+      </div>
+      <div class="vetor-atual-box" id="vetorAtualBox">
+        Vetor_Atual na Oficina: [ ?, ?, ? ]
+      </div>
+    </div>
+  </div>
+
+  <!-- DECISÃO DE NOTAS E TELA FINAL -->
+  <div class="bottom-grid">
+    <div class="candidates-zone">
+      <span class="zone-label" style="color:#6e6e73;">Placar Final dos Candidatos (Quem tem maior nota vence)</span>
+      <div class="cand-list">
+        <div class="cand-card" id="cand-tudo">
+          <div><strong>tudo (43)</strong></div>
+          <div style="font-size:0.75rem;color:#8e8e93;">Perfil [1,0,0]</div>
+          <div class="cand-score" id="score-tudo">Nota: -</div>
+        </div>
+        <div class="cand-card" id="cand-bem">
+          <div><strong>bem (44)</strong></div>
+          <div style="font-size:0.75rem;color:#8e8e93;">Perfil [0,1,0]</div>
+          <div class="cand-score" id="score-bem">Nota: -</div>
+        </div>
+        <div class="cand-card" id="cand-fim">
+          <div><strong>[FIM] (99)</strong></div>
+          <div style="font-size:0.75rem;color:#8e8e93;">Perfil [0,0,1]</div>
+          <div class="cand-score" id="score-fim">Nota: -</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-zone">
+      <span class="zone-label label-purple">Tela de Resposta (Ciclo Acumulado)</span>
+      <div class="chat-output" id="chatOutput">
+        <span class="token-pill pill-prompt">Prompt: Oi (42)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const rounds = [
+    {
+      roundNum: 1,
+      tokenLabel: "Oi (42)",
+      houseId: "house-42",
+      carLeft: "23%",
+      vec: [1, 2, 0],
+      calcs: [
+        "1) Oi (42) [1,2,0] × Peso_Linha_1 [3,1,5] = 3+2+0 = 5",
+        "2) Oi (42) [1,2,0] × Peso_Linha_2 [0,2,1] = 0+4+0 = 4",
+        "3) Oi (42) [1,2,0] × Peso_Linha_3 [1,0,4] = 1+0+0 = 1"
+      ],
+      vetorAtual: "[ 5, 4, 1 ]",
+      scores: { tudo: 5, bem: 4, fim: 1 },
+      winnerId: "cand-tudo",
+      winnerLabel: "tudo (43)",
+      pillClass: "pill-gen",
+      isEnd: false
+    },
+    {
+      roundNum: 2,
+      tokenLabel: "tudo (43)",
+      houseId: "house-43",
+      carLeft: "43%",
+      vec: [0, 1, 2],
+      calcs: [
+        "1) tudo (43) [0,1,2] × Peso_Linha_1 [3,1,5] = 0+1+10 = 11",
+        "2) tudo (43) [0,1,2] × Peso_Linha_2 [0,2,1] = 0+2+2 = 4",
+        "3) tudo (43) [0,1,2] × Peso_Linha_3 [1,0,4] = 0+0+8 = 8"
+      ],
+      vetorAtual: "[ 11, 4, 8 ]",
+      scores: { tudo: 11, bem: 14, fim: 8 },
+      winnerId: "cand-bem",
+      winnerLabel: "bem (44)",
+      pillClass: "pill-gen",
+      isEnd: false
+    },
+    {
+      roundNum: 3,
+      tokenLabel: "bem (44)",
+      houseId: "house-44",
+      carLeft: "63%",
+      vec: [2, 0, 1],
+      calcs: [
+        "1) bem (44) [2,0,1] × Peso_Linha_1 [3,1,5] = 6+0+5 = 11",
+        "2) bem (44) [2,0,1] × Peso_Linha_2 [0,2,1] = 0+0+1 = 1",
+        "3) bem (44) [2,0,1] × Peso_Linha_3 [1,0,4] = 2+0+4 = 6"
+      ],
+      vetorAtual: "[ 11, 1, 6 ]",
+      scores: { tudo: 2, bem: 1, fim: 18 },
+      winnerId: "cand-fim",
+      winnerLabel: "[FIM] (99)",
+      pillClass: "pill-end",
+      isEnd: true
+    }
+  ];
+
+  let currentRoundIdx = 0;
+  let subStep = 0;
+  let timer = null;
+
+  const btnPlay = document.getElementById("btnPlay");
+  const btnNext = document.getElementById("btnNext");
+  const btnReset = document.getElementById("btnReset");
+  const speedSelect = document.getElementById("speedSelect");
+
+  function clearHighlights() {
+    document.querySelectorAll(".house").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".shelf").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".calc-row").forEach(el => el.classList.remove("current"));
+    document.querySelectorAll(".cand-card").forEach(el => el.classList.remove("winner"));
+  }
+
+  function resetRoundUI() {
+    clearHighlights();
+    for (let i = 1; i <= 3; i++) {
+      const c = document.getElementById("calc-" + i);
+      c.className = "calc-row";
+      c.textContent = `${i}) Aguardando vetor da casa × Peso_Linha_${i}...`;
+    }
+    document.getElementById("vetorAtualBox").textContent = "Vetor_Atual na Oficina: [ ?, ?, ? ]";
+    document.getElementById("score-tudo").textContent = "Nota: -";
+    document.getElementById("score-bem").textContent = "Nota: -";
+    document.getElementById("score-fim").textContent = "Nota: -";
+  }
+
+  function executeStep() {
+    if (currentRoundIdx >= rounds.length) {
+      stopAuto();
+      return;
+    }
+
+    const r = rounds[currentRoundIdx];
+    document.getElementById("roundBadge").textContent = `Rodada ${r.roundNum} de 3`;
+
+    if (subStep === 0) {
+      resetRoundUI();
+      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 1: CARRO VAI ATÉ A CASA`;
+      document.getElementById("narratorText").textContent = `O Carro (CPU) anda pela rua até a ${r.tokenLabel} para buscar o vetor inicial.`;
+      document.getElementById("cpuCar").style.left = r.carLeft;
+      document.getElementById("carCargo").textContent = `Indo p/ ${r.tokenLabel}`;
+      document.getElementById(r.houseId).classList.add("active");
+      subStep = 1;
+    } else if (subStep === 1) {
+      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 2: PEGA O VETOR DA CASA`;
+      document.getElementById("narratorText").textContent = `CPU abriu ${r.tokenLabel} e carregou o vetor [${r.vec.join(", ")}] sem mudar nada na casa.`;
+      document.getElementById("carCargo").textContent = `${r.tokenLabel}: [${r.vec.join(",")}]`;
+      subStep = 2;
+    } else if (subStep === 2) {
+      clearHighlights();
+      document.getElementById(r.houseId).classList.add("active");
+      document.getElementById("shelf-1").classList.add("active");
+      const c1 = document.getElementById("calc-1");
+      c1.textContent = r.calcs[0];
+      c1.classList.add("current");
+      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 3: CONTA COM PESO_LINHA_1`;
+      document.getElementById("narratorText").textContent = `CPU multiplica [${r.vec.join(", ")}] pela prateleira Peso_Linha_1 do Armário.`;
+      subStep = 3;
+    } else if (subStep === 3) {
+      document.getElementById("shelf-1").classList.remove("active");
+      document.getElementById("shelf-2").classList.add("active");
+      document.getElementById("calc-1").className = "calc-row done";
+      const c2 = document.getElementById("calc-2");
+      c2.textContent = r.calcs[1];
+      c2.classList.add("current");
+      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 4: CONTA COM PESO_LINHA_2`;
+      document.getElementById("narratorText").textContent = `Agora CPU multiplica [${r.vec.join(", ")}] pela prateleira Peso_Linha_2.`;
+      subStep = 4;
+    } else if (subStep === 4) {
+      document.getElementById("shelf-2").classList.remove("active");
+      document.getElementById("shelf-3").classList.add("active");
+      document.getElementById("calc-2").className = "calc-row done";
+      const c3 = document.getElementById("calc-3");
+      c3.textContent = r.calcs[2];
+      c3.classList.add("current");
+      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 5: CONTA COM PESO_LINHA_3`;
+      document.getElementById("narratorText").textContent = `Por fim, multiplica [${r.vec.join(", ")}] pela Peso_Linha_3 e monta o Vetor_Atual.`;
+      subStep = 5;
+    } else if (subStep === 5) {
+      document.getElementById("shelf-3").classList.remove("active");
+      document.getElementById("calc-3").className = "calc-row done";
+      document.getElementById("vetorAtualBox").textContent = `Vetor_Atual de ${r.tokenLabel} = ${r.vetorAtual}`;
+      document.getElementById("score-tudo").textContent = `Nota: ${r.scores.tudo}`;
+      document.getElementById("score-bem").textContent = `Nota: ${r.scores.bem}`;
+      document.getElementById("score-fim").textContent = `Nota: ${r.scores.fim}`;
+      document.getElementById(r.winnerId).classList.add("winner");
+      document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 6: PLACAR E ESCOLHA DO VENCEDOR`;
+      document.getElementById("narratorText").textContent = `Usando ${r.vetorAtual}, o candidato ${r.winnerLabel} tirou a maior nota e venceu!`;
+      subStep = 6;
+    } else if (subStep === 6) {
+      const chat = document.getElementById("chatOutput");
+      const pill = document.createElement("span");
+      pill.className = `token-pill ${r.pillClass}`;
+      pill.textContent = r.winnerLabel;
+      chat.appendChild(pill);
+
+      if (r.isEnd) {
+        document.getElementById("stepTag").textContent = "CICLO CONCLUÍDO!";
+        document.getElementById("narratorText").textContent = 'O token [FIM] (99) venceu e encerrou o ciclo! Resposta completa: "Oi tudo bem".';
+        document.getElementById("carCargo").textContent = "Fim do ciclo!";
+        currentRoundIdx++;
+        stopAuto();
+      } else {
+        document.getElementById("stepTag").textContent = `RODADA ${r.roundNum} • PASSO 7: REPETE O CICLO`;
+        document.getElementById("narratorText").textContent = `"${r.winnerLabel}" entrou na tela e agora o Carro (CPU) vai visitar a casa dele na próxima rodada!`;
+        currentRoundIdx++;
+        subStep = 0;
+      }
+    }
+  }
+
+  function startAuto() {
+    if (timer) return;
+    btnPlay.textContent = "⏸ Pausar";
+    btnPlay.classList.add("playing");
+    executeStep();
+    timer = setInterval(executeStep, Number(speedSelect.value));
+  }
+
+  function stopAuto() {
+    clearInterval(timer);
+    timer = null;
+    btnPlay.textContent = "▶ Tocar Devagar";
+    btnPlay.classList.remove("playing");
+  }
+
+  btnPlay.addEventListener("click", () => {
+    if (timer) stopAuto();
+    else startAuto();
+  });
+
+  btnNext.addEventListener("click", () => {
+    stopAuto();
+    executeStep();
+  });
+
+  speedSelect.addEventListener("change", () => {
+    if (timer) {
+      stopAuto();
+      startAuto();
+    }
+  });
+
+  btnReset.addEventListener("click", () => {
+    stopAuto();
+    currentRoundIdx = 0;
+    subStep = 0;
+    resetRoundUI();
+    document.getElementById("cpuCar").style.left = "2%";
+    document.getElementById("carCargo").textContent = "Vazio";
+    document.getElementById("roundBadge").textContent = "Rodada 1 de 3";
+    document.getElementById("stepTag").textContent = "PASSO 0 • INÍCIO";
+    document.getElementById("narratorText").textContent = 'Você digitou o Prompt: "Oi". Ele ganhou a etiqueta Oi (42). Clique em "Tocar Devagar" ou "Próximo Passo".';
+    document.getElementById("chatOutput").innerHTML = '<span class="token-pill pill-prompt">Prompt: Oi (42)</span>';
+  });
+</script>
+</body>
+</html>
